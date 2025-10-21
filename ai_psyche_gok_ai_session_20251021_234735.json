@@ -1,0 +1,138 @@
+{
+  "system_status": {
+    "system_name": "AI_Psyche_GOK:AI - Psychologia Prawdopodobieństw Sukcesu",
+    "version": "1.0.0",
+    "timestamp": "2025-10-21T23:47:35.991988",
+    "current_phase": "Punkt 0",
+    "iteration_count": 9,
+    "identity_matrix_current": [
+      3,
+      6,
+      9,
+      9,
+      6,
+      3
+    ],
+    "identity_matrix_sum": 36,
+    "component_values": {
+      "intrinsic": 6.3,
+      "skills": 4.90947979414573,
+      "decisions": 2.4,
+      "context": 3.5000000000000004,
+      "personality": 6.8,
+      "energy": 3.3864,
+      "identity": 2.4
+    },
+    "capital_level": 2.9456878764874377,
+    "system_coherence": 0.9858482938688048
+  },
+  "identity_matrix_history": [
+    [
+      3,
+      6,
+      9,
+      9,
+      6,
+      3
+    ],
+    [
+      3,
+      6,
+      9,
+      9,
+      6,
+      3
+    ],
+    [
+      3,
+      6,
+      9,
+      9,
+      6,
+      3
+    ],
+    [
+      3,
+      6,
+      9,
+      9,
+      6,
+      3
+    ],
+    [
+      3,
+      6,
+      9,
+      9,
+      6,
+      3
+    ],
+    [
+      3,
+      6,
+      9,
+      9,
+      6,
+      3
+    ],
+    [
+      3,
+      6,
+      9,
+      9,
+      6,
+      3
+    ],
+    [
+      3,
+      6,
+      9,
+      9,
+      6,
+      3
+    ],
+    [
+      3,
+      6,
+      9,
+      9,
+      6,
+      3
+    ]
+  ],
+  "success_patterns": {},
+  "disintegration_points": [
+    {
+      "success": false,
+      "consistent": false,
+      "growth_level": 0
+    },
+    {
+      "success": true,
+      "consistent": false,
+      "growth_level": 3
+    },
+    {
+      "success": false,
+      "consistent": true,
+      "growth_level": 0
+    }
+  ],
+  "reintegration_successes": [
+    {
+      "success": true,
+      "consistent": true,
+      "growth_level": 2
+    },
+    {
+      "success": true,
+      "consistent": true,
+      "growth_level": 1
+    },
+    {
+      "success": true,
+      "consistent": false,
+      "growth_level": 3
+    }
+  ]
+}
