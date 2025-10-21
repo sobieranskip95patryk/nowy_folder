@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTA Quest - AI Life Optimizer | Odkryj Swoje Prawdopodobieństwo Sukcesu</title>
+    <meta name="description" content="Użyj AI do optymalizacji swojego życia. Oblicz prawdopodobieństwo sukcesu swoich celów z Meta-Genius technologią.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-blue': '#00f5ff',
+                        'neon-purple': '#b300ff',
+                        'neon-green': '#00ff41',
+                        'dark-bg': '#0a0a0a',
+                        'dark-card': '#1a1a1a'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .glow {
+            text-shadow: 0 0 20px currentColor;
+        }
+        .neon-border {
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #00f5ff, #b300ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .typing::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+
+<body class="bg-dark-bg text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 bg-dark-bg/90 backdrop-blur-md border-b border-neon-blue/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold gradient-text">MTA Quest</span>
+                    <span class="ml-2 text-neon-blue text-sm">AI Life Optimizer</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#features" class="hover:text-neon-blue transition">Features</a>
+                    <a href="#how-it-works" class="hover:text-neon-blue transition">How It Works</a>
+                    <a href="#pricing" class="hover:text-neon-blue transition">Pricing</a>
+                    <button class="bg-neon-blue text-black px-4 py-2 rounded-lg hover:bg-neon-blue/80 transition">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-20 pb-16 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                <span class="gradient-text glow">Unlock Your</span><br>
+                <span class="text-neon-green typing">Success Probability</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl mb-8 text-gray-300 max-w-3xl mx-auto">
+                AI-powered life optimization using cutting-edge <strong>Meta-Genius</strong> technology. 
+                Discover what's really possible for your goals.
+            </p>
+
+            <!-- Success Calculator Widget -->
+            <div class="bg-dark-card rounded-2xl p-8 max-w-2xl mx-auto neon-border mb-8">
+                <h3 class="text-2xl font-bold mb-6 text-neon-blue">
+                    <i class="fas fa-brain mr-2"></i>Free Success Probability Calculator
+                </h3>
+                
+                <form id="successForm" class="space-y-4">
+                    <div>
+                        <input 
+                            type="text" 
+                            id="goalInput" 
+                            placeholder="Wpisz swój cel (np. 'Zostać freelancerem', 'Nauczyć się programowania')"
+                            class="w-full p-4 bg-dark-bg border border-neon-blue/30 rounded-lg text-white placeholder-gray-400 focus:border-neon-blue focus:outline-none"
+                            maxlength="200"
+                            required
+                        >
+                    </div>
+                    
+                    <button 
+                        type="submit" 
+                        class="w-full bg-gradient-to-r from-neon-blue to-neon-purple text-black font-bold py-4 px-8 rounded-lg hover:scale-105 transition-transform disabled:opacity-50"
+                        id="analyzeBtn"
+                    >
+                        <i class="fas fa-chart-line mr-2"></i>Analyze My Success Probability
+                    </button>
+                </form>
+
+                <!-- Results -->
+                <div id="results" class="hidden mt-6 p-6 bg-dark-bg rounded-lg border border-neon-green/30">
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-neon-green mb-2" id="probabilityDisplay">
+                            <!-- Probability will be displayed here -->
+                        </div>
+                        <p class="text-gray-300 mb-4" id="tipDisplay">
+                            <!-- Quick tip will be displayed here -->
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div class="bg-dark-card p-3 rounded">
+                                <i class="fas fa-brain text-neon-blue mb-1"></i>
+                                <div>AI Analysis</div>
+                            </div>
+                            <div class="bg-dark-card p-3 rounded">
+                                <i class="fas fa-clock text-neon-purple mb-1"></i>
+                                <div>Real-time</div>
+                            </div>
+                            <div class="bg-dark-card p-3 rounded">
+                                <i class="fas fa-shield-alt text-neon-green mb-1"></i>
+                                <div>Privacy Safe</div>
+                            </div>
+                        </div>
+                        
+                        <button class="mt-4 bg-neon-purple text-white px-6 py-2 rounded-lg hover:bg-neon-purple/80 transition">
+                            Get Detailed Analysis →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loading" class="hidden mt-6 text-center">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-neon-blue"></div>
+                    <p class="mt-2 text-gray-400">AI analyzing your goal...</p>
+                </div>
+            </div>
+
+            <!-- Trust Indicators -->
+            <div class="text-sm text-gray-400 space-y-2">
+                <p><i class="fas fa-users mr-2 text-neon-green"></i>Join 1,000+ people optimizing their lives</p>
+                <p><i class="fas fa-shield-check mr-2 text-neon-blue"></i>Powered by Meta-Genius Unified System</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 px-4 bg-dark-card">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">
+                Why Choose MTA Quest?
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6 bg-dark-bg rounded-xl border border-neon-blue/20 hover:border-neon-blue/50 transition">
+                    <i class="fas fa-brain text-4xl text-neon-blue mb-4"></i>
+                    <h3 class="text-xl font-bold mb-3">AI-Powered Analysis</h3>
+                    <p class="text-gray-400">Advanced Meta-Genius technology analyzes your goals using 7-dimensional value system</p>
+                </div>
+                
+                <div class="text-center p-6 bg-dark-bg rounded-xl border border-neon-purple/20 hover:border-neon-purple/50 transition">
+                    <i class="fas fa-chart-line text-4xl text-neon-purple mb-4"></i>
+                    <h3 class="text-xl font-bold mb-3">Success Probability</h3>
+                    <p class="text-gray-400">Get precise probability calculations based on your resources, timeline, and constraints</p>
+                </div>
+                
+                <div class="text-center p-6 bg-dark-bg rounded-xl border border-neon-green/20 hover:border-neon-green/50 transition">
+                    <i class="fas fa-route text-4xl text-neon-green mb-4"></i>
+                    <h3 class="text-xl font-bold mb-3">Personalized Roadmap</h3>
+                    <p class="text-gray-400">Receive actionable recommendations and optimized path to achieve your goals</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">
+                How It Works
+            </h2>
+            
+            <div class="space-y-8">
+                <div class="flex items-center space-x-6">
+                    <div class="flex-shrink-0 w-12 h-12 bg-neon-blue rounded-full flex items-center justify-center text-black font-bold">1</div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">Describe Your Goal</h3>
+                        <p class="text-gray-400">Tell us what you want to achieve - career change, skill development, business idea, or personal growth</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-6">
+                    <div class="flex-shrink-0 w-12 h-12 bg-neon-purple rounded-full flex items-center justify-center text-white font-bold">2</div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">AI Analysis</h3>
+                        <p class="text-gray-400">Our Meta-Genius system analyzes your goal through multiple AI modules including LOGOS, Timeline4D, and AI_Psyche</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-6">
+                    <div class="flex-shrink-0 w-12 h-12 bg-neon-green rounded-full flex items-center justify-center text-black font-bold">3</div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">Get Your Results</h3>
+                        <p class="text-gray-400">Receive probability score, key success factors, recommended timeline, and actionable next steps</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-16 px-4 bg-dark-card">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">
+                Choose Your Plan
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Free -->
+                <div class="bg-dark-bg rounded-xl p-6 border border-gray-600">
+                    <h3 class="text-2xl font-bold mb-4">Free</h3>
+                    <p class="text-4xl font-bold mb-6">$0<span class="text-sm text-gray-400">/month</span></p>
+                    <ul class="space-y-3 mb-6">
+                        <li><i class="fas fa-check text-neon-green mr-2"></i>3 analyses per month</li>
+                        <li><i class="fas fa-check text-neon-green mr-2"></i>Basic success probability</li>
+                        <li><i class="fas fa-check text-neon-green mr-2"></i>Quick tips</li>
+                    </ul>
+                    <button class="w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500 transition">
+                        Get Started
+                    </button>
+                </div>
+                
+                <!-- Pro -->
+                <div class="bg-dark-bg rounded-xl p-6 border border-neon-blue neon-border relative">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-neon-blue text-black px-4 py-1 rounded-full text-sm font-bold">
+                        POPULAR
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Pro</h3>
+                    <p class="text-4xl font-bold mb-6">$29<span class="text-sm text-gray-400">/month</span></p>
+                    <ul class="space-y-3 mb-6">
+                        <li><i class="fas fa-check text-neon-green mr-2"></i>Unlimited analyses</li>
+                        <li><i class="fas fa-check text-neon-green mr-2"></i>Detailed reports</li>
+                        <li><i class="fas fa-check text-neon-green mr-2"></i>Timeline optimization</li>
+                        <li><i class="fas fa-check text-neon-green mr-2"></i>Progress tracking</li>
+                    </ul>
+                    <button class="w-full bg-neon-blue text-black font-bold py-3 rounded-lg hover:bg-neon-blue/80 transition">
+                        Start Pro Trial
+                    </button>
+                </div>
+                
+                <!-- Enterprise -->
+                <div class="bg-dark-bg rounded-xl p-6 border border-neon-purple">
+                    <h3 class="text-2xl font-bold mb-4">Enterprise</h3>
+                    <p class="text-4xl font-bold mb-6">Custom</p>
+                    <ul class="space-y-3 mb-6">
+                        <li><i class="fas fa-check text-neon-green mr-2"></i>Team analytics</li>
+                        <li><i class="fas fa-check text-neon-green mr-2"></i>API access</li>
+                        <li><i class="fas fa-check text-neon-green mr-2"></i>Custom integrations</li>
+                        <li><i class="fas fa-check text-neon-green mr-2"></i>Dedicated support</li>
+                    </ul>
+                    <button class="w-full bg-neon-purple text-white py-3 rounded-lg hover:bg-neon-purple/80 transition">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 border-t border-gray-700">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="flex justify-center items-center mb-6">
+                <span class="text-2xl font-bold gradient-text">MTA Quest</span>
+                <span class="ml-3 text-gray-400">AI Life Optimizer</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="font-bold mb-3">Product</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">Features</a></li>
+                        <li><a href="#" class="hover:text-white transition">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white transition">API</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-3">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">About</a></li>
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-3">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="#" class="hover:text-white transition">Status</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-3">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">Privacy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms</a></li>
+                        <li><a href="#" class="hover:text-white transition">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-gray-400">
+                <p>&copy; 2025 MTA Quest. Powered by Meta-Genius Unified System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Success Calculator Logic
+        document.getElementById('successForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const goal = document.getElementById('goalInput').value.trim();
+            const resultsDiv = document.getElementById('results');
+            const loadingDiv = document.getElementById('loading');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            
+            if (!goal) return;
+            
+            // Show loading
+            resultsDiv.classList.add('hidden');
+            loadingDiv.classList.remove('hidden');
+            analyzeBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/quick-insight', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ goal: goal })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Display results
+                    document.getElementById('probabilityDisplay').textContent = `${data.percentage}%`;
+                    document.getElementById('tipDisplay').textContent = data.quick_tip;
+                    
+                    // Show results
+                    loadingDiv.classList.add('hidden');
+                    resultsDiv.classList.remove('hidden');
+                } else {
+                    throw new Error(data.error || 'Analysis failed');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                loadingDiv.classList.add('hidden');
+                alert('Sorry, analysis failed. Please try again.');
+            } finally {
+                analyzeBtn.disabled = false;
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Typing animation for hero text
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    element.classList.add('typing');
+                }
+            }
+            type();
+        }
+
+        // Initialize typing animation
+        window.addEventListener('load', function() {
+            const typingElement = document.querySelector('.typing');
+            if (typingElement) {
+                const text = typingElement.textContent;
+                typeWriter(typingElement, text, 150);
+            }
+        });
+    </script>
+</body>
+</html>
