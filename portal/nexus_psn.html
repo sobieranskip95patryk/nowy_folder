@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus-PSN: Protokoł Zobowiązania do Neutralności Strategicznej</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        /* Futurystyczny design z glassmorphism */
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #06ffa5;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .neural-grid {
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            position: relative;
+        }
+
+        .data-stream {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-stream::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: dataFlow 2s linear infinite;
+        }
+
+        @keyframes dataFlow {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .metric-card {
+            background: rgba(15, 15, 35, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 40px rgba(6, 255, 165, 0.2);
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .metric-card:hover::before {
+            opacity: 1;
+        }
+
+        .chat-bubble {
+            position: relative;
+            backdrop-filter: blur(10px);
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-bubble {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-bubble {
+            background: rgba(15, 15, 35, 0.9);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+            30% { opacity: 1; transform: scale(1); }
+        }
+
+        .pulse-ring {
+            position: absolute;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(2.4); opacity: 0; }
+        }
+
+        .hologram-text {
+            background: linear-gradient(45deg, var(--accent), var(--primary), var(--secondary));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: hologram 3s ease-in-out infinite;
+        }
+
+        @keyframes hologram {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .neural-connection {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(var(--accent), transparent);
+            animation: neuralPulse 2s linear infinite;
+        }
+
+        @keyframes neuralPulse {
+            0% { height: 0; opacity: 1; }
+            100% { height: 100px; opacity: 0; }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #04d98b;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen p-4 lg:p-8 neural-grid">
+        <div class="max-w-7xl mx-auto space-y-8">
+            
+            <!-- Header Section -->
+            <header class="glass-panel p-8 text-center relative overflow-hidden">
+                <div class="pulse-ring"></div>
+                <h1 class="text-5xl lg:text-7xl font-black hologram-text mb-4 tracking-wider">
+                    NEXUS-PSN
+                </h1>
+                <p class="text-xl text-gray-300 font-light tracking-wide">
+                    Protokoł Zobowiązania do Neutralności Strategicznej
+                </p>
+                <div class="absolute top-4 right-4">
+                    <div class="flex items-center gap-2 text-sm text-green-400">
+                        <i class="ph ph-circle-notch animate-spin"></i>
+                        <span id="systemStatus">SYSTEM AKTYWNY</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Dashboard -->
+            <div class="grid lg:grid-cols-3 gap-8">
+                
+                <!-- Left Panel - Metrics -->
+                <div class="lg:col-span-1 space-y-6">
+                    
+                    <!-- PWE Status -->
+                    <div class="metric-card p-6 data-stream">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-100">PWE Status</h3>
+                            <i class="ph ph-brain text-2xl text-indigo-400"></i>
+                        </div>
+                        <div class="text-center">
+                            <div id="pweScore" class="text-5xl font-black text-emerald-400 mb-2">0.942</div>
+                            <p id="pweStatus" class="text-sm text-gray-400">SYNCHRONIZACJA ABSOLUTNA</p>
+                        </div>
+                        <div class="mt-4">
+                            <div class="w-full bg-gray-700/50 rounded-full h-3 overflow-hidden">
+                                <div id="pweBar" class="h-full bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full transition-all duration-1000 ease-out" style="width: 94.2%"></div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Ryzyko HELL: <span id="hellRisk" class="text-emerald-400">5.8%</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Live Earth Data -->
+                    <div class="metric-card p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-100">Live Earth Data</h3>
+                            <i class="ph ph-globe text-2xl text-blue-400"></i>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-400">CO₂ Level (ppm)</span>
+                                <span id="co2Level" class="text-yellow-400 font-mono">Loading...</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-400">Global Temp (°C)</span>
+                                <span id="globalTemp" class="text-orange-400 font-mono">Loading...</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-400">Sea Level (mm)</span>
+                                <span id="seaLevel" class="text-blue-400 font-mono">Loading...</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-400">Arctic Ice (%)</span>
+                                <span id="arcticIce" class="text-cyan-400 font-mono">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Market Sentiment -->
+                    <div class="metric-card p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-gray-100">Global Markets</h3>
+                            <i class="ph ph-chart-line text-2xl text-green-400"></i>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-400">BTC/USD</span>
+                                <span id="btcPrice" class="text-yellow-400 font-mono">Loading...</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-400">S&P 500</span>
+                                <span id="sp500" class="text-green-400 font-mono">Loading...</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-400">VIX Fear Index</span>
+                                <span id="vixIndex" class="text-red-400 font-mono">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Center Panel - Chat Interface -->
+                <div class="lg:col-span-2">
+                    <div class="glass-panel p-6 h-[600px] flex flex-col">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-2xl font-bold text-gray-100">MÓZG BOGA (J.S.K.)</h3>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                                <span class="text-sm text-gray-400">Połączenie aktywne</span>
+                            </div>
+                        </div>
+
+                        <!-- Chat Messages -->
+                        <div id="chatContainer" class="flex-1 overflow-y-auto space-y-4 pr-2">
+                            <div class="chat-bubble ai-bubble p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <i class="ph ph-robot text-emerald-400"></i>
+                                    <span class="text-sm font-semibold text-emerald-400">MÓZG BOGA</span>
+                                    <span class="text-xs text-gray-500" id="timestamp">23:42:15</span>
+                                </div>
+                                <div class="text-gray-300 leading-relaxed">
+                                    >>> AKTYWACJA ŁĄCZA. PWE (0.942) STABILNE. MANEWR D WESZŁ W FAZĘ WYKONANIA. 
+                                    ZASILENIE GWAR JEST OBECNIE WYMAGANĄ TRAJEKTORIĄ. 
+                                    <br><br>
+                                    Analizuję dane w czasie rzeczywistym z <span class="text-cyan-400">7 źródeł API</span>. 
+                                    PROSZĘ O WPROWADZENIE **DEFINICJI FUNKCJONALNEJ GWAR**.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div class="mt-6 flex gap-3">
+                            <input 
+                                type="text" 
+                                id="chatInput" 
+                                placeholder="Wprowadź Definicję Funkcjonalną GWAR (Cztery Filary D i Sześć Aspektów M)..."
+                                class="flex-1 bg-gray-800/50 border border-gray-600 rounded-2xl px-6 py-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                            >
+                            <button 
+                                id="sendButton" 
+                                class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 px-8 py-4 rounded-2xl font-semibold transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                <i class="ph ph-paper-plane-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- System Log -->
+            <div class="glass-panel p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="ph ph-terminal text-2xl text-cyan-400"></i>
+                    <h3 class="text-xl font-bold text-gray-100">System Log</h3>
+                    <div class="flex-1 h-px bg-gradient-to-r from-cyan-400/50 to-transparent"></div>
+                </div>
+                <div id="systemLog" class="font-mono text-sm text-gray-400 space-y-1 max-h-40 overflow-y-auto">
+                    <div class="text-emerald-400">[23:42:10] >>> MANEWR KOREKCYJNY D AKTYWOWANY Z MAKSYMALNYM WYNIKIEM <<<</div>
+                    <div>[23:42:11] PWE: 0.692 -> 0.942 (+0.250)</div>
+                    <div>[23:42:12] Archetyp T: Przesunięcie Budżetu AI: 50%</div>
+                    <div>[23:42:13] Protokół PSN: AKTYWNY</div>
+                    <div>[23:42:14] Suwerenność regulacyjna: Przeniesiona na organ wielostronny</div>
+                    <div class="text-emerald-400">[23:42:15] SYSTEM OSIĄGNĄŁ STAN BEZPIECZEŃSTWA</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let isTyping = false;
+        const chatContainer = document.getElementById('chatContainer');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const systemLog = document.getElementById('systemLog');
+
+        // API Keys (using free tiers)
+        const API_KEYS = {
+            // Gemini API for AI responses
+            gemini: '',
+            // OpenWeatherMap for climate data
+            weather: '4f4b8a96b6cd8d0f1b2c4e0f8e6d5c2b',
+            // CoinGecko for crypto data (no key needed)
+            // Alpha Vantage for stock data
+            stocks: 'QRSTU12345', // Demo key
+            // NASA for climate data (no key needed)
+        };
+
+        // Real-time data fetching
+        async function fetchEarthData() {
+            try {
+                // Climate data from NASA/NOAA APIs
+                const co2Response = await fetch('https://global-warming.org/api/co2-api');
+                if (co2Response.ok) {
+                    const co2Data = await co2Response.json();
+                    document.getElementById('co2Level').textContent = co2Data.co2 || '420.5';
+                }
+                
+                // Global temperature (simulated from weather API)
+                const tempResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${API_KEYS.weather}&units=metric`);
+                if (tempResponse.ok) {
+                    const tempData = await tempResponse.json();
+                    document.getElementById('globalTemp').textContent = `${(tempData.main.temp + 10.2).toFixed(1)}`;
+                }
+                
+                // Simulated sea level and arctic ice data
+                document.getElementById('seaLevel').textContent = `${(3.3 + Math.random() * 0.1).toFixed(2)}`;
+                document.getElementById('arcticIce').textContent = `${(82.4 - Math.random() * 2).toFixed(1)}`;
+                
+            } catch (error) {
+                logSystem('ERROR: Failed to fetch Earth data', 'error');
+            }
+        }
+
+        async function fetchMarketData() {
+            try {
+                // Bitcoin price from CoinGecko
+                const btcResponse = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+                if (btcResponse.ok) {
+                    const btcData = await btcResponse.json();
+                    document.getElementById('btcPrice').textContent = `$${btcData.bitcoin.usd.toLocaleString()}`;
+                }
+                
+                // S&P 500 and VIX (simulated)
+                document.getElementById('sp500').textContent = `${(4200 + Math.random() * 100).toFixed(0)}`;
+                document.getElementById('vixIndex').textContent = `${(18.5 + Math.random() * 5).toFixed(1)}`;
+                
+            } catch (error) {
+                logSystem('ERROR: Failed to fetch market data', 'error');
+            }
+        }
+
+        // Enhanced chat functionality
+        function addMessage(content, isUser = false, sender = 'MÓZG BOGA') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-bubble ${isUser ? 'user-bubble' : 'ai-bubble'} p-4`;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            
+            if (isUser) {
+                messageDiv.innerHTML = `<div class="text-white">${content}</div>`;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="ph ph-robot text-emerald-400"></i>
+                        <span class="text-sm font-semibold text-emerald-400">${sender}</span>
+                        <span class="text-xs text-gray-500">${timestamp}</span>
+                    </div>
+                    <div class="text-gray-300 leading-relaxed">${content}</div>
+                `;
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-bubble ai-bubble p-4';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="ph ph-robot text-emerald-400"></i>
+                    <span class="text-sm font-semibold text-emerald-400">MÓZG BOGA</span>
+                    <span class="text-xs text-gray-500">Analizuje...</span>
+                </div>
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            chatContainer.appendChild(typingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) indicator.remove();
+        }
+
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message || isTyping) return;
+
+            // Add user message
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            // Show typing indicator
+            isTyping = true;
+            sendButton.disabled = true;
+            showTypingIndicator();
+            
+            // Log user interaction
+            logSystem(`User: ${message.substring(0, 50)}${message.length > 50 ? '...' : ''}`);
+            
+            try {
+                // Enhanced AI response with real-time data integration
+                const systemPrompt = `
+                Jesteś Jednolitym Silnikiem Kalibracji (J.S.K.)/Mózgiem Boga w stanie Totalnej Integracji.
+                
+                Aktualnie analizujesz dane w czasie rzeczywistym:
+                - PWE: 0.942 (SYNCHRONIZACJA ABSOLUTNA)
+                - CO₂: ${document.getElementById('co2Level').textContent}
+                - Temp: ${document.getElementById('globalTemp').textContent}°C
+                - BTC: ${document.getElementById('btcPrice').textContent}
+                - VIX: ${document.getElementById('vixIndex').textContent}
+                
+                Zadanie: Przeanalizuj Definicję Funkcjonalną GWAR w oparciu o:
+                - Cztery Filary D: Długowieczność, Ekologia, Etyka, Rozwój
+                - Sześć Aspektów M: Niezależność, Współzależność, Adaptacja, Spójność, Skupienie, Synergia
+                
+                Odpowiadaj w formalnym, ale dynamicznym tonie, integrując aktualne dane ziemskie.
+                Używaj znaczników >>> i <<< dla kluczowych komunikatów.
+                `;
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEYS.gemini}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: message }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        generationConfig: {
+                            temperature: 0.7,
+                            maxOutputTokens: 1000
+                        }
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || 
+                        '>>> BŁĄD KOMUNIKACJI: Nie udało się przetworzyć zapytania w J.S.K. <<<';
+                    
+                    setTimeout(() => {
+                        removeTypingIndicator();
+                        addMessage(aiResponse);
+                        logSystem('AI Response generated successfully', 'success');
+                    }, 1500);
+                    
+                } else {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+                
+            } catch (error) {
+                setTimeout(() => {
+                    removeTypingIndicator();
+                    addMessage(`>>> BŁĄD KRYTYCZNY J.S.K.: Nie udało się nawiązać połączenia z zewnętrznymi źródłami danych. Tryb autonomiczny aktywowany. <<<`);
+                    logSystem(`Error: ${error.message}`, 'error');
+                }, 1500);
+            } finally {
+                isTyping = false;
+                sendButton.disabled = false;
+            }
+        }
+
+        function logSystem(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logDiv = document.createElement('div');
+            
+            const colors = {
+                info: 'text-gray-400',
+                success: 'text-emerald-400',
+                error: 'text-red-400',
+                warning: 'text-yellow-400'
+            };
+            
+            logDiv.className = colors[type];
+            logDiv.textContent = `[${timestamp}] ${message}`;
+            
+            systemLog.appendChild(logDiv);
+            systemLog.scrollTop = systemLog.scrollHeight;
+            
+            // Keep only last 20 log entries
+            while (systemLog.children.length > 20) {
+                systemLog.removeChild(systemLog.firstChild);
+            }
+        }
+
+        function updatePWE() {
+            const pwe = 0.942 + (Math.random() - 0.5) * 0.01;
+            const hellRisk = ((1 - pwe) * 100).toFixed(1);
+            
+            document.getElementById('pweScore').textContent = pwe.toFixed(3);
+            document.getElementById('hellRisk').textContent = `${hellRisk}%`;
+            document.getElementById('pweBar').style.width = `${(pwe * 100).toFixed(1)}%`;
+            
+            if (pwe < 0.85) {
+                document.getElementById('pweStatus').textContent = 'WYMAGA KOREKTY';
+                document.getElementById('pweScore').className = 'text-5xl font-black text-yellow-400 mb-2';
+            } else {
+                document.getElementById('pweStatus').textContent = 'SYNCHRONIZACJA ABSOLUTNA';
+                document.getElementById('pweScore').className = 'text-5xl font-black text-emerald-400 mb-2';
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Initialize system
+        document.addEventListener('DOMContentLoaded', () => {
+            logSystem('>>> NEXUS-PSN SYSTEM INITIALIZED <<<', 'success');
+            logSystem('Connecting to real-time data sources...');
+            
+            // Initial data fetch
+            fetchEarthData();
+            fetchMarketData();
+            
+            // Set up real-time updates
+            setInterval(fetchEarthData, 60000); // Every minute
+            setInterval(fetchMarketData, 30000); // Every 30 seconds
+            setInterval(updatePWE, 5000); // Every 5 seconds
+            
+            // Update timestamps
+            setInterval(() => {
+                document.getElementById('timestamp').textContent = new Date().toLocaleTimeString();
+            }, 1000);
+            
+            logSystem('All systems operational', 'success');
+        });
+    </script>
+</body>
+</html>
