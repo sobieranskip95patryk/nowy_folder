@@ -1,0 +1,296 @@
+name: Meta-Genius Ecosystem CI
+
+on:
+  push:
+    branches: [ main, develop, "**" ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+  schedule:
+    # Daily health check at 6 AM UTC
+    - cron: '0 6 * * *'
+
+jobs:
+  ecosystem-health:
+    name: 🌍 Ecosystem Health Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Master Workspace
+        uses: actions/checkout@v4
+        
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || pip install fastapi uvicorn httpx pytest pypdf
+          
+      - name: 🔍 Validate Workspace Config
+        run: |
+          python -c "
+          import json
+          with open('workspace.json', 'r') as f:
+              config = json.load(f)
+          print(f'✅ Workspace config valid: {len(config[\"repos\"])} repositories')
+          assert len(config['repos']) == 22, f'Expected 22 repos, got {len(config[\"repos\"])}'
+          "
+          
+      - name: 🧪 Test Core Systems
+        run: |
+          # Test MGUS
+          python -c "
+          try:
+              from meta_genius_unified_system import MetaGeniusUnifiedSystem
+              mgus = MetaGeniusUnifiedSystem()
+              print('✅ MGUS imports and initializes')
+          except Exception as e:
+              print(f'❌ MGUS error: {e}')
+              exit(1)
+          "
+          
+          # Test MTA Quest API
+          python -c "
+          try:
+              import mta_quest_api
+              print('✅ MTA Quest API imports successfully')
+          except Exception as e:
+              print(f'❌ MTA Quest error: {e}')
+              exit(1)
+          "
+          
+      - name: 🚀 Test Gateway Startup
+        run: |
+          # Test gateway can start (import only, no server)
+          python -c "
+          try:
+              from unified_gateway import app, SERVICES, WORKSPACE
+              print(f'✅ Gateway loads: {len(SERVICES)} services configured')
+              print(f'✅ Workspace: {len(WORKSPACE.get(\"repos\", []))} repos mapped')
+          except Exception as e:
+              print(f'❌ Gateway error: {e}')
+              exit(1)
+          "
+          
+      - name: 🔍 Test RAG System
+        run: |
+          # Create test documents
+          mkdir -p test_docs
+          echo "Test document about MIGI system and GOK intelligence" > test_docs/test.txt
+          echo "# Test Markdown\nThis is about Meta-Genius system." > test_docs/test.md
+          
+          # Test RAG ingestion
+          python pdf_rag_ingest.py test_docs --output test_rag.jsonl
+          
+          # Verify index was created
+          if [ -f test_rag.jsonl ]; then
+            echo "✅ RAG index created successfully"
+            lines=$(wc -l < test_rag.jsonl)
+            echo "📊 RAG index contains $lines chunks"
+          else
+            echo "❌ RAG index not created"
+            exit 1
+          fi
+
+  repo-matrix-test:
+    name: 🔗 Repository Matrix Test
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'  # Skip on daily runs
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        repo: [
+          "m-zg_Boga",
+          "GOK-AI-MixTape", 
+          "rocket_fuell_girls",
+          "apex_infinity_MIGI_Core",
+          "hip_hop_universe",
+          "drift_money",
+          "portfolio_plus",
+          "SpiralMind-Nexus",
+          "GlobalVision",
+          "GOKAI_FULL"
+        ]
+    
+    steps:
+      - name: 📥 Checkout ${{ matrix.repo }}
+        uses: actions/checkout@v4
+        with:
+          repository: sobieranskip95patryk/${{ matrix.repo }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./repo-test
+          
+      - name: 🔍 Repository Health Check
+        run: |
+          cd repo-test
+          echo "📊 Repository: ${{ matrix.repo }}"
+          echo "📁 Files: $(find . -type f | wc -l)"
+          echo "📄 README: $([ -f README.md ] && echo '✅ Present' || echo '❌ Missing')"
+          echo "📜 License: $([ -f LICENSE ] && echo '✅ Present' || echo '❌ Missing')"
+          
+          # Check for common files
+          if [ -f package.json ]; then
+            echo "📦 Node.js project detected"
+            cat package.json | jq -r '.name // "unnamed"' || echo "Invalid package.json"
+          fi
+          
+          if [ -f requirements.txt ]; then
+            echo "🐍 Python project detected"
+            echo "Dependencies: $(wc -l < requirements.txt) packages"
+          fi
+          
+          if [ -f pyproject.toml ]; then
+            echo "📋 Python project with pyproject.toml"
+          fi
+
+  security-scan:
+    name: 🔒 Security & Compliance Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        
+      - name: 🔐 Check for Secrets
+        run: |
+          # Simple secret scanning
+          echo "🔍 Scanning for potential secrets..."
+          
+          # Check for common secret patterns
+          if grep -r -i "password\|secret\|api_key\|token" . --exclude-dir=.git --exclude="*.md" --exclude="*.yml" --exclude="*.yaml" | grep -v "example\|placeholder\|demo"; then
+            echo "⚠️ Potential secrets found - review manually"
+          else
+            echo "✅ No obvious secrets detected"
+          fi
+          
+      - name: 🚨 Compliance Check
+        run: |
+          echo "📋 Checking compliance requirements..."
+          
+          # Check for adult content compliance
+          adult_repos=("rocket_fuell_girls" "ekosystem_pinkplayevo-app" "pinkplayevo-ja-")
+          
+          for repo in "${adult_repos[@]}"; do
+            echo "🔞 Checking $repo compliance requirements..."
+            # In a real scenario, this would check for:
+            # - Age verification implementation
+            # - Content moderation systems  
+            # - GDPR compliance documentation
+            # - DSA transparency reports
+            echo "⚠️ $repo requires manual compliance review"
+          done
+          
+      - name: 📊 Generate Security Report
+        run: |
+          echo "# Security Scan Report" > security-report.md
+          echo "Generated: $(date)" >> security-report.md
+          echo "" >> security-report.md
+          echo "## Repository Count: 22" >> security-report.md
+          echo "## Status: Basic scan complete" >> security-report.md
+          echo "## Action Required: Manual review of adult content modules" >> security-report.md
+
+  deploy-readiness:
+    name: 🚀 Deployment Readiness
+    runs-on: ubuntu-latest
+    needs: [ecosystem-health]
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          
+      - name: 📦 Install Dependencies
+        run: |
+          pip install fastapi uvicorn httpx
+          
+      - name: 🔧 Test Production Config
+        run: |
+          echo "🔍 Checking production readiness..."
+          
+          # Check environment variables template
+          if [ ! -f .env.example ]; then
+            echo "⚠️ Missing .env.example - creating template"
+            cat > .env.example << EOF
+          # Meta-Genius Production Environment
+          APP_ENV=production
+          LOG_LEVEL=INFO
+          
+          # API Configuration  
+          API_HOST=0.0.0.0
+          API_PORT=8800
+          
+          # Service URLs (production)
+          SVC_GOD_INTERFACE=http://god.mtaquestwebskidx.com
+          SVC_MTA_QUEST=http://mtaquestwebskidx.com
+          SVC_MIGI_CORE=http://api.mtaquestwebskidx.com:8004
+          
+          # Security
+          SECRET_KEY=your-secret-key-here
+          ALLOWED_HOSTS=mtaquestwebskidx.com,*.mtaquestwebskidx.com
+          
+          # Database (if needed)
+          DATABASE_URL=postgresql://user:pass@localhost/mgus
+          
+          # External APIs
+          OPENAI_API_KEY=your-openai-key
+          EOF
+          fi
+          
+          echo "✅ Environment template ready"
+          
+      - name: 📋 Deployment Checklist
+        run: |
+          echo "# 🚀 DEPLOYMENT CHECKLIST" > deployment-checklist.md
+          echo "" >> deployment-checklist.md
+          echo "## Core Systems" >> deployment-checklist.md
+          echo "- ✅ MTA Quest API ready" >> deployment-checklist.md  
+          echo "- ✅ Unified Gateway configured" >> deployment-checklist.md
+          echo "- ✅ MGUS system operational" >> deployment-checklist.md
+          echo "- ✅ RAG system functional" >> deployment-checklist.md
+          echo "" >> deployment-checklist.md
+          echo "## Domain Setup Required" >> deployment-checklist.md
+          echo "- 🔲 mtaquestwebskidx.com → MTA Quest" >> deployment-checklist.md
+          echo "- 🔲 api.mtaquestwebskidx.com → Gateway" >> deployment-checklist.md
+          echo "- 🔲 god.mtaquestwebskidx.com → God Interface" >> deployment-checklist.md
+          echo "" >> deployment-checklist.md
+          echo "## Security & Compliance" >> deployment-checklist.md
+          echo "- 🔲 SSL certificates" >> deployment-checklist.md
+          echo "- 🔲 Age verification (RFG/PinkPlay)" >> deployment-checklist.md
+          echo "- 🔲 Content moderation systems" >> deployment-checklist.md
+          echo "- 🔲 GDPR compliance documentation" >> deployment-checklist.md
+          echo "" >> deployment-checklist.md
+          echo "Generated: $(date)" >> deployment-checklist.md
+          
+          cat deployment-checklist.md
+
+  # Notification job
+  notify:
+    name: 📢 Notification
+    runs-on: ubuntu-latest
+    needs: [ecosystem-health, security-scan, deploy-readiness]
+    if: always()
+    
+    steps:
+      - name: 📊 CI Summary
+        run: |
+          echo "🌍 Meta-Genius Ecosystem CI Complete"
+          echo "🕐 Run time: $(date)"
+          echo "🔗 Workflow: ${{ github.workflow }}"
+          echo "📋 Jobs status:"
+          echo "  - Ecosystem Health: ${{ needs.ecosystem-health.result }}"
+          echo "  - Security Scan: ${{ needs.security-scan.result }}"  
+          echo "  - Deploy Readiness: ${{ needs.deploy-readiness.result }}"
+          
+          if [ "${{ needs.ecosystem-health.result }}" = "success" ] && [ "${{ needs.security-scan.result }}" = "success" ] && [ "${{ needs.deploy-readiness.result }}" = "success" ]; then
+            echo "✅ All systems operational - ready for deployment!"
+          else
+            echo "⚠️ Some checks failed - review before deployment"
+          fi

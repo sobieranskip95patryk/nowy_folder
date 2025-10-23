@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>GlobalVision — Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: linear-gradient(135deg, #0b0f1a 0%, #1a1a2e 100%);
+            color: #d9e3f0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(17, 24, 38, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #374151;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00f5ff, #b300ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid #22c55e;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 120px auto 40px;
+            padding: 0 2rem;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00f5ff, #b300ff, #00ff41);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .system-status {
+            background: rgba(17, 24, 38, 0.6);
+            border: 1px solid #374151;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .system-status h3 {
+            color: #00f5ff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .status-item {
+            background: rgba(31, 41, 55, 0.5);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #4b5563;
+        }
+        
+        .status-item.online {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
+        }
+        
+        .status-item.offline {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .module-card {
+            background: rgba(17, 24, 38, 0.8);
+            border: 1px solid #374151;
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            border-color: #00f5ff;
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.1);
+        }
+        
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00f5ff, #b300ff);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .module-card:hover::before {
+            opacity: 1;
+        }
+        
+        .module-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #00f5ff;
+        }
+        
+        .module-card p {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        
+        .module-status {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        
+        .module-status.ready {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .module-status.building {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+        
+        .module-status.planned {
+            background: rgba(156, 163, 175, 0.2);
+            color: #9ca3af;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.6;
+            border-top: 1px solid #374151;
+        }
+        
+        .loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            main {
+                padding: 0 1rem;
+                margin-top: 100px;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">GlobalVision</div>
+            <div class="status-badge pulse" id="systemStatus">
+                🔄 Łączenie...
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Meta-Genius Digital Empire</h1>
+            <p>Zunifikowana platforma łącząca AI, content, ekonomię i orkiestrację agentów w jeden działający ekosystem.</p>
+        </section>
+
+        <section class="system-status" id="statusSection">
+            <h3>
+                <span>🖥️</span>
+                Status Systemu
+            </h3>
+            <div class="status-grid" id="statusGrid">
+                <div class="status-item loading">
+                    <strong>Gateway</strong><br>
+                    <span class="pulse">Sprawdzanie...</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="modules-grid">
+            <a href="/god" class="module-card" data-module="god">
+                <h3>🔱 God Interface</h3>
+                <p>Panel operatora MetaGeniusz - zarządzanie systemem MIGI, wagi modułów, transmisje i audyt.</p>
+                <span class="module-status building">W budowie</span>
+            </a>
+
+            <a href="http://localhost:5000" class="module-card" data-module="mta">
+                <h3>🚀 MTA Quest</h3>
+                <p>AI Life Optimizer - główny produkt. Kalkulator prawdopodobieństwa sukcesu z Meta-Genius technologią.</p>
+                <span class="module-status ready">Gotowy</span>
+            </a>
+
+            <a href="/mix" class="module-card" data-module="mix">
+                <h3>🎵 GOK-AI MixTape</h3>
+                <p>Miksy treści i muzyki generowane przez AI. Blog, playlisty i podsumowania.</p>
+                <span class="module-status building">W budowie</span>
+            </a>
+
+            <a href="/hhu" class="module-card" data-module="hhu">
+                <h3>🎤 Hip-Hop Universe</h3>
+                <p>Profil twórcy, uploady, eventy. Platforma dla artystów hip-hop i content creators.</p>
+                <span class="module-status building">W budowie</span>
+            </a>
+
+            <a href="/rfg" class="module-card" data-module="rfg">
+                <h3>🚀 Rocket Fuel Girls</h3>
+                <p>Katalog modeli i adult content z AI enhancement. Wymaga weryfikacji wieku.</p>
+                <span class="module-status planned">Compliance required</span>
+            </a>
+
+            <a href="/portfolio" class="module-card" data-module="portfolio">
+                <h3>📁 Portfolio Plus</h3>
+                <p>Showcase wszystkich projektów, case studies, CV i ofertowanie usług.</p>
+                <span class="module-status building">W budowie</span>
+            </a>
+
+            <a href="/drift" class="module-card" data-module="drift">
+                <h3>💰 Drift Money</h3>
+                <p>Ekonomia tokenów, leaderboard wkładów, monetyzacja treści i value circulation.</p>
+                <span class="module-status planned">Testnet</span>
+            </a>
+
+            <a href="/global" class="module-card" data-module="global">
+                <h3>🌍 Global Vision</h3>
+                <p>Monitoring ekosystemu, telemetria, mapy i wizualizacja całego systemu.</p>
+                <span class="module-status building">W budowie</span>
+            </a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Meta-Genius Digital Empire © 2025 | 22 repozytoriów → 1 ekosystem</p>
+    </footer>
+
+    <script>
+        // API endpoints
+        const GATEWAY_URL = 'http://localhost:8800';
+        const MTA_QUEST_URL = 'http://localhost:5000';
+        
+        // Service configuration
+        const SERVICES = {
+            gateway: { url: `${GATEWAY_URL}/health`, name: 'Unified Gateway' },
+            gok_core: { url: `${GATEWAY_URL}/services`, name: 'GOK Core' },
+            migi_core: { url: `${GATEWAY_URL}/migi/state`, name: 'MIGI Core' },
+            mta_quest: { url: `${MTA_QUEST_URL}/api/health`, name: 'MTA Quest' },
+            hhu: { url: `${GATEWAY_URL}/hhu/stats`, name: 'Hip-Hop Universe' }
+        };
+
+        // Check system status
+        async function checkSystemStatus() {
+            const statusGrid = document.getElementById('statusGrid');
+            const systemStatus = document.getElementById('systemStatus');
+            
+            statusGrid.innerHTML = '';
+            let onlineCount = 0;
+            const totalServices = Object.keys(SERVICES).length;
+
+            for (const [key, service] of Object.entries(SERVICES)) {
+                const statusItem = document.createElement('div');
+                statusItem.className = 'status-item';
+                
+                try {
+                    const response = await fetch(service.url, { 
+                        method: 'GET',
+                        timeout: 5000 
+                    });
+                    
+                    if (response.ok) {
+                        statusItem.classList.add('online');
+                        statusItem.innerHTML = `<strong>${service.name}</strong><br><span style="color: #22c55e;">✅ Online</span>`;
+                        onlineCount++;
+                    } else {
+                        throw new Error('Service unavailable');
+                    }
+                } catch (error) {
+                    statusItem.classList.add('offline');
+                    statusItem.innerHTML = `<strong>${service.name}</strong><br><span style="color: #ef4444;">❌ Offline</span>`;
+                }
+                
+                statusGrid.appendChild(statusItem);
+            }
+
+            // Update system status badge
+            if (onlineCount === totalServices) {
+                systemStatus.textContent = '✅ Wszystko online';
+                systemStatus.style.background = 'rgba(34, 197, 94, 0.1)';
+                systemStatus.style.color = '#22c55e';
+                systemStatus.style.borderColor = '#22c55e';
+            } else if (onlineCount > 0) {
+                systemStatus.textContent = `⚠️ ${onlineCount}/${totalServices} online`;
+                systemStatus.style.background = 'rgba(251, 191, 36, 0.1)';
+                systemStatus.style.color = '#fbbf24';
+                systemStatus.style.borderColor = '#fbbf24';
+            } else {
+                systemStatus.textContent = '❌ System offline';
+                systemStatus.style.background = 'rgba(239, 68, 68, 0.1)';
+                systemStatus.style.color = '#ef4444';
+                systemStatus.style.borderColor = '#ef4444';
+            }
+
+            // Remove pulse animation after status check
+            systemStatus.classList.remove('pulse');
+        }
+
+        // Load additional service data
+        async function loadServiceData() {
+            try {
+                // Try to get MIGI state
+                const migiResponse = await fetch(`${GATEWAY_URL}/migi/state`);
+                if (migiResponse.ok) {
+                    const migiData = await migiResponse.json();
+                    console.log('MIGI State:', migiData);
+                }
+
+                // Try to get GOK success score
+                const gokResponse = await fetch(`${GATEWAY_URL}/gok/success`);
+                if (gokResponse.ok) {
+                    const gokData = await gokResponse.json();
+                    console.log('GOK Success:', gokData);
+                }
+            } catch (error) {
+                console.log('Additional service data unavailable:', error.message);
+            }
+        }
+
+        // Module card click handlers
+        document.querySelectorAll('.module-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const module = card.dataset.module;
+                const status = card.querySelector('.module-status');
+                
+                if (status.textContent.includes('planned') || status.textContent.includes('Compliance')) {
+                    e.preventDefault();
+                    alert(`Moduł ${module} jest w fazie planowania. Wkrótce dostępny!`);
+                }
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkSystemStatus();
+            loadServiceData();
+            
+            // Refresh status every 30 seconds
+            setInterval(checkSystemStatus, 30000);
+        });
+
+        // Handle offline/online events
+        window.addEventListener('online', checkSystemStatus);
+        window.addEventListener('offline', () => {
+            document.getElementById('systemStatus').textContent = '📱 Offline mode';
+        });
+    </script>
+</body>
+</html>

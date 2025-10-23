@@ -1,0 +1,487 @@
+[
+  {
+    "name": "AnonymousAgent_2.0",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\AnonymousAgent_2.0",
+    "hash": "01b0d4c64b00",
+    "langs": {
+      ".ts": 7,
+      ".tsx": 4,
+      ".md": 1,
+      ".js": 2
+    },
+    "has": {},
+    "routes": [
+      "/",
+      "/analyze"
+    ],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "apex",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\apex",
+    "hash": null,
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "apex_infinity_MIGI_Core",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\apex_infinity_MIGI_Core",
+    "hash": "3118c15e958f",
+    "langs": {
+      ".js": 4,
+      ".html": 3,
+      ".yml": 2,
+      ".md": 31,
+      ".json": 2,
+      ".py": 36,
+      ".css": 3
+    },
+    "has": {
+      "python": true
+    },
+    "routes": [
+      "/",
+      "/decisions/",
+      "/decisions/{id}",
+      "/metrics",
+      "/simulate",
+      "/v1/ask",
+      "/v1/decisions/{id}",
+      "/v1/ingest",
+      "/v1/ingest/{doc_id}",
+      "/v1/metrics",
+      "/v1/plan",
+      "/v1/policy/test",
+      "/v1/simulate"
+    ],
+    "ports": [],
+    "license": "present"
+  },
+  {
+    "name": "drift_money",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\drift_money",
+    "hash": null,
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "ekosystem_pinkplayevo-app",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\ekosystem_pinkplayevo-app",
+    "hash": null,
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "GlobalVision",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\GlobalVision",
+    "hash": null,
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "GOK-AI-MixTape",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\GOK-AI-MixTape",
+    "hash": "da18e637347c",
+    "langs": {
+      ".html": 1,
+      ".js": 10,
+      ".json": 4,
+      ".md": 1,
+      ".css": 2
+    },
+    "has": {
+      "node": true
+    },
+    "routes": [
+      "/health",
+      "/v1/gokai/mix",
+      "/v1/mixes",
+      "/v1/mixes/:id",
+      "/webhooks/hhu",
+      "/webhooks/rfg",
+      "/webhooks/spiralmind"
+    ],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "GOKAI_FULL",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\GOKAI_FULL",
+    "hash": null,
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "gok_mixtape",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\gok_mixtape",
+    "hash": null,
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "hip_hop_universe",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\hip_hop_universe",
+    "hash": "3d037c03eb1e",
+    "langs": {
+      ".md": 15,
+      ".yml": 1,
+      ".html": 4,
+      ".json": 12,
+      ".js": 17,
+      ".ts": 12,
+      ".tsx": 10,
+      ".css": 6,
+      ".sol": 3
+    },
+    "has": {
+      "node": true,
+      "docker": true
+    },
+    "routes": [
+      "/",
+      "/generate-artwork",
+      "/generate-metadata",
+      "/health",
+      "/user/:address"
+    ],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "hub_ai",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\hub_ai",
+    "hash": null,
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "m-zg_Boga",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\m-zg_Boga",
+    "hash": "3d037c03eb1e",
+    "langs": {
+      ".html": 63,
+      ".py": 287,
+      ".ts": 362,
+      ".js": 1267,
+      ".yaml": 11,
+      ".json": 342,
+      ".md": 676,
+      ".yml": 137,
+      ".tsx": 38,
+      ".css": 42,
+      ".sol": 9,
+      ".ipynb": 1
+    },
+    "has": {
+      "docker": true,
+      "node": true,
+      "python": true
+    },
+    "routes": [
+      "/",
+      "/:id",
+      "/admin",
+      "/analyze",
+      "/api/admin/approve/:id",
+      "/api/admin/pending",
+      "/api/ask",
+      "/api/chat",
+      "/api/chat/ask",
+      "/api/consciousness/activate",
+      "/api/consciousness/collective",
+      "/api/consciousness/dashboard",
+      "/api/consciousness/dashboard/html",
+      "/api/consciousness/deactivate",
+      "/api/consciousness/decision",
+      "/api/consciousness/reflect",
+      "/api/consciousness/spiral",
+      "/api/consciousness/spiral/html",
+      "/api/consciousness/state",
+      "/api/consciousness/status",
+      "/api/credits/balance",
+      "/api/credits/topup",
+      "/api/drift/leaderboard",
+      "/api/drift/score",
+      "/api/events/export.csv",
+      "/api/events/log",
+      "/api/evolve/matrix",
+      "/api/gaia/status",
+      "/api/globalvision/collective",
+      "/api/globalvision/dashboard",
+      "/api/globalvision/echo",
+      "/api/globalvision/echo/{user_id}",
+      "/api/globalvision/recommendations",
+      "/api/gokai/calculate",
+      "/api/gokai/sgok",
+      "/api/health",
+      "/api/hiphop/download/{name}",
+      "/api/hiphop/list",
+      "/api/hiphop/upload",
+      "/api/migi",
+      "/api/photo/:id",
+      "/api/photos",
+      "/api/process",
+      "/api/run_task",
+      "/api/spiral/analysis",
+      "/api/spiral/event",
+      "/api/spiral/export",
+      "/api/spiral/recommendations",
+      "/api/spiral/synchronicities",
+      "/api/spiral/timeline/{user_id}",
+      "/api/spiral/visualizer-script",
+      "/api/synergy/apply-correction",
+      "/api/synergy/consciousness",
+      "/api/synergy/dashboard",
+      "/api/synergy/dashboard-script",
+      "/api/synergy/influence-stats",
+      "/api/synergy/insights",
+      "/api/synergy/mobile-script",
+      "/api/synergy/recommendations",
+      "/api/synergy/vote",
+      "/api/synergy/voting-interface",
+      "/api/synergy/voting-status",
+      "/api/upload",
+      "/auth/login",
+      "/auth/register",
+      "/bar",
+      "/bug",
+      "/chat",
+      "/decisions/",
+      "/decisions/{id}",
+      "/foo",
+      "/generate-artwork",
+      "/generate-metadata",
+      "/health",
+      "/healthz",
+      "/hello",
+      "/ingest",
+      "/login",
+      "/metrics",
+      "/process",
+      "/profile",
+      "/ps",
+      "/register",
+      "/resource/",
+      "/route",
+      "/simulate",
+      "/spiral-visualizer",
+      "/spiral-visualizer/manifest.json",
+      "/spiral-visualizer/service-worker.js",
+      "/spiral-visualizer/spiral_data.json",
+      "/synergy-dashboard",
+      "/synergy-history",
+      "/synergy-mobile",
+      "/synergy-mobile/manifest.json",
+      "/synergy-mobile/service-worker.js",
+      "/synergy-mobile/style.css",
+      "/synergy-voting",
+      "/trustproxy",
+      "/trustproxychain",
+      "/trustproxyfunc",
+      "/trustproxyipaddrs",
+      "/trustproxynoprotocol",
+      "/trustproxynumber",
+      "/trustproxyprotocol",
+      "/trustproxyprotocols",
+      "/two",
+      "/user/:address",
+      "/v1/ask",
+      "/v1/decisions/{id}",
+      "/v1/ingest",
+      "/v1/ingest/{doc_id}",
+      "/v1/metrics",
+      "/v1/plan",
+      "/v1/policy/test",
+      "/v1/simulate"
+    ],
+    "ports": [],
+    "license": "present"
+  },
+  {
+    "name": "metageniuszpl",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\metageniuszpl",
+    "hash": "7633ebb352ff",
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "MIGI_ECOSYSTEM_v1",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\MIGI_ECOSYSTEM_v1",
+    "hash": null,
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "MTA_Quest_Webside_X",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\MTA_Quest_Webside_X",
+    "hash": "e80087cd2e9d",
+    "langs": {
+      ".md": 1,
+      ".json": 2,
+      ".js": 8,
+      ".css": 2
+    },
+    "has": {
+      "node": true
+    },
+    "routes": [],
+    "ports": [],
+    "license": "present"
+  },
+  {
+    "name": "NASA_AstroLuxe_Drive",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\NASA_AstroLuxe_Drive",
+    "hash": null,
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "nowy_folder",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\nowy_folder",
+    "hash": "24bcac285277",
+    "langs": {
+      ".py": 8,
+      ".json": 1,
+      ".ts": 1,
+      ".md": 6,
+      ".html": 1
+    },
+    "has": {
+      "python": true
+    },
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "only_together",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\only_together",
+    "hash": null,
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "pinkplayevo-ja-",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\pinkplayevo-ja-",
+    "hash": "74c6c750629e",
+    "langs": {
+      ".md": 4,
+      ".json": 1,
+      ".ts": 17
+    },
+    "has": {
+      "node": true
+    },
+    "routes": [],
+    "ports": [],
+    "license": "present"
+  },
+  {
+    "name": "pipeline_developers",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\pipeline_developers",
+    "hash": null,
+    "langs": {},
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "portfolio_plus",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\portfolio_plus",
+    "hash": null,
+    "langs": {
+      ".html": 1
+    },
+    "has": {},
+    "routes": [],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "rocket_fuell_girls",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\rocket_fuell_girls",
+    "hash": "4b215e753c03",
+    "langs": {
+      ".html": 2,
+      ".yml": 2,
+      ".md": 3,
+      ".json": 1,
+      ".js": 1,
+      ".css": 1
+    },
+    "has": {
+      "docker": true,
+      "node": true
+    },
+    "routes": [
+      "/admin",
+      "/api/admin/approve/:id",
+      "/api/admin/pending",
+      "/api/health",
+      "/api/photo/:id",
+      "/api/photos",
+      "/api/upload"
+    ],
+    "ports": [],
+    "license": null
+  },
+  {
+    "name": "SpiralMind-Nexus",
+    "path": "C:\\Users\\patry\\Desktop\\Nowy folder (2)\\repos\\SpiralMind-Nexus",
+    "hash": "3ea2d39767b2",
+    "langs": {
+      ".py": 44,
+      ".md": 5,
+      ".yaml": 1,
+      ".json": 2,
+      ".js": 3,
+      ".yml": 4,
+      ".html": 1,
+      ".css": 1,
+      ".ipynb": 1
+    },
+    "has": {
+      "node": true
+    },
+    "routes": [
+      "/api/ask"
+    ],
+    "ports": [],
+    "license": null
+  }
+]

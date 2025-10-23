@@ -1,0 +1,71 @@
+version: "3.9"
+services:
+  gateway:
+    build: ./gateway
+    environment:
+      SVC_GOK_CORE: http://gok-core:8001
+      SVC_MIGI_CORE: http://migi-core:8002
+      SVC_HHU: http://hhu:8004
+      SVC_RFG: http://rfg:8005
+      SVC_DRIFT: http://drift:8007
+      JWT_SECRET: "${JWT_SECRET}"
+    networks: [app]
+    volumes:
+      - ./data:/app/data
+      - /tmp:/tmp
+
+  gok-core:
+    build: 
+      context: .
+      dockerfile: services/Dockerfile.gok
+    command: python services/gok_core_service.py
+    networks: [app]
+    volumes:
+      - ./migi_manifest.json:/app/migi_manifest.json:ro
+
+  migi-core:
+    build: 
+      context: .
+      dockerfile: services/Dockerfile.migi
+    command: python services/migi_core_service.py
+    networks: [app]
+    volumes:
+      - ./data:/app/data:ro
+
+  hhu:
+    build: 
+      context: .
+      dockerfile: services/Dockerfile.hhu
+    command: python services/hhu_service.py
+    networks: [app]
+
+  rfg:
+    build:
+      context: ./repos/rocket_fuell_girls
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8005
+    ports: ["8005:8005"]
+    networks: [app]
+
+  drift:
+    build:
+      context: ./repos/drift_money
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8007
+    ports: ["8007:8007"]
+    networks: [app]
+
+  edge:
+    image: caddy:2
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./ops/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [gateway]
+    networks: [app]
+
+networks:
+  app: {}
+
+volumes:
+  caddy_data:
+  caddy_config:

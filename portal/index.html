@@ -1,0 +1,28 @@
+<!doctype html><html lang="pl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>GlobalVision — Portal</title>
+<style>
+body{background:#0b0f1a;color:#d9e3f0;font-family:system-ui;margin:0}
+main{max-width:1100px;margin:40px auto;padding:0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{padding:18px;border-radius:16px;background:#111826;border:1px solid #1f2937;text-decoration:none;color:#d9e3f0}
+.muted{opacity:.7;font-size:.9rem}
+</style></head><body>
+<main>
+  <h1>GlobalVision — Kokpit</h1>
+  <pre id="health" class="muted">Ładowanie...</pre>
+  <section class="grid">
+    <a class="card" href="god.html"><h3>God Interface</h3><p>Kokpit operatora MIGI</p></a>
+    <a class="card" href="#"><h3>GOK-AI MixTape</h3><p>Miksy treści i muzyki</p></a>
+    <a class="card" href="#"><h3>Hip-Hop Universe</h3><p>Profil twórcy</p></a>
+    <a class="card" href="#"><h3>Rocket Fuel Girls</h3><p>Katalog 18+</p></a>
+    <a class="card" href="#"><h3>Portfolio+</h3><p>Prace, oferty, CV</p></a>
+    <a class="card" href="#"><h3>Drift Money</h3><p>Tokeny i leaderboard</p></a>
+  </section>
+</main>
+<script>
+fetch('http://localhost:8800/health').then(r=>r.json()).then(d=>{
+  document.getElementById('health').textContent = JSON.stringify(d,null,2);
+}).catch(()=>{document.getElementById('health').textContent='Gateway offline';});
+</script>
+</body></html>

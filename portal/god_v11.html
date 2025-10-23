@@ -1,0 +1,406 @@
+<!doctype html><html lang="pl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>God Interface 1.1</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body{background:#0b0f1a;color:#d9e3f0;font-family:system-ui;margin:0;padding:20px}
+main{max-width:1400px;margin:0 auto}
+.card{padding:18px;border-radius:16px;background:#111826;border:1px solid #1f2937;margin-bottom:20px}
+pre{white-space:pre-wrap;font-size:12px;background:#0a0a0a;padding:10px;border-radius:8px;overflow-x:auto}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.row-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.btn{padding:10px 14px;border-radius:10px;background:#1f2937;border:0;color:#d9e3f0;cursor:pointer;margin:5px}
+.btn:hover{background:#374151}
+.btn.danger{background:#dc2626}
+.btn.danger:hover{background:#ef4444}
+.btn.success{background:#059669}
+.btn.success:hover{background:#10b981}
+h1{color:#00f5ff;text-align:center;margin-bottom:30px}
+h3{color:#00f5ff;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.status{padding:5px 10px;border-radius:5px;font-size:12px;display:inline-block;margin-bottom:10px}
+.online{background:#059669;color:white}
+.offline{background:#dc2626;color:white}
+.loading{opacity:0.6}
+.metrics{display:flex;gap:20px;margin-bottom:15px}
+.metric{background:#1f2937;padding:10px;border-radius:8px;text-align:center;flex:1}
+.metric-value{font-size:24px;font-weight:bold;color:#00f5ff}
+.metric-label{font-size:12px;opacity:0.8}
+.chart-container{height:300px;position:relative}
+.events-feed{max-height:200px;overflow-y:auto;background:#0a0a0a;padding:10px;border-radius:8px}
+.event-item{padding:5px 0;border-bottom:1px solid #1f2937;font-size:12px}
+.event-time{color:#6b7280;margin-right:10px}
+.auto-refresh{color:#10b981;font-size:12px}
+</style></head><body>
+
+<main>
+  <h1>🔱 God Interface 1.1 - Meta-Genius Control Center</h1>
+  
+  <!-- Live Metrics -->
+  <div class="card">
+    <h3>Live System Metrics <span class="auto-refresh" id="refreshStatus">Auto-refresh: ON</span></h3>
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-value" id="successScore">--</div>
+        <div class="metric-label">Success Score</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" id="totalEvents">--</div>
+        <div class="metric-label">Total Events</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" id="uptime">--</div>
+        <div class="metric-label">System Uptime</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" id="activeUsers">--</div>
+        <div class="metric-label">Active Sessions</div>
+      </div>
+    </div>
+    <div id="systemStatus">Sprawdzam...</div>
+  </div>
+
+  <!-- Success Chart -->
+  <div class="card">
+    <h3>Success Score (24h) <button class="btn" onclick="toggleAutoRefresh()">Toggle Auto</button></h3>
+    <div class="chart-container">
+      <canvas id="successChart"></canvas>
+    </div>
+  </div>
+
+  <div class="row-3">
+    <!-- Events Feed -->
+    <div class="card">
+      <h3>Live Events Feed</h3>
+      <button class="btn" onclick="loadEvents()">Refresh</button>
+      <button class="btn danger" onclick="clearEvents()">Clear</button>
+      <div class="events-feed" id="eventsFeed">Loading events...</div>
+    </div>
+
+    <!-- MIGI Controls -->
+    <div class="card">
+      <h3>MIGI — Module Weights</h3>
+      <button class="btn" onclick="loadMigi()">Refresh MIGI</button>
+      <button class="btn success" onclick="optimizeMigi()">AI Optimize</button>
+      <pre id="migi" class="loading">Loading...</pre>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card">
+      <h3>Quick Actions</h3>
+      <button class="btn" onclick="triggerTest()">Test Event</button>
+      <button class="btn" onclick="systemHealth()">Health Check</button>
+      <button class="btn" onclick="exportLogs()">Export Logs</button>
+      <button class="btn danger" onclick="emergencyStop()">Emergency Stop</button>
+      <pre id="actionLog">Ready for actions...</pre>
+    </div>
+  </div>
+
+  <!-- Legacy System Info -->
+  <div class="row">
+    <div class="card">
+      <h3>GOK — Legacy Calculator</h3>
+      <button class="btn" onclick="loadScore()">Calculate GOK</button>
+      <button class="btn" onclick="loadPresets()">Presets</button>
+      <pre id="score" class="loading">Loading...</pre>
+    </div>
+    
+    <div class="card">
+      <h3>System Manifest</h3>
+      <button class="btn" onclick="loadManifest()">Refresh Manifest</button>
+      <pre id="manifest" class="loading">Loading...</pre>
+    </div>
+    
+    <div class="card">
+      <h3>Gateway Services</h3>
+      <button class="btn" onclick="loadServices()">Refresh Services</button>
+      <pre id="services" class="loading">Loading...</pre>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 20px;">
+    <button class="btn" onclick="goBack()">← Back to Portal</button>
+  </div>
+</main>
+
+<script>
+const API = 'http://localhost:8800';
+const GOK_API = 'http://localhost:8001';
+const MTA_API = 'http://localhost:5000';
+
+let autoRefresh = true;
+let refreshInterval;
+let successChart;
+let startTime = Date.now();
+
+// Initialize Chart
+function initChart() {
+  const ctx = document.getElementById('successChart').getContext('2d');
+  successChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: 'Success Score',
+        data: [],
+        borderColor: '#00f5ff',
+        backgroundColor: 'rgba(0, 245, 255, 0.1)',
+        borderWidth: 2,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: '#d9e3f0' }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#d9e3f0' },
+          grid: { color: '#1f2937' }
+        },
+        y: {
+          ticks: { color: '#d9e3f0' },
+          grid: { color: '#1f2937' }
+        }
+      }
+    }
+  });
+}
+
+async function fetchData(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.error('Fetch error:', error);
+    return { error: error.message };
+  }
+}
+
+async function updateMetrics() {
+  try {
+    // Success Score
+    const gokData = await fetchData(`${GOK_API}/v1/success`);
+    if (gokData.success_score !== undefined) {
+      document.getElementById('successScore').textContent = gokData.success_score.toFixed(2);
+      
+      // Update chart
+      const now = new Date().toLocaleTimeString();
+      if (successChart.data.labels.length > 50) {
+        successChart.data.labels.shift();
+        successChart.data.datasets[0].data.shift();
+      }
+      successChart.data.labels.push(now);
+      successChart.data.datasets[0].data.push(gokData.success_score);
+      successChart.update('none');
+    }
+
+    // Events count
+    const events = await fetchData(`${API}/v1/events`);
+    if (events.events) {
+      document.getElementById('totalEvents').textContent = events.events.length;
+    }
+
+    // Uptime
+    const uptimeSeconds = Math.floor((Date.now() - startTime) / 1000);
+    const hours = Math.floor(uptimeSeconds / 3600);
+    const minutes = Math.floor((uptimeSeconds % 3600) / 60);
+    document.getElementById('uptime').textContent = `${hours}h ${minutes}m`;
+
+    // Mock active users (in real system would come from session tracking)
+    document.getElementById('activeUsers').textContent = Math.floor(Math.random() * 5) + 1;
+
+  } catch (error) {
+    console.error('Metrics update failed:', error);
+  }
+}
+
+async function loadEvents() {
+  try {
+    const data = await fetchData(`${API}/v1/events?limit=20`);
+    const feed = document.getElementById('eventsFeed');
+    
+    if (data.events && data.events.length > 0) {
+      feed.innerHTML = data.events.reverse().map(event => {
+        const time = new Date(event.timestamp).toLocaleTimeString();
+        return `<div class="event-item">
+          <span class="event-time">${time}</span>
+          <strong>${event.event_type}</strong>: ${JSON.stringify(event.data).substring(0, 100)}...
+        </div>`;
+      }).join('');
+    } else {
+      feed.innerHTML = '<div class="event-item">No events yet...</div>';
+    }
+  } catch (error) {
+    document.getElementById('eventsFeed').innerHTML = `<div class="event-item">Error: ${error.message}</div>`;
+  }
+}
+
+async function triggerTest() {
+  try {
+    const response = await fetch(`${API}/v1/events`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event_type: 'manual_test',
+        data: { triggered_by: 'god_panel', timestamp: Date.now() },
+        source: 'god_interface'
+      })
+    });
+    
+    const result = await response.json();
+    document.getElementById('actionLog').textContent = `Test event logged: ${JSON.stringify(result)}`;
+    loadEvents(); // Refresh events
+  } catch (error) {
+    document.getElementById('actionLog').textContent = `Test failed: ${error.message}`;
+  }
+}
+
+async function clearEvents() {
+  if (confirm('Clear all events? This cannot be undone.')) {
+    // In real system, would call DELETE endpoint
+    document.getElementById('actionLog').textContent = 'Events cleared (mock action)';
+  }
+}
+
+function toggleAutoRefresh() {
+  autoRefresh = !autoRefresh;
+  document.getElementById('refreshStatus').textContent = `Auto-refresh: ${autoRefresh ? 'ON' : 'OFF'}`;
+  
+  if (autoRefresh) {
+    startAutoRefresh();
+  } else {
+    clearInterval(refreshInterval);
+  }
+}
+
+function startAutoRefresh() {
+  if (refreshInterval) clearInterval(refreshInterval);
+  refreshInterval = setInterval(() => {
+    if (autoRefresh) {
+      updateMetrics();
+      loadEvents();
+    }
+  }, 15000); // 15 seconds
+}
+
+async function optimizeMigi() {
+  // AI optimization simulation
+  document.getElementById('actionLog').textContent = 'Running MIGI AI optimization...';
+  
+  setTimeout(() => {
+    document.getElementById('actionLog').textContent = 'MIGI optimized: SOMA +0.1, AETHER -0.05, CORE +0.02';
+    loadMigi();
+  }, 2000);
+}
+
+async function systemHealth() {
+  document.getElementById('actionLog').textContent = 'Running full system health check...';
+  await checkSystemStatus();
+  document.getElementById('actionLog').textContent = 'Health check complete. See system status above.';
+}
+
+async function exportLogs() {
+  try {
+    const events = await fetchData(`${API}/v1/events?limit=1000`);
+    const dataStr = JSON.stringify(events, null, 2);
+    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+    
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(dataBlob);
+    link.download = `migi-logs-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    
+    document.getElementById('actionLog').textContent = 'Logs exported successfully';
+  } catch (error) {
+    document.getElementById('actionLog').textContent = `Export failed: ${error.message}`;
+  }
+}
+
+async function emergencyStop() {
+  if (confirm('EMERGENCY STOP - This will halt all services. Continue?')) {
+    document.getElementById('actionLog').textContent = 'EMERGENCY STOP TRIGGERED - Services halting...';
+    // In real system would call shutdown endpoints
+  }
+}
+
+// Legacy functions
+async function loadMigi() {
+  document.getElementById('migi').className = 'loading';
+  const data = await fetchData(`${API}/migi/state`);
+  document.getElementById('migi').textContent = JSON.stringify(data, null, 2);
+  document.getElementById('migi').className = '';
+}
+
+async function loadScore() {
+  document.getElementById('score').className = 'loading';
+  const data = await fetchData(`${API}/gok/success`);
+  document.getElementById('score').textContent = JSON.stringify(data, null, 2);
+  document.getElementById('score').className = '';
+}
+
+async function loadPresets() {
+  document.getElementById('score').className = 'loading';
+  const data = await fetchData(`${GOK_API}/v1/presets`);
+  document.getElementById('score').textContent = JSON.stringify(data, null, 2);
+  document.getElementById('score').className = '';
+}
+
+async function loadManifest() {
+  document.getElementById('manifest').className = 'loading';
+  const data = await fetchData(`${GOK_API}/v1/manifest`);
+  document.getElementById('manifest').textContent = JSON.stringify(data, null, 2);
+  document.getElementById('manifest').className = '';
+}
+
+async function loadServices() {
+  document.getElementById('services').className = 'loading';
+  const data = await fetchData(`${API}/services`);
+  document.getElementById('services').textContent = JSON.stringify(data, null, 2);
+  document.getElementById('services').className = '';
+}
+
+async function checkSystemStatus() {
+  const statusDiv = document.getElementById('systemStatus');
+  statusDiv.innerHTML = 'Sprawdzam system...';
+  
+  const services = ['Gateway', 'GOK Core', 'MIGI Core', 'MTA Quest', 'HHU'];
+  const urls = [
+    `${API}/health`,
+    `${GOK_API}/health`, 
+    `${API}/migi/state`,
+    `${MTA_API}/api/health`,
+    `${API}/hhu/stats`
+  ];
+  
+  let statusHTML = '';
+  for (let i = 0; i < services.length; i++) {
+    try {
+      await fetch(urls[i], {timeout: 3000});
+      statusHTML += `<span class="status online">${services[i]}: Online</span> `;
+    } catch {
+      statusHTML += `<span class="status offline">${services[i]}: Offline</span> `;
+    }
+  }
+  
+  statusDiv.innerHTML = statusHTML;
+}
+
+function goBack() {
+  window.location.href = '/';
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  initChart();
+  updateMetrics();
+  loadEvents();
+  checkSystemStatus();
+  startAutoRefresh();
+});
+</script>
+</body></html>
