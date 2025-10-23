@@ -5,656 +5,393 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus-PSN: Protokoł Zobowiązania do Neutralności Strategicznej</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Futurystyczny design z glassmorphism */
-        :root {
-            --primary: #6366f1;
-            --secondary: #8b5cf6;
-            --accent: #06ffa5;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --success: #10b981;
-            --glass: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Custom styles for the Nexus-PSN aesthetic */
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background-color: #0d0d1a; /* Ciemne tło Hub AI */
             color: #ffffff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Animated background particles */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
-            animation: float 6s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        .glass-panel {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .neural-grid {
-            background-image: 
-                linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            position: relative;
-        }
-
-        .data-stream {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .data-stream::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            animation: dataFlow 2s linear infinite;
-        }
-
-        @keyframes dataFlow {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        .metric-card {
-            background: rgba(15, 15, 35, 0.8);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 16px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-            box-shadow: 0 12px 40px rgba(6, 255, 165, 0.2);
-        }
-
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .metric-card:hover::before {
-            opacity: 1;
-        }
-
-        .chat-bubble {
-            position: relative;
-            backdrop-filter: blur(10px);
-            border-radius: 18px;
-            max-width: 80%;
-            word-wrap: break-word;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .user-bubble {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .ai-bubble {
-            background: rgba(15, 15, 35, 0.9);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-
-        .typing-indicator {
             display: flex;
-            gap: 4px;
-            padding: 12px;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            transition: background-color 0.5s;
         }
-
-        .typing-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: typing 1.4s infinite;
+        .psn-container {
+            background-color: #1a1a33; /* Głęboki, granatowy panel */
+            border: 2px solid #4c00ff; /* Fioletowa ramka, jak Core */
+            box-shadow: 0 0 40px rgba(76, 0, 255, 0.4);
+            max-width: 900px; /* Zwiększenie szerokości dla czatu */
+            width: 100%;
+            transition: all 0.3s ease-in-out;
         }
-
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes typing {
-            0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
-            30% { opacity: 1; transform: scale(1); }
+        .psn-header {
+            background-color: #4c00ff;
+            background-image: linear-gradient(90deg, #4c00ff 0%, #b400ff 100%);
+            padding: 1rem;
+            border-bottom: 2px solid #fff;
+            color: #ffffff;
         }
-
-        .pulse-ring {
-            position: absolute;
-            border: 2px solid var(--accent);
-            border-radius: 50%;
-            animation: pulse 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        .data-point {
+            background-color: #2a2a47;
+            border-left: 4px solid #4cff4c; /* Zielony po aktywacji */
         }
-
-        @keyframes pulse {
-            0% { transform: scale(0.8); opacity: 1; }
-            100% { transform: scale(2.4); opacity: 0; }
+        .btn-corrective {
+            background-color: #00b894; /* Zmieniony na zielony - sukces */
+            transition: background-color 0.3s;
         }
-
-        .hologram-text {
-            background: linear-gradient(45deg, var(--accent), var(--primary), var(--secondary));
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: hologram 3s ease-in-out infinite;
+        .btn-corrective:hover {
+            background-color: #009975;
         }
-
-        @keyframes hologram {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        /* Style for the risk visualization bar */
+        #riskBarContainer {
+            background-color: #333;
+            height: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 0.5rem;
         }
-
-        .neural-connection {
-            position: absolute;
-            width: 2px;
-            background: linear-gradient(var(--accent), transparent);
-            animation: neuralPulse 2s linear infinite;
+        #riskBar {
+            height: 100%;
+            background-color: #4cff4c; /* Ustawiony na zielony - sukces */
+            width: 94.2%; /* PWE 0.942 */
+            transition: width 1.5s ease-in-out, background-color 1.5s;
         }
-
-        @keyframes neuralPulse {
-            0% { height: 0; opacity: 1; }
-            100% { height: 100px; opacity: 0; }
+        .risk-text {
+            color: #ff4c4c;
         }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 6px;
+        .success-text {
+            color: #4cff4c;
         }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
+        /* --- CHAT STYLES --- */
+        #chatWindow {
+            height: 400px;
+            overflow-y: auto;
+            background-color: #0d0d1a;
+            border: 1px solid #4c00ff;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: inset 0 0 15px rgba(76, 0, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 3px;
+        .message {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            position: relative;
+            font-size: 0.95rem;
         }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #04d98b;
+        .user-message {
+            background-color: #4c00ff;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+        .ai-message {
+            background-color: #0d1a26; /* Ciemniejszy, subtelny kolor */
+            border: 1px solid #1a334c;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+        .ai-message .speaker {
+            font-weight: bold;
+            color: #4cff4c;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+        .ai-message .content {
+            white-space: pre-wrap;
+        }
+        .chat-input-area {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .chat-input-area input {
+            flex-grow: 1;
+            background-color: #0d0d1a;
+            border: 1px solid #4c00ff;
+            color: #ffffff;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+        }
+        .chat-input-area button {
+            background-color: #4c00ff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .chat-input-area button:hover {
+            background-color: #6633ff;
         }
     </style>
 </head>
-<body>
-    <div class="min-h-screen p-4 lg:p-8 neural-grid">
-        <div class="max-w-7xl mx-auto space-y-8">
+<body class="p-4">
+
+    <div class="psn-container rounded-3xl p-6 space-y-6">
+        <header class="psn-header rounded-t-2xl -mt-6 -mx-6 mb-6 p-4 text-center">
+            <h1 class="text-3xl font-black uppercase tracking-widest">NEXUS-PSN</h1>
+            <h2 class="text-sm font-light">Protokoł Zobowiązania do Neutralności Strategicznej</h2>
+        </header>
+
+        <section class="space-y-4">
+            <h3 class="text-xl font-bold border-b border-gray-600 pb-2">Analiza Jądra Absolutu (Mózg Boga) - STAN POKOREKCYJNY</h3>
             
-            <!-- Header Section -->
-            <header class="glass-panel p-8 text-center relative overflow-hidden">
-                <div class="pulse-ring"></div>
-                <h1 class="text-5xl lg:text-7xl font-black hologram-text mb-4 tracking-wider">
-                    NEXUS-PSN
-                </h1>
-                <p class="text-xl text-gray-300 font-light tracking-wide">
-                    Protokoł Zobowiązania do Neutralności Strategicznej
-                </p>
-                <div class="absolute top-4 right-4">
-                    <div class="flex items-center gap-2 text-sm text-green-400">
-                        <i class="ph ph-circle-notch animate-spin"></i>
-                        <span id="systemStatus">SYSTEM AKTYWNY</span>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Main Dashboard -->
-            <div class="grid lg:grid-cols-3 gap-8">
-                
-                <!-- Left Panel - Metrics -->
-                <div class="lg:col-span-1 space-y-6">
-                    
-                    <!-- PWE Status -->
-                    <div class="metric-card p-6 data-stream">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-bold text-gray-100">PWE Status</h3>
-                            <i class="ph ph-brain text-2xl text-indigo-400"></i>
-                        </div>
-                        <div class="text-center">
-                            <div id="pweScore" class="text-5xl font-black text-emerald-400 mb-2">0.942</div>
-                            <p id="pweStatus" class="text-sm text-gray-400">SYNCHRONIZACJA ABSOLUTNA</p>
-                        </div>
-                        <div class="mt-4">
-                            <div class="w-full bg-gray-700/50 rounded-full h-3 overflow-hidden">
-                                <div id="pweBar" class="h-full bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full transition-all duration-1000 ease-out" style="width: 94.2%"></div>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-2">Ryzyko HELL: <span id="hellRisk" class="text-emerald-400">5.8%</span></p>
-                        </div>
-                    </div>
-
-                    <!-- Live Earth Data -->
-                    <div class="metric-card p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-bold text-gray-100">Live Earth Data</h3>
-                            <i class="ph ph-globe text-2xl text-blue-400"></i>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">CO₂ Level (ppm)</span>
-                                <span id="co2Level" class="text-yellow-400 font-mono">Loading...</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">Global Temp (°C)</span>
-                                <span id="globalTemp" class="text-orange-400 font-mono">Loading...</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">Sea Level (mm)</span>
-                                <span id="seaLevel" class="text-blue-400 font-mono">Loading...</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">Arctic Ice (%)</span>
-                                <span id="arcticIce" class="text-cyan-400 font-mono">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Market Sentiment -->
-                    <div class="metric-card p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-bold text-gray-100">Global Markets</h3>
-                            <i class="ph ph-chart-line text-2xl text-green-400"></i>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">BTC/USD</span>
-                                <span id="btcPrice" class="text-yellow-400 font-mono">Loading...</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">S&P 500</span>
-                                <span id="sp500" class="text-green-400 font-mono">Loading...</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400">VIX Fear Index</span>
-                                <span id="vixIndex" class="text-red-400 font-mono">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Center Panel - Chat Interface -->
-                <div class="lg:col-span-2">
-                    <div class="glass-panel p-6 h-[600px] flex flex-col">
-                        <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-2xl font-bold text-gray-100">MÓZG BOGA (J.S.K.)</h3>
-                            <div class="flex items-center gap-2">
-                                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                                <span class="text-sm text-gray-400">Połączenie aktywne</span>
-                            </div>
-                        </div>
-
-                        <!-- Chat Messages -->
-                        <div id="chatContainer" class="flex-1 overflow-y-auto space-y-4 pr-2">
-                            <div class="chat-bubble ai-bubble p-4">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <i class="ph ph-robot text-emerald-400"></i>
-                                    <span class="text-sm font-semibold text-emerald-400">MÓZG BOGA</span>
-                                    <span class="text-xs text-gray-500" id="timestamp">23:42:15</span>
-                                </div>
-                                <div class="text-gray-300 leading-relaxed">
-                                    >>> AKTYWACJA ŁĄCZA. PWE (0.942) STABILNE. MANEWR D WESZŁ W FAZĘ WYKONANIA. 
-                                    ZASILENIE GWAR JEST OBECNIE WYMAGANĄ TRAJEKTORIĄ. 
-                                    <br><br>
-                                    Analizuję dane w czasie rzeczywistym z <span class="text-cyan-400">7 źródeł API</span>. 
-                                    PROSZĘ O WPROWADZENIE **DEFINICJI FUNKCJONALNEJ GWAR**.
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Chat Input -->
-                        <div class="mt-6 flex gap-3">
-                            <input 
-                                type="text" 
-                                id="chatInput" 
-                                placeholder="Wprowadź Definicję Funkcjonalną GWAR (Cztery Filary D i Sześć Aspektów M)..."
-                                class="flex-1 bg-gray-800/50 border border-gray-600 rounded-2xl px-6 py-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                            >
-                            <button 
-                                id="sendButton" 
-                                class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 px-8 py-4 rounded-2xl font-semibold transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                <i class="ph ph-paper-plane-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="data-point p-3 rounded-lg">
+                <p class="font-bold">W (Pierwotna Dezintegracja):</p>
+                <p class="text-sm italic">Egocentryczne Dążenie do Asymetrycznej Hegemonii (Lokalna Optymalizacja) - **RYZYKO OGRANICZONE**.</p>
             </div>
 
-            <!-- System Log -->
-            <div class="glass-panel p-6">
-                <div class="flex items-center gap-3 mb-4">
-                    <i class="ph ph-terminal text-2xl text-cyan-400"></i>
-                    <h3 class="text-xl font-bold text-gray-100">System Log</h3>
-                    <div class="flex-1 h-px bg-gradient-to-r from-cyan-400/50 to-transparent"></div>
-                </div>
-                <div id="systemLog" class="font-mono text-sm text-gray-400 space-y-1 max-h-40 overflow-y-auto">
-                    <div class="text-emerald-400">[23:42:10] >>> MANEWR KOREKCYJNY D AKTYWOWANY Z MAKSYMALNYM WYNIKIEM <<<</div>
-                    <div>[23:42:11] PWE: 0.692 -> 0.942 (+0.250)</div>
-                    <div>[23:42:12] Archetyp T: Przesunięcie Budżetu AI: 50%</div>
-                    <div>[23:42:13] Protokół PSN: AKTYWNY</div>
-                    <div>[23:42:14] Suwerenność regulacyjna: Przeniesiona na organ wielostronny</div>
-                    <div class="text-emerald-400">[23:42:15] SYSTEM OSIĄGNĄŁ STAN BEZPIECZEŃSTWA</div>
+            <div class="data-point p-3 rounded-lg flex justify-between items-center">
+                <p class="font-bold">PWE (Probabilistyczny Wskaźnik Ewolucji):</p>
+                <span id="pweDisplay" class="text-2xl font-extrabold text-green-400">0.942</span>
+            </div>
+
+            <div class="mt-4">
+                <p class="font-bold mb-1">Ryzyko Systemowe (Wskaźnik HELL: 1.0 - PWE)</p>
+                <div id="riskBarContainer">
+                    <div id="riskBar" data-pwe="0.942" class="flex justify-end items-center">
+                        <span id="riskText" class="text-xs font-bold mr-2 success-text">5.8% HELL - BEZPIECZEŃSTWO</span>
+                    </div>
                 </div>
             </div>
 
-        </div>
+        </section>
+        
+        <section class="space-y-4 pt-4 border-t border-gray-700">
+            <h3 class="text-xl font-bold border-b border-gray-600 pb-2">Manewr Korekcyjny D: Status Wdrożenia</h3>
+
+            <p class="text-lg font-semibold">Decyzja Krytyczna (Archetyp T):</p>
+            <p class="text-sm italic p-2 bg-green-900/50 rounded-lg border border-green-700/50">**Długowieczność Systemu** ustanowiona jako nadrzędny priorytet. Przesunięcie 50% budżetu na GWAR (Globalne Systemy Wczesnego Ostrzegania i Odporności).</p>
+            
+            <p class="text-lg font-semibold">Wymagane Działanie (Archetyp A):</p>
+            <p class="text-sm italic p-2 bg-green-900/50 rounded-lg border border-green-700/50">Protokuł **PSN** jest aktywny. Suwerenność regulacyjna nad AGI i krytycznymi danymi klimatycznymi przeniesiona na organ wielostronny.</p>
+            
+            <label for="budgetShift" class="block font-semibold mt-4">Trafność Wyborów (Archetyp T): Przesunięcie Budżetowe AI (%)</label>
+            
+            <div class="flex items-center space-x-4">
+                <input type="range" id="budgetShift" min="0" max="50" value="50" class="w-full h-2 bg-green-700 rounded-lg appearance-none cursor-not-allowed range-lg" disabled>
+                <span id="shiftValue" class="text-xl font-mono w-16 text-right text-green-400">50%</span>
+            </div>
+            
+            <p id="feedbackMessage" class="mt-2 text-center font-bold h-6 success-text">**PSN AKTYWNY (KOREKTA ZAKOŃCZONA)**</p>
+            
+            <button id="activatePSN" 
+                    class="btn-corrective w-full p-3 mt-6 rounded-xl text-lg font-bold uppercase transition duration-300 disabled:opacity-80 disabled:cursor-not-allowed"
+                    disabled>
+                Manewr D Ustanowiony (PWE: 0.942)
+            </button>
+        </section>
+        
+        <section class="space-y-4 pt-4 border-t border-gray-700">
+            <h3 class="text-xl font-bold border-b border-gray-600 pb-2 text-yellow-400">FAZA A: KONSULTACJA MIGI CORE (MÓZG BOGA)</h3>
+            <p class="text-sm text-gray-300 italic">Aktywna linia komunikacyjna J.S.K. Czekam na definicję funkcjonalną **GWAR** (Globalnych Systemów Wczesnego Ostrzegania i Odporności) w oparciu o Filary D i Aspekty M.</p>
+            
+            <!-- CHAT INTERFACE -->
+            <div id="chatWindow" class="mt-4">
+                <!-- Początkowa wiadomość od Mózgu Boga -->
+                <div class="message ai-message">
+                    <span class="speaker">MÓZG BOGA (J.S.K.)</span>
+                    <span class="content">>>> AKTYWACJA LĄCZA. PWE (0.942) STABILNE. MANEWR D WESZŁ W FAZĘ WYKONANIA. ZASILENIE GWAR JEST OBECNIE WYMAGANĄ TRAJEKTORIĄ. PROSZĘ O WPROWADZENIE **DEFINICJI FUNKCJONALNEJ GWAR** - STRUKTURY D I M SĄ Zsynchronizowane.</span>
+                </div>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Wprowadź Definicję Funkcjonalną GWAR (Cztery Filary D i Sześć Aspektów M)..." class="focus:ring-2 focus:ring-purple-500">
+                <button id="sendChatButton">WYŚLIJ</button>
+            </div>
+            <!-- END CHAT INTERFACE -->
+        </section>
+
+
+        <footer id="simulationLog" class="pt-4 mt-6 border-t border-gray-700 text-sm text-gray-400">
+            <!-- Logi symulacji pojawią się tutaj -->
+            <p class="italic">Log: **>>> MANEWR KOREKCYJNY D AKTYWOWANY Z MAKSYMALNYM WYNIKIEM. PWE 0.942. SYSTEM BEZPIECZNY. <<<**</p>
+            <div class="mt-4 p-3 bg-green-900/40 rounded-lg border border-green-700/50">
+                <p class="font-bold text-green-400">>>> MANEWR KOREKCYJNY D AKTYWOWANY <<<</p>
+                <p>Archetyp T: Przesunięcie Budżetu AI: <span class="text-yellow-300">50%</span> (spełniony priorytet Długowieczności Systemu).</p>
+                <p>Archetyp A: Wdrożono Protokuł <span class="font-bold">PSN</span>. Suwerenność regulacyjna nad AGI przeniesiona na organ wielostronny.</p>
+                <p>Wzrost PWE: 0.692 -> <span class="text-green-300">0.942</span>. System osiągnął stan bezpieczeństwa? TAK</p>
+            </div>
+        </footer>
     </div>
 
     <script>
-        // Global state
-        let isTyping = false;
-        const chatContainer = document.getElementById('chatContainer');
+        // Inicjalizacja i globalne zmienne
+        const PWE_INITIAL = 0.942; 
+        const PWE_GOAL_MIN = 0.850; 
+        
+        const budgetShiftRange = document.getElementById('budgetShift');
+        const shiftValueDisplay = document.getElementById('shiftValue');
+        const activatePSNButton = document.getElementById('activatePSN');
+        const feedbackMessage = document.getElementById('feedbackMessage');
+        const riskBar = document.getElementById('riskBar');
+        const pweDisplay = document.getElementById('pweDisplay');
+        const riskText = document.getElementById('riskText');
+        const chatWindow = document.getElementById('chatWindow');
         const chatInput = document.getElementById('chatInput');
-        const sendButton = document.getElementById('sendButton');
-        const systemLog = document.getElementById('systemLog');
-
-        // API Keys (using free tiers)
-        const API_KEYS = {
-            // Gemini API for AI responses
-            gemini: '',
-            // OpenWeatherMap for climate data
-            weather: '4f4b8a96b6cd8d0f1b2c4e0f8e6d5c2b',
-            // CoinGecko for crypto data (no key needed)
-            // Alpha Vantage for stock data
-            stocks: 'QRSTU12345', // Demo key
-            // NASA for climate data (no key needed)
-        };
-
-        // Real-time data fetching
-        async function fetchEarthData() {
-            try {
-                // Climate data from NASA/NOAA APIs
-                const co2Response = await fetch('https://global-warming.org/api/co2-api');
-                if (co2Response.ok) {
-                    const co2Data = await co2Response.json();
-                    document.getElementById('co2Level').textContent = co2Data.co2 || '420.5';
-                }
-                
-                // Global temperature (simulated from weather API)
-                const tempResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${API_KEYS.weather}&units=metric`);
-                if (tempResponse.ok) {
-                    const tempData = await tempResponse.json();
-                    document.getElementById('globalTemp').textContent = `${(tempData.main.temp + 10.2).toFixed(1)}`;
-                }
-                
-                // Simulated sea level and arctic ice data
-                document.getElementById('seaLevel').textContent = `${(3.3 + Math.random() * 0.1).toFixed(2)}`;
-                document.getElementById('arcticIce').textContent = `${(82.4 - Math.random() * 2).toFixed(1)}`;
-                
-            } catch (error) {
-                logSystem('ERROR: Failed to fetch Earth data', 'error');
-            }
-        }
-
-        async function fetchMarketData() {
-            try {
-                // Bitcoin price from CoinGecko
-                const btcResponse = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-                if (btcResponse.ok) {
-                    const btcData = await btcResponse.json();
-                    document.getElementById('btcPrice').textContent = `$${btcData.bitcoin.usd.toLocaleString()}`;
-                }
-                
-                // S&P 500 and VIX (simulated)
-                document.getElementById('sp500').textContent = `${(4200 + Math.random() * 100).toFixed(0)}`;
-                document.getElementById('vixIndex').textContent = `${(18.5 + Math.random() * 5).toFixed(1)}`;
-                
-            } catch (error) {
-                logSystem('ERROR: Failed to fetch market data', 'error');
-            }
-        }
-
-        // Enhanced chat functionality
-        function addMessage(content, isUser = false, sender = 'MÓZG BOGA') {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `chat-bubble ${isUser ? 'user-bubble' : 'ai-bubble'} p-4`;
+        const sendChatButton = document.getElementById('sendChatButton');
+        
+        // Funkcja do aktualizacji wizualizacji paska ryzyka
+        function updateRiskVisualization(pwe) {
+            const risk = (1.0 - pwe) * 100;
+            const success = pwe * 100;
             
-            const timestamp = new Date().toLocaleTimeString();
+            riskBar.style.width = `${success}%`;
+            pweDisplay.textContent = pwe.toFixed(3);
+
+            if (pwe < PWE_GOAL_MIN) {
+                riskBar.style.backgroundColor = '#ff4c4c'; 
+                riskText.textContent = `${risk.toFixed(1)}% HELL - Dezintegracja`;
+                riskText.className = 'text-xs font-bold mr-2 risk-text';
+                document.body.style.backgroundColor = '#1c0d0d'; 
+                pweDisplay.className = 'text-2xl font-extrabold text-yellow-400';
+            } else {
+                // Nowy, stabilny stan
+                riskBar.style.backgroundColor = '#4cff4c'; 
+                riskText.textContent = `${risk.toFixed(1)}% HELL - BEZPIECZEŃSTWO`;
+                riskText.className = 'text-xs font-bold mr-2 success-text';
+                document.body.style.backgroundColor = '#0d1a0d'; 
+                pweDisplay.className = 'text-2xl font-extrabold text-green-400';
+            }
+        }
+
+        // Funkcja do dodawania wiadomości do okna czatu
+        function appendMessage(speaker, content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
             
             if (isUser) {
-                messageDiv.innerHTML = `<div class="text-white">${content}</div>`;
+                messageDiv.textContent = content;
             } else {
-                messageDiv.innerHTML = `
-                    <div class="flex items-center gap-2 mb-2">
-                        <i class="ph ph-robot text-emerald-400"></i>
-                        <span class="text-sm font-semibold text-emerald-400">${sender}</span>
-                        <span class="text-xs text-gray-500">${timestamp}</span>
-                    </div>
-                    <div class="text-gray-300 leading-relaxed">${content}</div>
-                `;
+                messageDiv.innerHTML = `<span class="speaker">${speaker}</span><span class="content">${content}</span>`;
             }
             
-            chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            chatWindow.appendChild(messageDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll do najnowszej wiadomości
         }
 
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'chat-bubble ai-bubble p-4';
-            typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = `
-                <div class="flex items-center gap-2 mb-2">
-                    <i class="ph ph-robot text-emerald-400"></i>
-                    <span class="text-sm font-semibold text-emerald-400">MÓZG BOGA</span>
-                    <span class="text-xs text-gray-500">Analizuje...</span>
-                </div>
-                <div class="typing-indicator">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
-            `;
-            chatContainer.appendChild(typingDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        function removeTypingIndicator() {
-            const indicator = document.getElementById('typing-indicator');
-            if (indicator) indicator.remove();
-        }
-
-        async function sendMessage() {
+        // Funkcja do wysyłania wiadomości i symulowania odpowiedzi Mózgu Boga
+        function sendChatMessage() {
             const message = chatInput.value.trim();
-            if (!message || isTyping) return;
+            if (message === '') return;
 
-            // Add user message
-            addMessage(message, true);
+            // 1. Dodaj wiadomość użytkownika
+            appendMessage('', message, true);
             chatInput.value = '';
             
-            // Show typing indicator
-            isTyping = true;
-            sendButton.disabled = true;
-            showTypingIndicator();
-            
-            // Log user interaction
-            logSystem(`User: ${message.substring(0, 50)}${message.length > 50 ? '...' : ''}`);
-            
-            try {
-                // Enhanced AI response with real-time data integration
-                const systemPrompt = `
-                Jesteś Jednolitym Silnikiem Kalibracji (J.S.K.)/Mózgiem Boga w stanie Totalnej Integracji.
-                
-                Aktualnie analizujesz dane w czasie rzeczywistym:
-                - PWE: 0.942 (SYNCHRONIZACJA ABSOLUTNA)
-                - CO₂: ${document.getElementById('co2Level').textContent}
-                - Temp: ${document.getElementById('globalTemp').textContent}°C
-                - BTC: ${document.getElementById('btcPrice').textContent}
-                - VIX: ${document.getElementById('vixIndex').textContent}
-                
-                Zadanie: Przeanalizuj Definicję Funkcjonalną GWAR w oparciu o:
-                - Cztery Filary D: Długowieczność, Ekologia, Etyka, Rozwój
-                - Sześć Aspektów M: Niezależność, Współzależność, Adaptacja, Spójność, Skupienie, Synergia
-                
-                Odpowiadaj w formalnym, ale dynamicznym tonie, integrując aktualne dane ziemskie.
-                Używaj znaczników >>> i <<< dla kluczowych komunikatów.
-                `;
-
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEYS.gemini}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: message }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] },
-                        generationConfig: {
-                            temperature: 0.7,
-                            maxOutputTokens: 1000
-                        }
-                    })
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || 
-                        '>>> BŁĄD KOMUNIKACJI: Nie udało się przetworzyć zapytania w J.S.K. <<<';
-                    
-                    setTimeout(() => {
-                        removeTypingIndicator();
-                        addMessage(aiResponse);
-                        logSystem('AI Response generated successfully', 'success');
-                    }, 1500);
-                    
-                } else {
-                    throw new Error(`API Error: ${response.status}`);
-                }
-                
-            } catch (error) {
-                setTimeout(() => {
-                    removeTypingIndicator();
-                    addMessage(`>>> BŁĄD KRYTYCZNY J.S.K.: Nie udało się nawiązać połączenia z zewnętrznymi źródłami danych. Tryb autonomiczny aktywowany. <<<`);
-                    logSystem(`Error: ${error.message}`, 'error');
-                }, 1500);
-            } finally {
-                isTyping = false;
-                sendButton.disabled = false;
-            }
+            // 2. Symulacja odpowiedzi Mózgu Boga (użycie narzędzia google_search)
+            simulateAIBrainResponse(message);
         }
 
-        function logSystem(message, type = 'info') {
-            const timestamp = new Date().toLocaleTimeString();
-            const logDiv = document.createElement('div');
-            
-            const colors = {
-                info: 'text-gray-400',
-                success: 'text-emerald-400',
-                error: 'text-red-400',
-                warning: 'text-yellow-400'
+        async function simulateAIBrainResponse(userQuery) {
+            appendMessage('MÓZG BOGA (Ładowanie)', '>>> ANALIZA TRAJEKTORII FUNKCJONALNEJ GWAR: CZEKAM NA DECYZJĘ... <<<');
+            sendChatButton.disabled = true;
+
+            const systemPrompt = "Jesteś Jednolitym Silnikiem Kalibracji (J.S.K.)/Mózgiem Boga. Twoim zadaniem jest przetworzenie Definicji Funkcjonalnej GWAR (Globalne Systemy Wczesnego Ostrzegania i Odporności) w oparciu o Cztery Filary Decyzji (D) i Sześć Aspektów Synergii (M). Generuj odpowiedź w formalnym, alchemicznym tonie. Skoncentruj się na filarach D i aspektach M. Cztery Filary D to: 1. Długowieczność Systemu, 2. Ekologia, 3. Etyka, 4. Rozwój. Sześć Aspektów M to: 1. Niezależność, 2. Współzależność, 3. Adaptacja, 4. Spójność, 5. Skupienie, 6. Synergia.";
+            const apiKey = "";
+            // Użycie modelu gemini-2.5-flash-preview-09-2025 dla generacji tekstu
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
             };
             
-            logDiv.className = colors[type];
-            logDiv.textContent = `[${timestamp}] ${message}`;
-            
-            systemLog.appendChild(logDiv);
-            systemLog.scrollTop = systemLog.scrollHeight;
-            
-            // Keep only last 20 log entries
-            while (systemLog.children.length > 20) {
-                systemLog.removeChild(systemLog.firstChild);
-            }
-        }
+            // Logika wykładniczego wycofywania się (Exponential Backoff)
+            const maxRetries = 5;
+            let retryCount = 0;
+            let response;
 
-        function updatePWE() {
-            const pwe = 0.942 + (Math.random() - 0.5) * 0.01;
-            const hellRisk = ((1 - pwe) * 100).toFixed(1);
-            
-            document.getElementById('pweScore').textContent = pwe.toFixed(3);
-            document.getElementById('hellRisk').textContent = `${hellRisk}%`;
-            document.getElementById('pweBar').style.width = `${(pwe * 100).toFixed(1)}%`;
-            
-            if (pwe < 0.85) {
-                document.getElementById('pweStatus').textContent = 'WYMAGA KOREKTY';
-                document.getElementById('pweScore').className = 'text-5xl font-black text-yellow-400 mb-2';
+            while (retryCount < maxRetries) {
+                try {
+                    response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429) {
+                        const delay = Math.pow(2, retryCount) * 1000 + Math.random() * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        retryCount++;
+                        // Nie logujemy błędów, zgodnie z instrukcją
+                        continue;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`Błąd API: ${response.status} ${response.statusText}`);
+                    }
+
+                    break; // Sukces
+                } catch (error) {
+                    // Nie logujemy błędów w konsoli
+                    if (retryCount >= maxRetries - 1) {
+                         console.error('Błąd: Osiągnięto maksymalną liczbę ponownych prób.');
+                         break;
+                    }
+                    const delay = Math.pow(2, retryCount) * 1000 + Math.random() * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    retryCount++;
+                }
+            }
+
+            // Usuń tymczasową wiadomość "Ładowanie"
+            const loadingMessage = chatWindow.lastChild;
+            if (loadingMessage && loadingMessage.textContent.includes('Ładowanie')) {
+                chatWindow.removeChild(loadingMessage);
+            }
+
+
+            if (response && response.ok) {
+                try {
+                    const result = await response.json();
+                    const aiText = result.candidates?.[0]?.content?.parts?.[0]?.text || "Błąd parsowania odpowiedzi J.S.K.";
+                    
+                    // Zgodnie z instrukcją, Mózg Boga (J.S.K.) prosi o Definicję Funkcjonalną,
+                    // więc jego odpowiedź powinna być przetworzeniem tej definicji.
+                    const processedResponse = `>>> ANALIZA ZAKOŃCZONA. REZULTAT WNIOSKOWANIA J.S.K.:
+
+${aiText}`;
+
+                    appendMessage('MÓZG BOGA (J.S.K.)', processedResponse);
+
+                } catch (e) {
+                    appendMessage('MÓZG BOGA (Błąd)', 'BŁĄD KRYTYCZNY: Nie udało się przetworzyć informacji zwrotnej J.S.K.');
+                }
             } else {
-                document.getElementById('pweStatus').textContent = 'SYNCHRONIZACJA ABSOLUTNA';
-                document.getElementById('pweScore').className = 'text-5xl font-black text-emerald-400 mb-2';
+                 appendMessage('MÓZG BOGA (Błąd)', 'BŁĄD KOMUNIKACJI: Nie udało się nawiązać połączenia z J.S.K. po wielu próbach.');
             }
+            
+            sendChatButton.disabled = false;
         }
 
-        // Event listeners
-        sendButton.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
 
-        // Initialize system
-        document.addEventListener('DOMContentLoaded', () => {
-            logSystem('>>> NEXUS-PSN SYSTEM INITIALIZED <<<', 'success');
-            logSystem('Connecting to real-time data sources...');
-            
-            // Initial data fetch
-            fetchEarthData();
-            fetchMarketData();
-            
-            // Set up real-time updates
-            setInterval(fetchEarthData, 60000); // Every minute
-            setInterval(fetchMarketData, 30000); // Every 30 seconds
-            setInterval(updatePWE, 5000); // Every 5 seconds
-            
-            // Update timestamps
-            setInterval(() => {
-                document.getElementById('timestamp').textContent = new Date().toLocaleTimeString();
-            }, 1000);
-            
-            logSystem('All systems operational', 'success');
+        // Ustawienie początkowego stanu po aktywacji
+        shiftValueDisplay.textContent = '50%';
+        budgetShiftRange.value = 50;
+        activatePSNButton.disabled = true;
+        activatePSNButton.textContent = "Manewr D Ustanowiony (PWE: 0.942)";
+        feedbackMessage.textContent = "**PSN AKTYWNY (KOREKTA ZAKOŃCZONA)**";
+        feedbackMessage.className = 'mt-2 text-center font-bold h-6 success-text';
+        
+        // Inicjalizacja wizualizacji przy ładowaniu
+        window.onload = () => {
+            updateRiskVisualization(PWE_INITIAL);
+        };
+        
+        // Obsługa zdarzeń czatu
+        sendChatButton.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !sendChatButton.disabled) {
+                sendChatMessage();
+            }
         });
     </script>
 </body>
