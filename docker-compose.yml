@@ -1,0 +1,96 @@
+version: "3.9"
+
+services:
+  # Unified Gateway
+  gateway:
+    build: 
+      context: .
+      dockerfile: Dockerfile.gateway
+    ports:
+      - "8800:8800"
+    environment:
+      - SVC_GOK_CORE=http://gok-core:8001
+      - SVC_MIGI_CORE=http://migi-core:8002
+      - SVC_HHU=http://hhu:8004
+      - SVC_MTA_QUEST=http://mta-quest:5000
+    depends_on:
+      - gok-core
+      - migi-core
+      - hhu
+      - mta-quest
+    volumes:
+      - ./workspace.json:/app/workspace.json
+    networks:
+      - mgus-network
+
+  # GOK Core Service  
+  gok-core:
+    build:
+      context: .
+      dockerfile: Dockerfile.service
+    command: python services/gok_core_service.py
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./services:/app/services
+      - ./migi_manifest.json:/app/migi_manifest.json:ro
+    networks:
+      - mgus-network
+
+  # MIGI Core Service
+  migi-core:
+    build:
+      context: .
+      dockerfile: Dockerfile.service  
+    command: python services/migi_core_service.py
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./services:/app/services
+    networks:
+      - mgus-network
+
+  # Hip-Hop Universe Service
+  hhu:
+    build:
+      context: .
+      dockerfile: Dockerfile.service
+    command: python services/hhu_service.py
+    ports:
+      - "8004:8004"
+    volumes:
+      - ./services:/app/services
+    networks:
+      - mgus-network
+
+  # MTA Quest (existing)
+  mta-quest:
+    build:
+      context: .
+      dockerfile: Dockerfile.mta
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    networks:
+      - mgus-network
+
+  # Portal (static files)
+  portal:
+    image: nginx:alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ./portal:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - gateway
+    networks:
+      - mgus-network
+
+networks:
+  mgus-network:
+    driver: bridge
+
+volumes:
+  mgus-data:
