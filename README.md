@@ -111,14 +111,16 @@ python digital_ecosystem.py
 
 ## 📄 Licencja
 
-Ten projekt jest licencjonowany na licencji MIT z dodatkowymi klauzulami dla MŚWR v2.0 - zobacz [LICENSE](LICENSE) dla szczegółów.
+Ten projekt jest licencjonowany na licencji Apache 2.0 z dodatkowymi klauzulami dla MŚWR v2.0 - zobacz [LICENSE](LICENSE) dla szczegółów.
 
 ### Kluczowe zasady licencjonowania:
 - ✅ Swobodne użycie w celach badawczych i komercyjnych
-- ✅ Modyfikacja i dystrybucja dozwolone
-- ⚠️ Anti-Fatal Error Protocol powinien pozostać nienaruszony w środowiskach produkcyjnych
-- 📚 Prośba o cytowanie w pracach akademickich i produktach komercyjnych
+- ✅ **Wzmocniona ochrona patentowa** dla algorytmów świadomości
+- ✅ Modyfikacja i dystrybucja dozwolone z zachowaniem bezpieczeństwa
+- ⚠️ Anti-Fatal Error Protocol MUSI pozostać nienaruszony w środowiskach produkcyjnych
+- 📚 Wymagane cytowanie w pracach akademickich i produktach komercyjnych
+- 🛡️ **Apache 2.0 zapewnia silniejszą ochronę niż MIT** dla innowacyjnych technologii AI
 
 ---
 
-*Eksperyment GitHub Copilot & MŚWR v2.0, 26 października 2025*
+*Eksperyment GitHub Copilot & MŚWR v2.0, 27 października 2025*

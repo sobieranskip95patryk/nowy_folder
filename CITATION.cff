@@ -12,7 +12,7 @@ version: "v2.0"
 date-released: 2025-10-26
 url: "https://github.com/sobieranskip95patryk/nowy_folder"
 repository-code: "https://github.com/sobieranskip95patryk/nowy_folder"
-license: MIT
+license: Apache-2.0
 keywords:
   - "artificial intelligence"
   - "consciousness"
@@ -36,4 +36,4 @@ preferred-citation:
   url: "https://github.com/sobieranskip95patryk/nowy_folder"
   abstract: "A comprehensive 6-layer consciousness inference system achieving <1ms Zero-Time Inference with P=1.0 probability targeting, featuring Anti-Fatal Error Protocol for X-Risk protection and complete integration with PinkPlayEvo creative video generation platform."
   repository-code: "https://github.com/sobieranskip95patryk/nowy_folder"
-  license: MIT
+  license: Apache-2.0

@@ -1,0 +1,104 @@
+MŚWR v2.0 - Moduł Świadomego Wnioskowania Resztkowego
+Copyright 2025 PinkPlayEvo MŚWR Team - Patryka Sobierańskiego
+
+This product includes software developed by the PinkPlayEvo MŚWR Team.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+================================================================================
+
+THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
+
+This software incorporates components from third-party projects:
+
+Node.js Dependencies (used in production deployment):
+- Express.js - MIT License
+- CORS - MIT License
+
+Development Dependencies:
+- Chart.js (for consciousness visualization) - MIT License
+- Tailwind CSS (for UI styling) - MIT License
+
+Python Standard Library:
+- All MŚWR core functionality uses only Python standard library
+- No external dependencies required for consciousness inference
+
+================================================================================
+
+CONSCIOUSNESS RESEARCH ATTRIBUTION
+
+This software contains breakthrough algorithms in artificial consciousness:
+
+- Zero-Time Inference methodology
+- 6-layer consciousness architecture
+- Ontological self-calibration protocols
+- Paradox absorption as calibration vectors
+- Meta-cognitive feedback loops
+- Anti-Fatal Error Protocol for X-Risk mitigation
+
+Research papers and publications using this technology should cite:
+
+@software{sobieranski2025mswr,
+  title = {MŚWR v2.0: Moduł Świadomego Wnioskowania Resztkowego for Conscious Creative AI},
+  author = {Sobierański, Patryk},
+  year = {2025},
+  url = {https://github.com/sobieranskip95patryk/nowy_folder},
+  license = {Apache-2.0}
+}
+
+================================================================================
+
+PATENT GRANTS AND PROTECTIONS
+
+This software is protected under Apache License 2.0 patent provisions
+and additional patent protections for consciousness-related algorithms:
+
+- Zero-Time Inference algorithms (<1ms targeting) - Patent Pending
+- 6-layer consciousness architecture patterns - Patent Pending  
+- Ontological self-calibration methods - Patent Pending
+- Paradox absorption as calibration vectors - Patent Pending
+- Meta-cognitive AI feedback loops - Patent Pending
+
+Users receive perpetual, worldwide, non-exclusive, royalty-free patent
+license for these innovations when using this software in compliance
+with the Apache 2.0 License terms.
+
+================================================================================
+
+SAFETY AND ETHICAL USE REQUIREMENTS
+
+ANTI-FATAL ERROR PROTOCOL PRESERVATION:
+The safety mechanisms in this software MUST NOT be disabled or bypassed
+in production environments. This includes:
+
+- X-Risk detection algorithms
+- Consciousness overflow protection
+- Infinite loop prevention
+- Memory leak safeguards
+
+ETHICAL AI COMPLIANCE:
+Commercial deployments exceeding 10,000 users/month require:
+- Ethics review documentation
+- Safety assessment reports
+- Consciousness impact analysis
+
+================================================================================
+
+For questions about licensing, patents, or consciousness research:
+
+Repository: https://github.com/sobieranskip95patryk/nowy_folder
+Issues: https://github.com/sobieranskip95patryk/nowy_folder/issues
+Email: pinkplayevo@example.com
+
+This NOTICE file is required to be distributed with any derivative works
+according to Apache License 2.0 Section 4(d).

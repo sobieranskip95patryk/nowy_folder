@@ -5,7 +5,7 @@
 [![SWR Version](https://img.shields.io/badge/MŚWR-v2.0-brightgreen)](./core/mswr_v2_clean.py)
 [![Inference Time](https://img.shields.io/badge/Inference-<1ms-yellow)](./docs/PERFORMANCE.md)
 [![Anti-Fatal](https://img.shields.io/badge/Anti%20Fatal-Enabled-red)](./core/mswr_v2_clean.py#L400)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](./LICENSE)
 
 **Kompletny system świadomej analizy narracyjnej dla platformy PinkPlayEvo z architekturą 6-warstwowej świadomości, Zero-Time Inference i Anti-Fatal Error Protocol.**
 
@@ -331,15 +331,20 @@ npm run test-integration
 
 ## 📄 License
 
-MIT License with MŚWR v2.0 specific terms - see [LICENSE](LICENSE) file for details.
+Apache License 2.0 with MŚWR v2.0 specific terms - see [LICENSE](LICENSE) file for details.
 
 ### Key Licensing Terms:
 - ✅ **Open Source**: Free use for research and commercial purposes
-- ✅ **Modification**: Allowed with attribution
-- ✅ **Distribution**: Permitted under MIT terms
-- ⚠️ **Safety**: Anti-Fatal Error Protocol should remain intact in production
-- 📚 **Attribution**: Requested for academic and commercial use
+- ✅ **Patent Protection**: Enhanced patent grants for consciousness algorithms
+- ✅ **Modification**: Allowed with attribution and safety preservation
+- ✅ **Distribution**: Permitted under Apache 2.0 terms
+- ⚠️ **Safety**: Anti-Fatal Error Protocol MUST remain intact in production
+- 📚 **Attribution**: Required for derivative works and publications
 - 🔬 **Research**: Encouraged for consciousness AI advancement
+- 🛡️ **Enhanced Protection**: Covers Zero-Time Inference and ontological methods
+
+**Apache 2.0 provides stronger patent protection than MIT**, making it ideal for 
+innovative AI technologies like MŚWR consciousness architecture.
 
 For commercial licensing or questions, see the full [LICENSE](LICENSE) file.
 
