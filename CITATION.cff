@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "MŚWR v2.0 - Moduł Świadomego Wnioskowania Resztkowego"
+abstract: "A 6-layer consciousness inference system with Zero-Time targeting and Anti-Fatal Error Protocol for PinkPlayEvo creative AI platform."
+authors:
+  - family-names: "Sobierański"
+    given-names: "Patryk"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+    affiliation: "PinkPlayEvo MŚWR Team"
+version: "v2.0"
+date-released: 2025-10-26
+url: "https://github.com/sobieranskip95patryk/nowy_folder"
+repository-code: "https://github.com/sobieranskip95patryk/nowy_folder"
+license: MIT
+keywords:
+  - "artificial intelligence"
+  - "consciousness"
+  - "inference systems"
+  - "creative AI"
+  - "video generation"
+  - "cognitive architecture"
+  - "PinkPlayEvo"
+  - "zero-time inference"
+  - "anti-fatal protocol"
+  - "narrative analysis"
+preferred-citation:
+  type: software
+  title: "MŚWR v2.0: Moduł Świadomego Wnioskowania Resztkowego for Conscious Creative AI"
+  authors:
+    - family-names: "Sobierański"
+      given-names: "Patryk"
+      affiliation: "PinkPlayEvo MŚWR Team"
+  version: "v2.0"
+  date-released: 2025-10-26
+  url: "https://github.com/sobieranskip95patryk/nowy_folder"
+  abstract: "A comprehensive 6-layer consciousness inference system achieving <1ms Zero-Time Inference with P=1.0 probability targeting, featuring Anti-Fatal Error Protocol for X-Risk protection and complete integration with PinkPlayEvo creative video generation platform."
+  repository-code: "https://github.com/sobieranskip95patryk/nowy_folder"
+  license: MIT

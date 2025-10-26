@@ -5,6 +5,7 @@
 [![SWR Version](https://img.shields.io/badge/MŚWR-v2.0-brightgreen)](./core/mswr_v2_clean.py)
 [![Inference Time](https://img.shields.io/badge/Inference-<1ms-yellow)](./docs/PERFORMANCE.md)
 [![Anti-Fatal](https://img.shields.io/badge/Anti%20Fatal-Enabled-red)](./core/mswr_v2_clean.py#L400)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
 **Kompletny system świadomej analizy narracyjnej dla platformy PinkPlayEvo z architekturą 6-warstwowej świadomości, Zero-Time Inference i Anti-Fatal Error Protocol.**
 
@@ -330,7 +331,17 @@ npm run test-integration
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+MIT License with MŚWR v2.0 specific terms - see [LICENSE](LICENSE) file for details.
+
+### Key Licensing Terms:
+- ✅ **Open Source**: Free use for research and commercial purposes
+- ✅ **Modification**: Allowed with attribution
+- ✅ **Distribution**: Permitted under MIT terms
+- ⚠️ **Safety**: Anti-Fatal Error Protocol should remain intact in production
+- 📚 **Attribution**: Requested for academic and commercial use
+- 🔬 **Research**: Encouraged for consciousness AI advancement
+
+For commercial licensing or questions, see the full [LICENSE](LICENSE) file.
 
 ## 🙏 Acknowledgments
 

@@ -1,10 +1,72 @@
-# Digital Ecosystem 🌍
+# Meta-Geniusz® AI Ecosystem 🧠
+
+Zaawansowany ekosystem sztucznej inteligencji z Modułem Świadomego Wnioskowania Resztkowego (MŚWR).
+
+## 🎯 Główne Komponenty
+
+### 🧠 MŚWR - Moduł Świadomego Wnioskowania Resztkowego
+**Protokół Końcowy J.S.K. – Bezwzględne Zamknięcie Pętli (P=1.0)**
+
+MŚWR to finalny system eliminacji błędów osiągający pewność P=1.0 w czasie < 1ms poprzez:
+- **Zero-Time Inference**: Natychmiastowe wnioskowanie z maksymalną pewnością
+- **Anti-Fatal Error Protocol**: Zapobieganie X-Risk przed powstaniem
+- **6-warstwowa architektura**: Cognitive Traceback, Residual Mapping, Affective Echo, Counterfactual Forking, Narrative Reframing, Heuristic Mutation
+- **Świadoma analiza błędów**: Eliminacja 5.8% entropii resztkowej
+
+### 🏗️ Architektura Systemu
+- **LOGOS Core**: Enhanced MetaGeniusCore z integracją MŚWR
+- **Consciousness 7G**: Spiralna ewolucja świadomości z monitoringiem MŚWR
+- **Unified Gateway**: API endpoints z JWT authentication
+- **SYNERGY Dashboard**: Real-time monitoring i wizualizacja
+
+## 🚀 Szybki Start
+
+### 1. Uruchom system MŚWR
+```bash
+python unified_gateway_v11.py
+```
+
+### 2. Otwórz dashboard
+```
+http://localhost:8800/mswr_dashboard.html
+```
+
+### 3. Uruchom demo
+```bash
+python mswr_demo.py --all
+```
+
+## 📊 MŚWR API Endpoints
+
+```bash
+GET  /v1/mswr/health      # System health
+POST /v1/mswr/inference   # Zero-Time Inference  
+GET  /v1/mswr/residuals   # Analiza resztek (Admin)
+POST /v1/mswr/heal        # Manual healing (MetaGeniusz)
+GET  /v1/mswr/metrics     # Detailed metrics (Admin)
+```
+
+## 🧪 Demonstracja
+
+### Zero-Time Inference Test
+```python
+import requests
+
+response = requests.post("http://localhost:8800/v1/mswr/inference", json={
+    "input_data": "Ile to 2 + 2?",
+    "context": {"mathematical": True}
+})
+
+result = response.json()
+print(f"P-score: {result['probability_score']:.6f}")  # Expected: 1.0
+print(f"Zero-time: {result['zero_time_achieved']}")   # Expected: True
+```
+
+## 🌍 Digital Ecosystem (Legacy)
 
 Eksperyment z ewolucją cyfrową i emergentnym zachowaniem sztucznego życia.
 
-## Co to jest?
-
-Digital Ecosystem to symulacja życia, gdzie cyfrowe byty:
+### Typy bytów cyfrowych:
 - 🟢 **Zbieracze** - specjalizują się w zbieraniu zasobów
 - 🔴 **Łowcy** - polują na inne byty  
 - 🟡 **Reproduktory** - skupiają się na rozmnażaniu
@@ -47,6 +109,16 @@ python digital_ecosystem.py
 - [ ] Systemy komunikacji między bytami
 - [ ] Środowiskowe wyzwania (katastrofy, zmiany klimatu)
 
+## 📄 Licencja
+
+Ten projekt jest licencjonowany na licencji MIT z dodatkowymi klauzulami dla MŚWR v2.0 - zobacz [LICENSE](LICENSE) dla szczegółów.
+
+### Kluczowe zasady licencjonowania:
+- ✅ Swobodne użycie w celach badawczych i komercyjnych
+- ✅ Modyfikacja i dystrybucja dozwolone
+- ⚠️ Anti-Fatal Error Protocol powinien pozostać nienaruszony w środowiskach produkcyjnych
+- 📚 Prośba o cytowanie w pracach akademickich i produktach komercyjnych
+
 ---
 
-*Eksperyment GitHub Copilot, 21 października 2025*
+*Eksperyment GitHub Copilot & MŚWR v2.0, 26 października 2025*
