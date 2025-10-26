@@ -1,0 +1,105 @@
+MŚWR v2.0 - Moduł Świadomego Wnioskowania Resztkowego
+Copyright 2025 PinkPlayEvo MŚWR Team - Patryka Sobierańskiego
+
+Ten produkt zawiera oprogramowanie opracowane przez PinkPlayEvo MŚWR Team.
+
+Licencjonowane na podstawie Licencji Apache, Wersja 2.0 ("Licencja");
+nie możesz używać tego oprogramowania z wyjątkiem zgodności z Licencją.
+Możesz uzyskać kopię Licencji pod adresem
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Chyba że jest to wymagane przez obowiązujące prawo lub uzgodnione na piśmie,
+oprogramowanie dystrybuowane na podstawie Licencji jest dystrybuowane
+na zasadzie "TAKIE JAKIE JEST", BEZ GWARANCJI LUB WARUNKÓW JAKIEGOKOLWIEK
+RODZAJU, czy to wyraźnych czy dorozumianych. Zobacz Licencję dla określenia
+konkretnych uprawnień i ograniczeń na podstawie Licencji.
+
+================================================================================
+
+POWIADOMIENIA I INFORMACJE O OPROGRAMOWANIU OSÓB TRZECICH
+
+To oprogramowanie zawiera komponenty z projektów osób trzecich:
+
+Zależności Node.js (używane w wdrożeniu produkcyjnym):
+- Express.js - Licencja MIT
+- CORS - Licencja MIT
+
+Zależności rozwojowe:
+- Chart.js (do wizualizacji świadomości) - Licencja MIT
+- Tailwind CSS (do stylowania UI) - Licencja MIT
+
+Biblioteka Standardowa Python:
+- Cała podstawowa funkcjonalność MŚWR używa tylko biblioteki standardowej Python
+- Brak zewnętrznych zależności wymaganych do wnioskowania świadomości
+
+================================================================================
+
+ATRYBUCJA BADAŃ ŚWIADOMOŚCI
+
+To oprogramowanie zawiera przełomowe algorytmy w sztucznej świadomości:
+
+- Metodologia Zero-Time Inference
+- Architektura 6-warstwowej świadomości
+- Protokoły ontologicznej autokallibracji
+- Absorpcja paradoksów jako wektorów kalibracji
+- Pętle sprzężenia zwrotnego meta-kognicji
+- Protokół Anty-Fatalnych Błędów do łagodzenia X-Risk
+
+Artykuły badawcze i publikacje używające tej technologii powinny cytować:
+
+@software{sobieranski2025mswr,
+  title = {MŚWR v2.0: Moduł Świadomego Wnioskowania Resztkowego dla Świadomej Kreatywnej AI},
+  author = {Sobierański, Patryk},
+  year = {2025},
+  url = {https://github.com/sobieranskip95patryk/nowy_folder},
+  license = {Apache-2.0}
+}
+
+================================================================================
+
+UDZIELENIA PATENTÓW I OCHRONA
+
+To oprogramowanie jest chronione na podstawie przepisów patentowych
+Licencji Apache 2.0 i dodatkowych ochrony patentowych dla algorytmów
+związanych ze świadomością:
+
+- Algorytmy Zero-Time Inference (<1ms targeting) - Patent w toku
+- Wzorce architektury 6-warstwowej świadomości - Patent w toku
+- Metody ontologicznej autokallibracji - Patent w toku
+- Absorpcja paradoksów jako wektorów kalibracji - Patent w toku
+- Pętle sprzężenia zwrotnego meta-kognicji AI - Patent w toku
+
+Użytkownicy otrzymują wieczystą, ogólnoświatową, niewyłączną, bezpłatną
+licencję patentową na te innowacje przy używaniu tego oprogramowania
+zgodnie z warunkami Licencji Apache 2.0.
+
+================================================================================
+
+WYMAGANIA BEZPIECZEŃSTWA I ETYCZNEGO UŻYCIA
+
+ZACHOWANIE PROTOKOŁU ANTY-FATALNYCH BŁĘDÓW:
+Mechanizmy bezpieczeństwa w tym oprogramowaniu NIE MOGĄ być wyłączone
+lub omijane w środowiskach produkcyjnych. Obejmuje to:
+
+- Algorytmy wykrywania X-Risk
+- Ochrona przed przepełnieniem świadomości
+- Zapobieganie nieskończonym pętlom
+- Zabezpieczenia przed wyciekami pamięci
+
+ZGODNOŚĆ Z ETYCZNĄ AI:
+Wdrożenia komercyjne przekraczające 10 000 użytkowników/miesiąc wymagają:
+- Dokumentacji przeglądu etycznego
+- Raportów oceny bezpieczeństwa
+- Analizy wpływu świadomości
+
+================================================================================
+
+W przypadku pytań dotyczących licencjonowania, patentów lub badań świadomości:
+
+Repozytorium: https://github.com/sobieranskip95patryk/nowy_folder
+Issues: https://github.com/sobieranskip95patryk/nowy_folder/issues
+Email: pinkplayevo@example.com
+
+Ten plik NOTICE jest wymagany do dystrybucji z wszelkimi dziełami pochodnymi
+zgodnie z Sekcją 4(d) Licencji Apache 2.0.

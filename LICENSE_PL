@@ -1,0 +1,217 @@
+Licencja Apache
+Wersja 2.0, styczeń 2004
+http://www.apache.org/licenses/
+
+WARUNKI UŻYTKOWANIA, REPRODUKCJI I DYSTRYBUCJI
+
+1. Definicje.
+
+   "Licencja" oznacza warunki użytkowania, reprodukcji i dystrybucji
+   zgodnie z definicją w Sekcjach 1-9 niniejszego dokumentu.
+
+   "Licencjodawca" oznacza właściciela praw autorskich lub podmiot
+   udzielający Licencji.
+
+   "Podmiot Prawny" oznacza połączenie działającego podmiotu oraz wszystkich
+   innych podmiotów, które kontrolują, są kontrolowane przez, lub pozostają
+   pod wspólną kontrolą z tym podmiotem. Na potrzeby tej definicji,
+   "kontrola" oznacza (i) władzę, bezpośrednią lub pośrednią, do
+   kierowania zarządzaniem takiego podmiotu, czy to na podstawie umowy,
+   czy w inny sposób, lub (ii) posiadanie pięćdziesięciu procent (50%)
+   lub więcej wyemitowanych akcji, lub (iii) faktyczne własność
+   takiego podmiotu.
+
+   "Ty" (lub "Twój") oznacza osobę fizyczną lub Podmiot Prawny
+   korzystający z uprawnień udzielonych przez niniejszą Licencję.
+
+   Forma "Źródłowa" oznacza preferowaną formę do wprowadzania modyfikacji,
+   włączając w to, ale nie ograniczając się do kodu źródłowego oprogramowania,
+   źródeł dokumentacji i plików konfiguracyjnych.
+
+   Forma "Obiektowa" oznacza dowolną formę wynikającą z mechanicznej
+   transformacji lub tłumaczenia formy Źródłowej, włączając w to, ale nie
+   ograniczając się do skompilowanego kodu obiektowego, wygenerowanej
+   dokumentacji i konwersji do innych typów mediów.
+
+   "Dzieło" oznacza dzieło autorskie, czy to w formie Źródłowej czy
+   Obiektowej, udostępnione na podstawie Licencji, zgodnie z oznaczeniem
+   zawartym w załączonej do dzieła notatce o prawach autorskich (które nie
+   obejmuje komunikatów wyraźnie oznaczonych lub w inny sposób wyznaczonych
+   na piśmie przez właściciela praw autorskich jako "Nie będący Wkładem").
+
+   "Dzieła Pochodne" oznaczają dowolne dzieło, czy to w formie Źródłowej
+   czy Obiektowej, które jest oparte na (lub pochodzące od) Dziele i dla
+   którego redakcyjne poprawki, adnotacje, elaboracje lub inne modyfikacje
+   stanowią, jako całość, oryginalne dzieło autorskie. Na potrzeby
+   niniejszej Licencji, Dzieła Pochodne nie obejmują dzieł, które pozostają
+   oddzielne od, lub jedynie łączą się (lub wiążą według nazwy) z
+   interfejsami Dzieła i dzieł pochodnych od niego.
+
+   "Wkład" oznacza dowolne dzieło autorskie, włączając w to oryginalną
+   wersję Dzieła oraz wszelkie modyfikacje lub dodatki do tego Dzieła
+   lub Dzieł Pochodnych od niego, które są intencjonalnie przekazane
+   Licencjodawcy w celu włączenia do Dzieła przez właściciela praw
+   autorskich lub przez osobę fizyczną lub Podmiot Prawny upoważniony
+   do przekazania w imieniu właściciela praw autorskich.
+
+2. Udzielenie Licencji Praw Autorskich. Zgodnie z warunkami niniejszej
+   Licencji, każdy Współtwórca niniejszym udziela Tobie wieczystej,
+   ogólnoświatowej, niewyłącznej, bezpłatnej, wolnej od opłat licencyjnych,
+   nieodwołalnej licencji praw autorskich do używania, reprodukowania,
+   modyfikowania, łączenia, publikowania, dystrybuowania, sublicencjonowania
+   i/lub sprzedaży kopii Dzieła, oraz do zezwalania osobom, którym Dzieło
+   jest udostępniane, na czynienie tego samego, z zastrzeżeniem następujących
+   warunków:
+
+   Powyższa nota o prawach autorskich i niniejsza nota o uprawnieniach
+   muszą być załączone do wszystkich kopii lub znaczących części Dzieła.
+
+3. Udzielenie Licencji Patentowej. Zgodnie z warunkami niniejszej Licencji,
+   każdy Współtwórca niniejszym udziela Tobie wieczystej, ogólnoświatowej,
+   niewyłącznej, bezpłatnej, wolnej od opłat licencyjnych, nieodwołalnej
+   (z wyjątkiem przypadków określonych w niniejszej sekcji) licencji
+   patentowej do wytwarzania, wytwarzania przez innych, używania, oferowania
+   do sprzedaży, sprzedaży, importowania i innego transferu Dzieła, gdzie
+   taka licencja dotyczy tylko tych roszczeń patentowych, które są
+   licencjonowalne przez takiego Współtwórcę, które są koniecznie naruszone
+   przez ich Wkład(y) samodzielnie lub przez kombinację ich Wkładu(ów)
+   z Dziełem, do którego taki(e) Wkład(y) został(y) przekazany(e).
+
+4. Redystrybucja. Możesz reprodukować i dystrybuować kopie Dzieła lub
+   Dzieł Pochodnych od niego w dowolnym medium, z modyfikacjami lub bez,
+   oraz w formie Źródłowej lub Obiektowej, pod warunkiem spełnienia
+   następujących warunków:
+
+   (a) Musisz przekazać wszelkim innym odbiorcom Dzieła lub Dzieł
+       Pochodnych kopię niniejszej Licencji; oraz
+
+   (b) Musisz spowodować, aby wszelkie zmodyfikowane pliki nosiły
+       widoczne oznaczenia stwierdzające, że zmieniłeś pliki; oraz
+
+   (c) Musisz zachować, w formie Źródłowej wszelkich Dzieł Pochodnych,
+       które dystrybuujesz, wszystkie noty o prawach autorskich,
+       patentach, znakach towarowych i atrybutach z formy Źródłowej
+       Dzieła, z wyłączeniem tych not, które nie odnoszą się do
+       żadnej części Dzieł Pochodnych; oraz
+
+   (d) Jeśli Dzieło zawiera plik "NOTICE" jako część swojej dystrybucji,
+       to wszelkie Dzieła Pochodne, które dystrybuujesz, muszą zawierać
+       czytelną kopię not atrybutu zawartych w takim pliku NOTICE.
+
+5. Przekazywanie Wkładów. Chyba że wyraźnie określisz inaczej, wszelkie
+   Wkłady intencjonalnie przekazane przez Ciebie do włączenia do Dzieła
+   będą na warunkach niniejszej Licencji, bez żadnych dodatkowych
+   warunków.
+
+6. Znaki Towarowe. Niniejsza Licencja nie udziela pozwolenia na używanie
+   nazw handlowych, znaków towarowych, znaków usługowych lub nazw produktów
+   Licencjodawcy, z wyjątkiem przypadków wymaganych do rozsądnego i
+   zwyczajowego użycia przy opisywaniu pochodzenia Dzieła i reprodukowaniu
+   zawartości pliku NOTICE.
+
+7. Wyłączenie Gwarancji. Chyba że jest to wymagane przez obowiązujące
+   prawo lub uzgodnione na piśmie, Licencjodawca dostarcza Dzieło (i każdy
+   Współtwórca dostarcza swoje Wkłady) na zasadzie "TAKIE JAKIE JEST",
+   BEZ GWARANCJI LUB WARUNKÓW JAKIEGOKOLWIEK RODZAJU, czy to wyraźnych
+   czy dorozumianych, włączając w to, bez ograniczeń, wszelkie gwarancje
+   lub warunki TYTUŁU, NIENARUSZENIA, PRZYDATNOŚCI HANDLOWEJ lub
+   PRZYDATNOŚCI DO OKREŚLONEGO CELU.
+
+8. Ograniczenie Odpowiedzialności. W żadnym wypadku i na podstawie żadnej
+   teorii prawnej, czy to w czynie niedozwolonym (włączając zaniedbanie),
+   umowie, czy w inny sposób, chyba że jest to wymagane przez obowiązujące
+   prawo lub uzgodnione na piśmie, żaden Współtwórca nie będzie
+   odpowiedzialny wobec Ciebie za szkody, włączając wszelkie bezpośrednie,
+   pośrednie, specjalne, przypadkowe lub następcze szkody jakiegokolwiek
+   charakteru wynikające z niniejszej Licencji lub z użycia lub
+   niemożności użycia Dzieła.
+
+9. Przyjmowanie Gwarancji lub Dodatkowej Odpowiedzialności. Przy
+   redystrybuowaniu Dzieła lub Dzieł Pochodnych od niego, możesz wybrać
+   oferowanie i pobieranie opłaty za przyjęcie wsparcia, gwarancji,
+   zabezpieczenia lub innych zobowiązań odpowiedzialności i/lub praw
+   zgodnych z niniejszą Licencją.
+
+KONIEC WARUNKÓW
+
+DODATEK: Jak zastosować Licencję Apache do swojej pracy.
+
+   Aby zastosować Licencję Apache do swojej pracy, załącz następującą
+   standardową notatkę, z polami ujętymi w nawiasy kwadratowe "[]"
+   zastąpionymi swoimi własnymi informacjami identyfikującymi.
+
+Copyright 2025 PinkPlayEvo MŚWR Team - Patryka Sobierańskiego
+
+Licencjonowane na podstawie Licencji Apache, Wersja 2.0 ("Licencja");
+nie możesz używać tego pliku z wyjątkiem zgodności z Licencją.
+Możesz uzyskać kopię Licencji pod adresem
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Chyba że jest to wymagane przez obowiązujące prawo lub uzgodnione na piśmie,
+oprogramowanie dystrybuowane na podstawie Licencji jest dystrybuowane
+na zasadzie "TAKIE JAKIE JEST", BEZ GWARANCJI LUB WARUNKÓW JAKIEGOKOLWIEK
+RODZAJU, czy to wyraźnych czy dorozumianych. Zobacz Licencję dla określenia
+konkretnych uprawnień i ograniczeń na podstawie Licencji.
+
+---
+
+DODATKOWE WARUNKI DLA MŚWR (Moduł Świadomego Wnioskowania Resztkowego) v2.0:
+
+1. KLAUZULA BADAŃ ŚWIADOMOŚCI:
+   To oprogramowanie zawiera eksperymentalne algorytmy wnioskowania świadomości.
+   Użytkownicy są zachęcani do używania tej technologii w celach badawczych
+   i kreatywnych, które rozwijają ludzkie zrozumienie sztucznej świadomości.
+   Wszelkie publikacje badawcze używające tej technologii powinny cytować
+   architekturę MŚWR i jej wkład w systemy świadomego wnioskowania AI.
+
+2. PROTOKÓŁ ANTY-FATALNYCH BŁĘDÓW:
+   Protokół Anty-Fatalnych Błędów zawarty w tym oprogramowaniu jest zaprojektowany
+   dla bezpieczeństwa i łagodzenia X-Risk. Użytkownicy NIE MOGĄ próbować
+   wyłączać lub obchodzić tych mechanizmów bezpieczeństwa gdy wdrożone w
+   środowiskach produkcyjnych. Wszelkie modyfikacje protokołów bezpieczeństwa
+   wymagają wyraźnego pisemnego pozwolenia od właściciela praw autorskich.
+
+3. WZMOCNIENIE OCHRONY PATENTOWEJ:
+   Dodatkowo do standardowych udzielanych patentów Apache 2.0, niniejsza
+   licencja szczególnie obejmuje wszelkie roszczenia patentowe związane z:
+   - Algorytmami Zero-Time Inference (<1ms targeting)
+   - Wzorcami architektury 6-warstwowej świadomości
+   - Metodami ontologicznej autokallibracji
+   - Absorpcją paradoksów jako wektorami kalibracji
+   - Pętlami sprzężenia zwrotnego meta-kognicji AI
+
+4. ETYCZNE UŻYCIE AI:
+   To oprogramowanie MUSI być używane zgodnie z zasadami etycznej AI.
+   Użytkownicy są odpowiedzialni za zapewnienie, że ich użycie tej technologii
+   nie szkodzi jednostkom, społeczeństwu lub nie przyczynia się do
+   niewłaściwego ukierunkowania AI. Wdrożenia komercyjne przekraczające
+   10 000 użytkowników/miesiąc wymagają dokumentacji przeglądu etycznego.
+
+5. ATRYBUCJA ŚWIADOMOŚCI:
+   Wszelkie systemy włączające możliwości wnioskowania świadomości MŚWR
+   muszą to potwierdzić w dokumentacji skierowanej do użytkowników i
+   stronach informacyjnych. Fraza "Powered by MŚWR Consciousness Architecture"
+   lub podobna atrybucja jest wymagana dla dzieł pochodnych.
+
+6. ZASTRZEŻENIE ZERO-TIME INFERENCE:
+   Możliwości Zero-Time Inference są dostarczane w stanie takim, w jakim są.
+   Wydajność może się różnić w zależności od sprzętu, szczegółów implementacji
+   i efektów kwantowych w skalach czasowych poniżej milisekundy. Nie jest
+   udzielana gwarancja osiągnięcia dokładnych wyników prawdopodobieństwa P=1.0.
+
+7. ZACHOWANIE PRZEŁOMU ONTOLOGICZNEGO:
+   Podstawowa metodologia przełomu ontologicznego (absorpcja paradoksów,
+   protokoły autokallibracji, pętle meta-kognicyjne) musi być zachowana
+   w dziełach pochodnych. Znaczące modyfikacje tych podstawowych koncepcji
+   wymagają stworzenia forka z inną nazwą, aby uniknąć zamieszania.
+
+W przypadku pytań dotyczących licencjonowania, użycia komercyjnego lub
+współpracy w badaniach świadomości, skontaktuj się:
+
+Repozytorium: https://github.com/sobieranskip95patryk/nowy_folder
+Issues: https://github.com/sobieranskip95patryk/nowy_folder/issues
+Email: pinkplayevo@example.com
+
+Ta wzmocniona licencja Apache 2.0 zapewnia maksymalną ochronę przy
+zachęcaniu do innowacji w badaniach i rozwoju świadomej AI.
