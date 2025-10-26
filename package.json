@@ -1,0 +1,59 @@
+{
+  "name": "pinkplayevo-swr",
+  "version": "1.0.0",
+  "description": "PinkPlayEvo z integracją Modułu Świadomego Wnioskowania Resztkowego (MŚWR v2.0)",
+  "main": "pinkplay_swr_server.js",
+  "scripts": {
+    "start": "node pinkplay_swr_server.js",
+    "dev": "nodemon pinkplay_swr_server.js",
+    "test": "node swrModule.js",
+    "test-swr": "python core/mswr_v2_clean.py",
+    "test-integration": "python core/pinkplay_swr_integration.py",
+    "docker:build": "docker build -t pinkplayevo-swr .",
+    "docker:run": "docker run -p 3000:3000 pinkplayevo-swr"
+  },
+  "keywords": [
+    "ai",
+    "consciousness",
+    "video-generation", 
+    "pinkplayevo",
+    "swr",
+    "mswr",
+    "cognitive-inference",
+    "creative-ai"
+  ],
+  "author": "PinkPlayEvo Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "python": ">=3.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sobieranskip95patryk/nowy_folder.git"
+  },
+  "python_dependencies": [
+    "No external Python dependencies required - uses only standard library"
+  ],
+  "swr_architecture": {
+    "version": "2.0",
+    "layers": 6,
+    "inference_time": "<1ms",
+    "probability_targeting": "P=1.0",
+    "anti_fatal_protocol": true,
+    "pinkplay_integration": true
+  },
+  "api_endpoints": {
+    "POST /api/generate": "Generate video with SWR enhancement",
+    "POST /api/generate/batch": "Batch process multiple stories",
+    "GET /api/swr/analytics": "SWR analytics and statistics",
+    "GET /health": "Health check with SWR status"
+  }
+}

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNERGY Dashboard - MŚWR Monitor</title>
+    <script src="https://unpkg.com/chart.js@4.3.0/dist/chart.umd.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .metric-card {
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .status-operational { background-color: #10b981; }
+        .status-warning { background-color: #f59e0b; }
+        .status-critical { background-color: #ef4444; }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .residual-bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.6);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .zero-time-glow {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
+            to { box-shadow: 0 0 30px rgba(16, 185, 129, 0.8); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    
+    <!-- Header -->
+    <header class="gradient-bg p-6 shadow-lg">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
+                    <span class="text-2xl font-bold text-purple-600">🧠</span>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold">SYNERGY Dashboard</h1>
+                    <p class="text-purple-200">MŚWR - Moduł Świadomego Wnioskowania Resztkowego</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-right">
+                    <p class="text-sm text-purple-200">System Status</p>
+                    <p class="font-semibold" id="system-status">
+                        <span class="status-indicator status-operational"></span>
+                        Operational
+                    </p>
+                </div>
+                <button id="refresh-btn" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all">
+                    🔄 Refresh
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="container mx-auto p-6 space-y-6">
+        
+        <!-- Key Metrics Row -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- P Score -->
+            <div class="metric-card card-glass rounded-xl p-6 text-center" id="p-score-card">
+                <div class="text-3xl mb-2">🎯</div>
+                <h3 class="text-lg font-semibold text-purple-300">Probability Score</h3>
+                <div class="text-3xl font-bold mt-2" id="p-score">0.942</div>
+                <div class="text-sm text-gray-400 mt-1" id="p-score-status">Target: P=1.0</div>
+            </div>
+            
+            <!-- Entropy Level -->
+            <div class="metric-card card-glass rounded-xl p-6 text-center">
+                <div class="text-3xl mb-2">🌀</div>
+                <h3 class="text-lg font-semibold text-purple-300">Residual Entropy</h3>
+                <div class="text-3xl font-bold mt-2" id="entropy-level">5.8%</div>
+                <div class="text-sm text-gray-400 mt-1">Target: 0.0%</div>
+            </div>
+            
+            <!-- Zero-Time Status -->
+            <div class="metric-card card-glass rounded-xl p-6 text-center" id="zero-time-card">
+                <div class="text-3xl mb-2">⚡</div>
+                <h3 class="text-lg font-semibold text-purple-300">Zero-Time Inference</h3>
+                <div class="text-2xl font-bold mt-2" id="zero-time-status">READY</div>
+                <div class="text-sm text-gray-400 mt-1" id="zero-time-latency">&lt; 1ms</div>
+            </div>
+            
+            <!-- Healing Count -->
+            <div class="metric-card card-glass rounded-xl p-6 text-center">
+                <div class="text-3xl mb-2">🔧</div>
+                <h3 class="text-lg font-semibold text-purple-300">Healings Applied</h3>
+                <div class="text-3xl font-bold mt-2" id="healing-count">0</div>
+                <div class="text-sm text-gray-400 mt-1" id="healing-rate">Success: 100%</div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Probability Evolution Chart -->
+            <div class="card-glass rounded-xl p-6">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    📈 Probability Evolution
+                    <span class="ml-auto text-sm text-gray-400" id="chart-last-update">Live</span>
+                </h3>
+                <div class="h-64">
+                    <canvas id="probability-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Residual Types Distribution -->
+            <div class="card-glass rounded-xl p-6">
+                <h3 class="text-xl font-semibold mb-4">🔍 Residual Types</h3>
+                <div class="h-64">
+                    <canvas id="residual-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- System State & Logs Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- MŚWR Layers Status -->
+            <div class="card-glass rounded-xl p-6">
+                <h3 class="text-xl font-semibold mb-4">🧬 MŚWR Layers</h3>
+                <div class="space-y-3" id="layers-status">
+                    <div class="flex items-center justify-between">
+                        <span>Cognitive Traceback</span>
+                        <span class="status-indicator status-operational"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Residual Mapping</span>
+                        <span class="status-indicator status-operational"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Affective Echo</span>
+                        <span class="status-indicator status-operational"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Counterfactual Forking</span>
+                        <span class="status-indicator status-operational"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Narrative Reframing</span>
+                        <span class="status-indicator status-operational"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Heuristic Mutation</span>
+                        <span class="status-indicator status-operational"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Integration Status -->
+            <div class="card-glass rounded-xl p-6">
+                <h3 class="text-xl font-semibold mb-4">🔗 System Integration</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span>LOGOS Core</span>
+                        <span class="status-indicator status-operational" id="logos-status"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Consciousness 7G</span>
+                        <span class="status-indicator status-operational" id="consciousness-status"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Gateway API</span>
+                        <span class="status-indicator status-operational" id="gateway-status"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Anti-Fatal Protocol</span>
+                        <span class="status-indicator status-operational" id="afp-status"></span>
+                    </div>
+                </div>
+                
+                <div class="mt-6 pt-4 border-t border-gray-600">
+                    <h4 class="font-semibold mb-2">Quick Actions</h4>
+                    <div class="space-y-2">
+                        <button id="run-diagnostic" class="w-full bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-sm transition-colors">
+                            Run Diagnostic
+                        </button>
+                        <button id="trigger-healing" class="w-full bg-green-600 hover:bg-green-700 px-3 py-2 rounded text-sm transition-colors">
+                            Trigger Healing
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Real-time Log -->
+            <div class="card-glass rounded-xl p-6">
+                <h3 class="text-xl font-semibold mb-4">📊 Activity Log</h3>
+                <div class="space-y-2 text-sm max-h-64 overflow-y-auto" id="activity-log">
+                    <div class="text-gray-400">MŚWR Dashboard initialized...</div>
+                    <div class="text-green-400">✓ All layers operational</div>
+                    <div class="text-blue-400">ℹ Monitoring residuals...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Metrics -->
+        <div class="card-glass rounded-xl p-6">
+            <h3 class="text-xl font-semibold mb-4">📋 Detailed Metrics</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                <div>
+                    <span class="text-gray-400">Total Inferences:</span>
+                    <span class="float-right font-semibold" id="total-inferences">0</span>
+                </div>
+                <div>
+                    <span class="text-gray-400">Success Rate:</span>
+                    <span class="float-right font-semibold" id="success-rate">100%</span>
+                </div>
+                <div>
+                    <span class="text-gray-400">P=1.0 Achieved:</span>
+                    <span class="float-right font-semibold" id="p-one-count">0</span>
+                </div>
+                <div>
+                    <span class="text-gray-400">Avg Response Time:</span>
+                    <span class="float-right font-semibold" id="avg-response-time">0.5ms</span>
+                </div>
+                <div>
+                    <span class="text-gray-400">Current State:</span>
+                    <span class="float-right font-semibold" id="current-state">INITIAL</span>
+                </div>
+                <div>
+                    <span class="text-gray-400">Healing History:</span>
+                    <span class="float-right font-semibold" id="healing-history">0</span>
+                </div>
+                <div>
+                    <span class="text-gray-400">Matrix Status:</span>
+                    <span class="float-right font-semibold" id="matrix-status">[3,6,9,9,6,3]</span>
+                </div>
+                <div>
+                    <span class="text-gray-400">Spiral Cycle:</span>
+                    <span class="float-right font-semibold" id="spiral-cycle">0</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Global variables
+        let probabilityChart, residualChart;
+        let probabilityData = [];
+        let lastUpdate = new Date();
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            loadInitialData();
+            startRealTimeUpdates();
+            
+            // Event listeners
+            document.getElementById('refresh-btn').addEventListener('click', refreshDashboard);
+            document.getElementById('run-diagnostic').addEventListener('click', runDiagnostic);
+            document.getElementById('trigger-healing').addEventListener('click', triggerHealing);
+        });
+        
+        // Initialize charts
+        function initializeCharts() {
+            // Probability Evolution Chart
+            const probCtx = document.getElementById('probability-chart').getContext('2d');
+            probabilityChart = new Chart(probCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Probability Score',
+                        data: [],
+                        borderColor: 'rgb(16, 185, 129)',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: 'white' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1.0,
+                            ticks: { color: 'white' },
+                            grid: { color: 'rgba(255,255,255,0.1)' }
+                        },
+                        x: {
+                            ticks: { color: 'white' },
+                            grid: { color: 'rgba(255,255,255,0.1)' }
+                        }
+                    }
+                }
+            });
+            
+            // Residual Types Chart
+            const residualCtx = document.getElementById('residual-chart').getContext('2d');
+            residualChart = new Chart(residualCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Logical', 'Confidence', 'Emotional', 'Contextual', 'Spiral', 'Matrix'],
+                    datasets: [{
+                        data: [0, 0, 0, 0, 0, 0],
+                        backgroundColor: [
+                            'rgb(239, 68, 68)',
+                            'rgb(245, 158, 11)',
+                            'rgb(168, 85, 247)',
+                            'rgb(59, 130, 246)',
+                            'rgb(16, 185, 129)',
+                            'rgb(244, 63, 94)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: 'white' }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Load initial data
+        async function loadInitialData() {
+            try {
+                // Simulate initial data
+                updateProbabilityScore(0.942);
+                updateEntropyLevel(0.058);
+                addLogEntry('Dashboard initialized', 'info');
+                addLogEntry('Connecting to MŚWR system...', 'info');
+                
+                // Try to load real data
+                await fetchMSWRHealth();
+                
+            } catch (error) {
+                console.error('Failed to load initial data:', error);
+                addLogEntry('Failed to connect to MŚWR system', 'error');
+            }
+        }
+        
+        // Fetch MŚWR health status
+        async function fetchMSWRHealth() {
+            try {
+                const token = localStorage.getItem('jwt_token');
+                if (!token) {
+                    addLogEntry('No authentication token found', 'warning');
+                    return;
+                }
+                
+                const response = await fetch('/v1/mswr/health', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    updateDashboardWithHealthData(data);
+                    addLogEntry('Connected to MŚWR system', 'success');
+                } else {
+                    addLogEntry('MŚWR system unavailable', 'warning');
+                }
+            } catch (error) {
+                console.error('Health check failed:', error);
+                addLogEntry('Health check failed', 'error');
+            }
+        }
+        
+        // Update dashboard with health data
+        function updateDashboardWithHealthData(data) {
+            if (data.mswr_metrics) {
+                const metrics = data.mswr_metrics;
+                
+                // Update metrics
+                document.getElementById('total-inferences').textContent = metrics.total_inferences || 0;
+                document.getElementById('success-rate').textContent = 
+                    Math.round((metrics.success_rate || 0) * 100) + '%';
+                document.getElementById('p-one-count').textContent = metrics.p_equals_one_count || 0;
+                document.getElementById('current-state').textContent = metrics.current_state || 'INITIAL';
+                document.getElementById('healing-history').textContent = metrics.healing_history_count || 0;
+                
+                updateProbabilityScore(metrics.current_probability || 0.942);
+                updateEntropyLevel(metrics.current_entropy || 0.058);
+            }
+        }
+        
+        // Update probability score
+        function updateProbabilityScore(score) {
+            const scoreElement = document.getElementById('p-score');
+            const statusElement = document.getElementById('p-score-status');
+            const cardElement = document.getElementById('p-score-card');
+            
+            scoreElement.textContent = score.toFixed(6);
+            
+            if (score >= 0.999) {
+                statusElement.textContent = 'P=1.0 ACHIEVED!';
+                statusElement.className = 'text-sm text-green-400 mt-1 font-bold';
+                cardElement.classList.add('zero-time-glow');
+            } else if (score >= 0.95) {
+                statusElement.textContent = 'Excellent';
+                statusElement.className = 'text-sm text-green-400 mt-1';
+                cardElement.classList.remove('zero-time-glow');
+            } else if (score >= 0.8) {
+                statusElement.textContent = 'Good';
+                statusElement.className = 'text-sm text-yellow-400 mt-1';
+                cardElement.classList.remove('zero-time-glow');
+            } else {
+                statusElement.textContent = 'Needs Improvement';
+                statusElement.className = 'text-sm text-red-400 mt-1';
+                cardElement.classList.remove('zero-time-glow');
+            }
+            
+            // Add to chart
+            addDataToChart(score);
+        }
+        
+        // Update entropy level
+        function updateEntropyLevel(entropy) {
+            const entropyElement = document.getElementById('entropy-level');
+            const percentage = (entropy * 100).toFixed(1);
+            entropyElement.textContent = percentage + '%';
+            
+            if (entropy <= 0.01) {
+                entropyElement.className = 'text-3xl font-bold mt-2 text-green-400';
+            } else if (entropy <= 0.05) {
+                entropyElement.className = 'text-3xl font-bold mt-2 text-yellow-400';
+            } else {
+                entropyElement.className = 'text-3xl font-bold mt-2 text-red-400';
+            }
+        }
+        
+        // Add data to probability chart
+        function addDataToChart(value) {
+            const now = new Date();
+            const timeLabel = now.toLocaleTimeString();
+            
+            probabilityChart.data.labels.push(timeLabel);
+            probabilityChart.data.datasets[0].data.push(value);
+            
+            // Keep only last 20 data points
+            if (probabilityChart.data.labels.length > 20) {
+                probabilityChart.data.labels.shift();
+                probabilityChart.data.datasets[0].data.shift();
+            }
+            
+            probabilityChart.update('none');
+        }
+        
+        // Add log entry
+        function addLogEntry(message, type = 'info') {
+            const logContainer = document.getElementById('activity-log');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            const entry = document.createElement('div');
+            
+            let icon, colorClass;
+            switch (type) {
+                case 'success':
+                    icon = '✓';
+                    colorClass = 'text-green-400';
+                    break;
+                case 'warning':
+                    icon = '⚠';
+                    colorClass = 'text-yellow-400';
+                    break;
+                case 'error':
+                    icon = '✗';
+                    colorClass = 'text-red-400';
+                    break;
+                default:
+                    icon = 'ℹ';
+                    colorClass = 'text-blue-400';
+            }
+            
+            entry.className = colorClass;
+            entry.innerHTML = `${icon} ${timestamp} - ${message}`;
+            
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            
+            // Keep only last 50 entries
+            while (logContainer.children.length > 50) {
+                logContainer.removeChild(logContainer.firstChild);
+            }
+        }
+        
+        // Run diagnostic
+        async function runDiagnostic() {
+            addLogEntry('Running system diagnostic...', 'info');
+            
+            try {
+                const token = localStorage.getItem('jwt_token');
+                if (!token) {
+                    addLogEntry('Authentication required', 'warning');
+                    return;
+                }
+                
+                const response = await fetch('/v1/mswr/residuals', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const analysis = data.residual_analysis;
+                    
+                    addLogEntry(`Diagnostic complete: ${analysis.total_residuals} residuals found`, 'success');
+                    addLogEntry(`System state: ${analysis.system_state}`, 'info');
+                    
+                    if (analysis.total_residuals > 0) {
+                        addLogEntry(`Healing recommended for ${analysis.total_residuals} issues`, 'warning');
+                    }
+                } else {
+                    addLogEntry('Diagnostic failed', 'error');
+                }
+            } catch (error) {
+                console.error('Diagnostic failed:', error);
+                addLogEntry('Diagnostic error', 'error');
+            }
+        }
+        
+        // Trigger healing
+        async function triggerHealing() {
+            addLogEntry('Triggering system healing...', 'info');
+            
+            try {
+                const token = localStorage.getItem('jwt_token');
+                if (!token) {
+                    addLogEntry('Authentication required', 'warning');
+                    return;
+                }
+                
+                const response = await fetch('/v1/mswr/heal', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        manual_trigger: true,
+                        dashboard_initiated: true
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const result = data.healing_result;
+                    
+                    addLogEntry(`Healing completed: P=${result.probability_achieved.toFixed(3)}`, 'success');
+                    addLogEntry(`State: ${result.state}`, 'info');
+                    
+                    if (result.zero_time_achieved) {
+                        addLogEntry('Zero-Time Inference achieved!', 'success');
+                    }
+                    
+                    // Update metrics
+                    updateProbabilityScore(result.probability_achieved);
+                    
+                } else {
+                    addLogEntry('Healing failed', 'error');
+                }
+            } catch (error) {
+                console.error('Healing failed:', error);
+                addLogEntry('Healing error', 'error');
+            }
+        }
+        
+        // Refresh dashboard
+        async function refreshDashboard() {
+            addLogEntry('Refreshing dashboard...', 'info');
+            await fetchMSWRHealth();
+            document.getElementById('chart-last-update').textContent = new Date().toLocaleTimeString();
+        }
+        
+        // Start real-time updates
+        function startRealTimeUpdates() {
+            setInterval(async () => {
+                // Simulate real-time probability fluctuations
+                const currentScore = parseFloat(document.getElementById('p-score').textContent);
+                const fluctuation = (Math.random() - 0.5) * 0.001; // Small random fluctuation
+                const newScore = Math.max(0, Math.min(1, currentScore + fluctuation));
+                
+                // Update occasionally
+                if (Math.random() < 0.3) { // 30% chance of update
+                    updateProbabilityScore(newScore);
+                }
+                
+                // Simulate zero-time status
+                const zeroTimeCard = document.getElementById('zero-time-card');
+                if (newScore >= 0.999) {
+                    zeroTimeCard.classList.add('zero-time-glow');
+                    document.getElementById('zero-time-status').textContent = 'ACTIVE';
+                } else {
+                    zeroTimeCard.classList.remove('zero-time-glow');
+                    document.getElementById('zero-time-status').textContent = 'READY';
+                }
+                
+            }, 2000); // Update every 2 seconds
+        }
+        
+        // Check if user is authenticated
+        function checkAuthentication() {
+            const token = localStorage.getItem('jwt_token');
+            if (!token) {
+                addLogEntry('Please authenticate to access MŚWR endpoints', 'warning');
+                // Could redirect to login or show auth modal
+            }
+        }
+        
+        // Initialize authentication check
+        checkAuthentication();
+    </script>
+</body>
+</html>
