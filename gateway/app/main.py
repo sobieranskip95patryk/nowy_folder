@@ -181,8 +181,14 @@ class TokenRequest(BaseModel):
 @app.post("/auth/token")
 async def login_for_access_token(request: TokenRequest):
     """Generate JWT token for authentication"""
-    # Simple auth check (in production use proper user DB)
-    if request.username == "patryk" and request.password == "metageniusz":
+    # TODO: SECURITY - Use proper user database and hashed passwords
+    # This is DEMO ONLY - DO NOT USE IN PRODUCTION!
+    
+    # Get credentials from environment variables
+    DEMO_USERNAME = os.getenv("DEMO_USERNAME", "admin")
+    DEMO_PASSWORD = os.getenv("DEMO_PASSWORD", "change-this-password")
+    
+    if request.username == DEMO_USERNAME and request.password == DEMO_PASSWORD:
         token = create_token({
             "sub": request.username,
             "role": "MetaGeniusz",
