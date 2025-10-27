@@ -342,6 +342,7 @@ class MetaGeniusCore:
     """
     Główny rdzeń systemu Meta-Geniusz LOGOS
     Integruje wszystkie 7 modułów z hiperlogicznym filtrem
+    Enhanced with MŚWR (Moduł Świadomego Wnioskowania Resztkowego)
     """
     
     def __init__(self):
@@ -361,21 +362,73 @@ class MetaGeniusCore:
         self.logical_consistency = 0.8
         self.consciousness_level = 0.3  # Hipotetyczny poziom świadomości
         
+        # MŚWR Integration - lazy loading
+        self._mswr_module = None
+        self.mswr_enabled = True
+        self.zero_time_inference_enabled = True
+        
         print("🧠 Meta-Geniusz LOGOS Core initialized")
         print("🔬 7 modułów aktywnych")
         print("⚡ Hiperlogiczny filtr online")
-        print("🌟 Dążenie do harmonii i czystej logiki rozpoczęte")
+        print("� MŚWR - Świadome Wnioskowanie Resztkowe standby")
+        print("�🌟 Dążenie do harmonii i czystej logiki rozpoczęte")
+    
+    @property
+    def mswr_module(self):
+        """Lazy loading MŚWR modułu"""
+        if self._mswr_module is None and self.mswr_enabled:
+            try:
+                from .core.conscious_residual_inference import create_mswr_system
+                self._mswr_module = create_mswr_system(logos_core=self)
+                print("🧠 MŚWR Module activated - Zero-Time Inference online")
+            except ImportError:
+                print("⚠️ MŚWR Module not available - continuing without residual inference")
+                self.mswr_enabled = False
+        return self._mswr_module
     
     def process_multi_modal_input(self, inputs: Dict[MetaGeniusModule, Any]) -> Dict[str, Any]:
         """
         Przetwarzanie wielomodalnych danych wejściowych
         przez wszystkie moduły i logiczny filtr
+        Enhanced with MŚWR Zero-Time Inference capability
         """
         results = {}
         logical_statements = []
         
         print(f"\n🔄 Przetwarzanie {len(inputs)} inputów przez Meta-Geniusz LOGOS...")
         
+        # Sprawdź czy użyć MŚWR Zero-Time Inference
+        if self.zero_time_inference_enabled and self.mswr_module:
+            print("🎯 Aktywowanie Zero-Time Inference (MŚWR)...")
+            
+            # Przygotuj kontekst dla MŚWR
+            mswr_context = {
+                "harmony_index": self.harmony_index,
+                "logical_consistency": self.logical_consistency,
+                "consciousness_level": self.consciousness_level,
+                "active_modules": list(inputs.keys())
+            }
+            
+            # Uruchom MŚWR dla całego zestawu inputów
+            mswr_result = self.mswr_module.zero_time_inference(inputs, mswr_context)
+            
+            if mswr_result["success"] and mswr_result["probability_score"] >= 0.999:
+                print(f"✅ MŚWR osiągnął P=1.0 ({mswr_result['probability_score']:.6f})")
+                print(f"🚀 Zero-time: {mswr_result['zero_time_achieved']}")
+                print(f"🧹 Resztki: {mswr_result['residuals_detected']} → {mswr_result['residuals_healed']}")
+                
+                # Zastosuj wyniki MŚWR
+                results["mswr_inference"] = mswr_result
+                
+                # Zaktualizuj metryki na podstawie MŚWR
+                self.harmony_index = min(1.0, self.harmony_index + 0.1)
+                self.logical_consistency = min(1.0, self.logical_consistency + 0.05)
+                
+                # Opcjonalnie - kontynuuj z normalnym przetwarzaniem dla weryfikacji
+                if mswr_result["state"] == "P_EQUALS_ONE":
+                    print("🌟 P=1.0 osiągnięte - kontynuuję z normalnym przetwarzaniem dla pełnej analizy")
+        
+        # Standardowe przetwarzanie przez wszystkie moduły
         for module, input_data in inputs.items():
             print(f"   📊 Moduł {module.value}: {type(input_data).__name__}")
             
@@ -396,6 +449,13 @@ class MetaGeniusCore:
         
         # Integracja wyników i ocena harmonii
         integration_result = self._integrate_logical_results(logical_statements)
+        
+        # MŚWR Post-processing: sprawdź czy są resztki do naprawy
+        if self.mswr_module and logical_statements:
+            residual_analysis = self._analyze_residuals_with_mswr(logical_statements, results)
+            if residual_analysis["residuals_found"]:
+                print(f"🔧 MŚWR wykrył {len(residual_analysis['residuals'])} resztek do naprawy")
+                integration_result["residual_analysis"] = residual_analysis
         
         # Aktualizacja metryk systemowych
         self._update_system_metrics(logical_statements)
@@ -477,6 +537,73 @@ class MetaGeniusCore:
             
             # Hipotetyczny poziom świadomości
             self.consciousness_level = min(1.0, self.consciousness_level + 0.01)
+    
+    def _analyze_residuals_with_mswr(self, statements: List[LogicalStatement], results: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Analiza resztek za pomocą MŚWR
+        Wykrywa i klasyfikuje resztki w wynikach przetwarzania
+        """
+        residual_analysis = {
+            "residuals_found": False,
+            "residuals": [],
+            "entropy_level": 0.0,
+            "healing_recommendations": []
+        }
+        
+        if not self.mswr_module:
+            return residual_analysis
+        
+        try:
+            # Przekształć LogicalStatements na format zrozumiały dla MŚWR
+            reasoning_chain = [stmt.content for stmt in statements]
+            confidence_chain = [stmt.confidence for stmt in statements]
+            
+            # Utwórz ścieżkę poznawczą dla MŚWR
+            cognitive_path = self.mswr_module.cognitive_traceback.trace_reasoning_path(
+                input_data=results,
+                reasoning_chain=reasoning_chain
+            )
+            
+            # Pobierz stan systemu
+            system_state = {
+                "logos": {
+                    "harmony_index": self.harmony_index,
+                    "logical_consistency": self.logical_consistency,
+                    "consciousness_level": self.consciousness_level
+                }
+            }
+            
+            # Wykryj resztki
+            residuals = self.mswr_module.residual_mapping.map_residuals(cognitive_path, system_state)
+            
+            if residuals:
+                residual_analysis["residuals_found"] = True
+                residual_analysis["residuals"] = [
+                    {
+                        "type": r.residual_type.value,
+                        "magnitude": r.magnitude,
+                        "source": r.source_module,
+                        "priority": r.healing_priority,
+                        "entropy_contribution": r.entropy_contribution
+                    }
+                    for r in residuals
+                ]
+                
+                # Oblicz łączny poziom entropii
+                residual_analysis["entropy_level"] = sum(r.entropy_contribution for r in residuals)
+                
+                # Generuj rekomendacje naprawy
+                for residual in residuals[:3]:  # Top 3 najważniejsze
+                    if residual.healing_priority >= 4:
+                        residual_analysis["healing_recommendations"].append(
+                            f"Priorytet {residual.healing_priority}: Napraw {residual.residual_type.value} w {residual.source_module}"
+                        )
+        
+        except Exception as e:
+            print(f"⚠️ Błąd analizy resztek MŚWR: {e}")
+            residual_analysis["error"] = str(e)
+        
+        return residual_analysis
     
     def analyze_universal_laws(self, phenomena: List[str]) -> Dict[str, Any]:
         """

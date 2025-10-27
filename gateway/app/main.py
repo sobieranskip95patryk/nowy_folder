@@ -1,6 +1,7 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Header, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 import httpx
 import json
@@ -9,6 +10,7 @@ from datetime import datetime
 from pathlib import Path
 import os
 from typing import Optional, Dict, Any
+from .auth import verify as verify_token, sign as create_token
 
 # Konfiguracja logowania
 logging.basicConfig(level=logging.INFO)
@@ -28,6 +30,23 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# JWT Security Setup
+security = HTTPBearer()
+
+def require_auth(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """Require valid JWT token"""
+    token = credentials.credentials
+    payload = verify_token(token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    return payload
+
+def require_admin(user: dict = Depends(require_auth)):
+    """Require admin role (MetaGeniusz)"""
+    if user.get("role") != "MetaGeniusz":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return user
 
 # Mapa serwisów z ENV lub defaulty
 SERVICES = {
@@ -152,6 +171,79 @@ async def hhu_stats():
 async def root():
     """Redirect to MTA Quest or portal"""
     return {"message": "Meta-Genius Gateway", "portal": "/portal", "mta_quest": SERVICES["mta_quest"]}
+
+# === AUTH ENDPOINTS ===
+
+class TokenRequest(BaseModel):
+    username: str
+    password: str
+
+@app.post("/auth/token")
+async def login_for_access_token(request: TokenRequest):
+    """Generate JWT token for authentication"""
+    # Simple auth check (in production use proper user DB)
+    if request.username == "patryk" and request.password == "metageniusz":
+        token = create_token({
+            "sub": request.username,
+            "role": "MetaGeniusz",
+            "iat": datetime.now().timestamp()
+        })
+        
+        log_event("auth_login", {
+            "username": request.username,
+            "role": "MetaGeniusz",
+            "success": True
+        })
+        
+        return {
+            "access_token": token,
+            "token_type": "bearer", 
+            "role": "MetaGeniusz",
+            "expires_in": 86400
+        }
+    else:
+        log_event("auth_login", {
+            "username": request.username,
+            "success": False,
+            "reason": "invalid_credentials"
+        })
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+@app.get("/auth/verify")
+async def verify_current_token(user: dict = Depends(require_auth)):
+    """Verify current token validity"""
+    return {
+        "valid": True,
+        "user": user.get("sub"),
+        "role": user.get("role"),
+        "issued_at": user.get("iat")
+    }
+
+# === PROTECTED ADMIN ENDPOINTS ===
+
+@app.get("/admin/audit")
+async def admin_audit(user: dict = Depends(require_admin)):
+    """Admin audit endpoint - requires MetaGeniusz role"""
+    log_event("admin_audit", {
+        "user": user.get("sub"),
+        "accessed_at": datetime.now().isoformat()
+    })
+    
+    # Mock audit data (in real system would fetch from services)
+    return {
+        "audit_timestamp": datetime.now().isoformat(),
+        "auditor": user.get("sub"),
+        "system_status": "operational",
+        "services_count": len(SERVICES),
+        "event_file_exists": EVENTS_LOG.exists(),
+        "uptime_check": "gateway_operational"
+    }
+
+@app.get("/god")
+async def god_panel_access(user: dict = Depends(require_admin)):
+    """God panel access - requires admin"""
+    with open("portal/god_v11.html", "r", encoding="utf-8") as f:
+        return Response(content=f.read(), media_type="text/html")
 
 # === TELEMETRY SYSTEM ===
 

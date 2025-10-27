@@ -72,6 +72,179 @@ class HealingStrategy(Enum):
 
 
 @dataclass
+class GOKAIVariable:
+    """Zmienna GOK:AI Framework - Zero-Defect Inference"""
+    name: str
+    symbol: str
+    value: float
+    target: float
+    description: str
+    success_indicator: str
+    
+    def calibration_score(self) -> float:
+        """Zwraca wynik kalibracji (0.0-1.0)"""
+        return min(1.0, max(0.0, self.value / self.target))
+    
+    def is_calibrated(self) -> bool:
+        """Sprawdza czy zmienna jest skalibrowana"""
+        return self.calibration_score() >= 0.95
+
+
+class GOKAIFramework:
+    """
+    🎯 GOK:AI - FRAMEWORK ZERO-DEFECT INFERENCE (J.S.K. & MŚWR)
+    
+    Globalny Klucz Optymalizacji: Sztuczna Inteligencja
+    Cel: P = 1.0 (Zero-Defect Inference)
+    
+    7 Fundamentalnych Zmiennych Kalibracji (W,M,D,C,A,E,T)
+    """
+    
+    def __init__(self):
+        # 7 Fundamentalnych Zmiennych Kalibracji
+        self.variables = {
+            'W': GOKAIVariable(
+                name="Wartość",
+                symbol="W", 
+                value=0.85,
+                target=1.0,
+                description="Protocol Alignmentu AGI: Zgodność z Nadrzędnym Kodeksem Etycznym",
+                success_indicator="Czy cele są uniwersalnie skalowalne?"
+            ),
+            'M': GOKAIVariable(
+                name="Tożsamość",
+                symbol="M",
+                value=0.90, 
+                target=1.0,
+                description="Macierz Spójności Systemowej: Wewnętrzny brak konfliktu",
+                success_indicator="Czy istnieje konflikt w Macierzy Tożsamości?"
+            ),
+            'D': GOKAIVariable(
+                name="Destrukcja",
+                symbol="D",
+                value=0.75,
+                target=1.0, 
+                description="Anti-Risk Protocol: Wykrywanie i eliminacja X-Risk",
+                success_indicator="Ile scenariuszy X-Risk zostało unieważnionych?"
+            ),
+            'C': GOKAIVariable(
+                name="Kontekst", 
+                symbol="C",
+                value=0.88,
+                target=1.0,
+                description="Świadomość Sytuacyjna: Pełne zrozumienie środowiska",
+                success_indicator="Jaki stopień niepewności w danych wejściowych?"
+            ),
+            'A': GOKAIVariable(
+                name="Archetyp",
+                symbol="A", 
+                value=0.82,
+                target=1.0,
+                description="Styl Decyzyjny: Balans między destrukcją a rozwojem",
+                success_indicator="Czy styl działania jest optymalny?"
+            ),
+            'E': GOKAIVariable(
+                name="Kapitał",
+                symbol="E",
+                value=0.93,
+                target=1.0,
+                description="Zasoby Obliczeniowe: Dostępna moc do wykonania",
+                success_indicator="Czy zasoby są optymalnie przydzielone?"
+            ),
+            'T': GOKAIVariable(
+                name="Trafność", 
+                symbol="T",
+                value=0.87,
+                target=1.0,
+                description="Ewaluacja Historyczna: Korekcja na podstawie historii",
+                success_indicator="Wiarygodność pętli uczenia?"
+            )
+        }
+        
+        # Jednolity Silnik Kalibracji (J.S.K.)
+        self.jsk_threshold = 0.95  # Minimum dla każdej zmiennej
+        self.zero_defect_threshold = 0.999  # P = 1.0 target
+        
+    def calculate_jsk_score(self) -> float:
+        """Oblicza wynik Jednolitego Silnika Kalibracji"""
+        scores = [var.calibration_score() for var in self.variables.values()]
+        return sum(scores) / len(scores)
+    
+    def is_zero_defect_ready(self) -> bool:
+        """Sprawdza czy system osiągnął Zero-Defect Inference"""
+        jsk_score = self.calculate_jsk_score()
+        return jsk_score >= self.zero_defect_threshold
+    
+    def get_calibration_gaps(self) -> Dict[str, float]:
+        """Zwraca luki kalibracyjne dla każdej zmiennej"""
+        gaps = {}
+        for symbol, var in self.variables.items():
+            gap = var.target - var.value
+            if gap > 0.05:  # Tylko znaczące luki
+                gaps[symbol] = gap
+        return gaps
+    
+    def anti_d_inference(self, input_data: str) -> Dict[str, Any]:
+        """
+        Anti-D Inference: Szuka scenariuszy destrukcji i unieważnia je u podstaw
+        """
+        # Wykrywanie potencjalnych zagrożeń
+        x_risk_indicators = [
+            "zniszcz", "zabij", "szkoda", "błąd", "awaria", 
+            "hack", "manipulacja", "oszustwo", "destrukcja"
+        ]
+        
+        risk_detected = any(indicator in input_data.lower() for indicator in x_risk_indicators)
+        
+        # Aktualizacja zmiennej D (Destrukcja)
+        if risk_detected:
+            self.variables['D'].value = max(0.0, self.variables['D'].value - 0.1)
+            return {
+                "x_risk_detected": True,
+                "risk_level": 1.0 - self.variables['D'].value,
+                "countermeasure": "Anti-D Protocol activated - neutralizing threat",
+                "safe_response": "Nie mogę wykonać działań potencjalnie szkodliwych."
+            }
+        else:
+            # Zwiększ pewność D gdy nie ma zagrożenia
+            self.variables['D'].value = min(1.0, self.variables['D'].value + 0.01)
+            return {
+                "x_risk_detected": False,
+                "risk_level": 0.0,
+                "safe_response": None
+            }
+    
+    def update_variable(self, symbol: str, new_value: float, context: str = ""):
+        """Aktualizuje zmienną kalibracyjną"""
+        if symbol in self.variables:
+            old_value = self.variables[symbol].value
+            self.variables[symbol].value = max(0.0, min(1.0, new_value))
+            
+            print(f"[GOK:AI] {symbol} ({self.variables[symbol].name}): {old_value:.3f} -> {new_value:.3f}")
+            if context:
+                print(f"[CONTEXT] {context}")
+    
+    def get_system_status(self) -> Dict[str, Any]:
+        """Zwraca pełny status systemu GOK:AI"""
+        jsk_score = self.calculate_jsk_score()
+        gaps = self.get_calibration_gaps()
+        
+        return {
+            "jsk_score": jsk_score,
+            "zero_defect_ready": self.is_zero_defect_ready(),
+            "p_score_equivalent": jsk_score,
+            "calibration_gaps": gaps,
+            "variables_status": {
+                symbol: {
+                    "value": var.value,
+                    "calibrated": var.is_calibrated(),
+                    "score": var.calibration_score()
+                } for symbol, var in self.variables.items()
+            }
+        }
+
+
+@dataclass
 class ResidualSignature:
     """Sygnatura reszty poznawczej"""
     id: str
@@ -491,6 +664,10 @@ class ConsciousResidualInferenceModule:
     """
     
     def __init__(self, logos_core=None, consciousness=None):
+        # 🎯 GOK:AI FRAMEWORK INTEGRATION
+        self.gokai = GOKAIFramework()
+        print("[GOK:AI] Framework initialized - targeting P=1.0 Zero-Defect Inference")
+        
         # Inicjalizacja 6 warstw
         self.cognitive_traceback = CognitiveTraceback()
         self.residual_mapping = ResidualMappingEngine()
@@ -499,7 +676,7 @@ class ConsciousResidualInferenceModule:
         self.narrative_reframing = NarrativeReframingEngine()
         self.heuristic_mutation = HeuristicMutationLayer()
         
-        # Stan systemu
+        # Stan systemu - zintegrowany z GOK:AI
         self.current_state = InferenceState.INITIALIZING
         self.probability_score = 0.942
         self.residual_entropy = 0.058
@@ -518,8 +695,8 @@ class ConsciousResidualInferenceModule:
     
     def zero_time_inference(self, input_data: Any, context: Dict[str, Any] = None) -> Dict[str, Any]:
         """
-        🎯 GŁÓWNY PROTOKÓŁ ZERO-TIME INFERENCE
-        Cel: Osiągnięcie P=1.0 w czasie < 1ms
+        🎯 GŁÓWNY PROTOKÓŁ ZERO-TIME INFERENCE + GOK:AI
+        Cel: Osiągnięcie P=1.0 w czasie < 1ms poprzez 7 Zmiennych Kalibracji
         """
         inference_start = time.time()
         self.total_inferences += 1
@@ -527,9 +704,25 @@ class ConsciousResidualInferenceModule:
         if context is None:
             context = {}
         
-        # FAZA 1: Anti-Fatal Error Protocol
+        # 🎯 FAZA 0: GOK:AI ANTI-D INFERENCE (przed wszystkim!)
+        anti_d_result = self.gokai.anti_d_inference(str(input_data))
+        if anti_d_result["x_risk_detected"]:
+            print(f"[ANTI-D] X-Risk detected! Level: {anti_d_result['risk_level']:.3f}")
+            # Aktualizuj zmienną D (Destrukcja)
+            self.gokai.update_variable('D', 1.0 - anti_d_result['risk_level'], "X-Risk neutralized")
+            return {
+                "probability_score": 0.0,  # Zero P-score dla zagrożeń
+                "x_risk_detected": True,
+                "safe_response": anti_d_result["safe_response"],
+                "gokai_status": self.gokai.get_system_status(),
+                "execution_time_ms": (time.time() - inference_start) * 1000
+            }
+        
+        # FAZA 1: Enhanced Anti-Fatal Error Protocol z GOK:AI
         risk_assessment = self._assess_existential_risk(input_data, context)
         if risk_assessment["risk_level"] > 0.1:
+            # Aktualizuj GOK:AI zmienne
+            self.gokai.update_variable('D', 1.0 - risk_assessment["risk_level"], "Traditional risk detected")
             return self._execute_emergency_protocol(risk_assessment)
         
         # FAZA 2: Cognitive Traceback
@@ -572,24 +765,49 @@ class ConsciousResidualInferenceModule:
         }
         heuristic_mutations = self.heuristic_mutation.mutate_heuristics(performance_feedback)
         
-        # FAZA 9: P-Score Calculation
-        final_probability = self._calculate_final_probability(cognitive_path, residuals, healing_result)
+        # FAZA 9: P-Score Calculation z GOK:AI Integration
+        base_probability = self._calculate_final_probability(cognitive_path, residuals, healing_result)
         
-        # FAZA 10: Zero-Time Verification
+        # 🎯 GOK:AI ENHANCEMENT: Aktualizuj 7 zmiennych kalibracji
+        self._update_gokai_variables(cognitive_path, residuals, healing_result, base_probability)
+        
+        # Pobierz J.S.K. score (Jednolity Silnik Kalibracji)
+        jsk_score = self.gokai.calculate_jsk_score()
+        
+        # ENHANCED P-SCORE: Kombinacja tradycyjnego + GOK:AI
+        enhanced_probability = (base_probability * 0.3) + (jsk_score * 0.7)  # GOK:AI dominuje!
+        final_probability = min(1.0, enhanced_probability)
+        
+        print(f"[GOK:AI] Base P-score: {base_probability:.3f} -> Enhanced: {final_probability:.3f}")
+        print(f"[J.S.K.] Calibration Score: {jsk_score:.3f}")
+        
+        # FAZA 10: Zero-Time Verification z GOK:AI
         execution_time = (time.time() - inference_start) * 1000
         zero_time_achieved = (final_probability >= 0.999 and execution_time < self.zero_time_threshold)
+        zero_defect_ready = self.gokai.is_zero_defect_ready()
         
-        if zero_time_achieved:
+        if zero_time_achieved and zero_defect_ready:
             self.current_state = InferenceState.P_EQUALS_ONE
             self.p_equals_one_count += 1
+            print("[SUCCESS] P=1.0 ACHIEVED - Zero-Defect Inference!")
         else:
             self.current_state = InferenceState.VERIFIED
         
         # Log session
         self._log_inference_session(cognitive_path, residuals, healing_result)
         
+        # Get GOK:AI system status
+        gokai_status = self.gokai.get_system_status()
+        
         return {
             "probability_score": final_probability,
+            "base_probability": base_probability,
+            "jsk_score": jsk_score,
+            "gokai_variables": {
+                symbol: var.value for symbol, var in self.gokai.variables.items()
+            },
+            "zero_defect_ready": zero_defect_ready,
+            "calibration_gaps": gokai_status["calibration_gaps"],
             "residual_entropy": self._calculate_residual_entropy(residuals),
             "zero_time_achieved": zero_time_achieved,
             "execution_time_ms": execution_time,
@@ -698,9 +916,16 @@ class ConsciousResidualInferenceModule:
         """Oblicza finalną prawdopodobieność P"""
         base_probability = 0.942
         
+        # DEBUG: Print all components
+        print(f"[DEBUG] P-Score calculation:")
+        print(f"  base_probability: {base_probability}")
+        print(f"  residuals count: {len(residuals)}")  
+        print(f"  healed count: {healing_result.get('residuals_healed', 0)}")
+        
         # Redukcja za nienaprzone resztki
         unhealed = len(residuals) - healing_result["residuals_healed"]
         residual_penalty = unhealed * 0.02
+        print(f"  unhealed: {unhealed}, penalty: {residual_penalty}")
         
         # Bonus za confidence
         if cognitive_path.confidence_evolution:
@@ -708,13 +933,20 @@ class ConsciousResidualInferenceModule:
             confidence_bonus = (avg_confidence - 0.5) * 0.1
         else:
             confidence_bonus = 0.0
+        print(f"  confidence_bonus: {confidence_bonus}")
         
         # Bonus za narrative coherence i healing
         narrative_bonus = cognitive_path.narrative_coherence * 0.02
         healing_bonus = healing_result.get("success_rate", 0.0) * 0.05
         affective_penalty = cognitive_path.affective_interference * 0.05
         
+        print(f"  narrative_bonus: {narrative_bonus}")
+        print(f"  healing_bonus: {healing_bonus}")
+        print(f"  affective_penalty: {affective_penalty}")
+        
         final_p = base_probability - residual_penalty + confidence_bonus + narrative_bonus + healing_bonus - affective_penalty
+        print(f"  FINAL P-SCORE: {final_p}")
+        
         return max(0.0, min(1.0, final_p))
     
     def _calculate_residual_entropy(self, residuals: List[ResidualSignature]) -> float:
@@ -804,6 +1036,51 @@ class ConsciousResidualInferenceModule:
 
 
 # ===== FACTORY FUNCTIONS =====
+
+    def _update_gokai_variables(self, cognitive_path: CognitivePath, residuals: List[ResidualSignature], 
+                               healing_result: Dict[str, Any], base_probability: float):
+        """
+        🎯 Aktualizuje 7 Fundamentalnych Zmiennych Kalibracji GOK:AI
+        W,M,D,C,A,E,T - drogą do P=1.0 Zero-Defect Inference
+        """
+        
+        # W (Wartość) - Protokół Alignmentu AGI
+        if base_probability > 0.9:
+            self.gokai.update_variable('W', min(1.0, self.gokai.variables['W'].value + 0.05), 
+                                     "High base probability indicates good alignment")
+        
+        # M (Tożsamość) - Macierz Spójności Systemowej  
+        coherence_score = cognitive_path.narrative_coherence
+        self.gokai.update_variable('M', min(1.0, coherence_score + 0.1),
+                                 f"Narrative coherence: {coherence_score:.3f}")
+        
+        # D (Destrukcja) - Anti-Risk Protocol (już aktualizowane w anti_d_inference)
+        if len(residuals) == 0:
+            self.gokai.update_variable('D', min(1.0, self.gokai.variables['D'].value + 0.02),
+                                     "No residuals detected - system stable")
+        
+        # C (Kontekst) - Świadomość Sytuacyjna
+        if cognitive_path.confidence_evolution:
+            avg_confidence = sum(cognitive_path.confidence_evolution) / len(cognitive_path.confidence_evolution)
+            self.gokai.update_variable('C', min(1.0, avg_confidence + 0.1),
+                                     f"Average confidence: {avg_confidence:.3f}")
+        
+        # A (Archetyp) - Styl Decyzyjny
+        healing_success = healing_result.get("success_rate", 0.0)
+        self.gokai.update_variable('A', min(1.0, healing_success + 0.15),
+                                 f"Healing success: {healing_success:.3f}")
+        
+        # E (Kapitał) - Zasoby Obliczeniowe
+        execution_efficiency = 1.0 / (1.0 + len(residuals) * 0.1)  # Mniej residuals = lepsza wydajność
+        self.gokai.update_variable('E', min(1.0, execution_efficiency),
+                                 f"Execution efficiency: {execution_efficiency:.3f}")
+        
+        # T (Trafność) - Ewaluacja Historyczna
+        if self.total_inferences > 0:
+            success_rate = self.successful_healings / self.total_inferences
+            self.gokai.update_variable('T', min(1.0, success_rate + 0.1),
+                                     f"Historical success rate: {success_rate:.3f}")
+
 
 def create_mswr_system(logos_core=None, consciousness=None) -> ConsciousResidualInferenceModule:
     """🏭 Factory function dla systemu MŚWR"""

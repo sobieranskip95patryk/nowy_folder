@@ -50,7 +50,9 @@ class PinkPlaySWR {
       const pythonProcess = spawn('python', ['-c', `
 import sys
 import json
-sys.path.append('${path.dirname(this.pythonScript)}')
+import os
+os.environ['PYTHONIOENCODING'] = 'utf-8'
+sys.path.append(r'${path.dirname(this.pythonScript).replace(/\\/g, '/')}')
 from core.pinkplay_swr_integration import create_pinkplay_swr
 
 # Odczytaj input z stdin
@@ -63,9 +65,10 @@ result = swr.process_story_for_pinkplay(
     input_data.get('user_id')
 )
 
-# Zwróć wynik jako JSON
-print(json.dumps(result, ensure_ascii=False))
-      `]);
+# Zwróć wynik jako JSON (bez emoji dla Windows compatibility)
+result_clean = {k: str(v).encode('ascii', 'ignore').decode('ascii') if isinstance(v, str) else v for k, v in result.items()}
+print(json.dumps(result_clean, ensure_ascii=True))
+      `], { env: { ...process.env, PYTHONIOENCODING: 'utf-8' } });
 
       let output = '';
       let errorOutput = '';

@@ -401,10 +401,246 @@ async def proxy_hhu_stats(user: dict = Depends(require_auth)):
     
     return result
 
+# --- MŚWR (Conscious Residual Inference) Endpoints ---
+@app.get("/v1/mswr/health", tags=["MŚWR"])
+async def get_mswr_health(user: dict = Depends(require_auth)):
+    """MŚWR system health and metrics"""
+    try:
+        # Try to load MŚWR
+        from core.conscious_residual_inference import create_mswr_system
+        mswr = create_mswr_system()
+        
+        if mswr:
+            metrics = mswr.get_system_metrics()
+            
+            log_telemetry_event("mswr_health_check", {
+                "user": user.get("user_id"),
+                "metrics": metrics
+            }, user.get("user_id"))
+            
+            return {
+                "status": "operational",
+                "mswr_metrics": metrics,
+                "timestamp": datetime.now().isoformat(),
+                "zero_time_inference": True,
+                "anti_fatal_protocol": True
+            }
+        else:
+            return {
+                "status": "unavailable",
+                "error": "MŚWR module not initialized",
+                "timestamp": datetime.now().isoformat()
+            }
+            
+    except Exception as e:
+        logger.error(f"MŚWR health check failed: {e}")
+        return {
+            "status": "error",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }
+
+@app.post("/v1/mswr/inference", tags=["MŚWR"])
+async def mswr_zero_time_inference(
+    inference_request: Dict[str, Any],
+    user: dict = Depends(require_auth)
+):
+    """
+    MŚWR Zero-Time Inference endpoint
+    Achieves P=1.0 through conscious residual analysis
+    """
+    try:
+        from core.conscious_residual_inference import create_mswr_system
+        mswr = create_mswr_system()
+        
+        if not mswr:
+            raise HTTPException(status_code=503, detail="MŚWR system unavailable")
+        
+        # Extract input and context
+        input_data = inference_request.get("input", "")
+        context = inference_request.get("context", {})
+        
+        # Add user context
+        context["user_id"] = user.get("user_id")
+        context["user_role"] = user.get("role")
+        
+        # Perform Zero-Time Inference
+        result = mswr.zero_time_inference(input_data, context)
+        
+        log_telemetry_event("mswr_inference", {
+            "user": user.get("user_id"),
+            "input_type": type(input_data).__name__,
+            "probability_score": result.get("probability_score", 0.0),
+            "zero_time_achieved": result.get("zero_time_achieved", False),
+            "state": result.get("state", "unknown")
+        }, user.get("user_id"))
+        
+        return {
+            "mswr_result": result,
+            "requested_by": user.get("user_id"),
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"MŚWR inference failed: {e}")
+        raise HTTPException(status_code=500, detail=f"MŚWR inference error: {str(e)}")
+
+@app.get("/v1/mswr/residuals", tags=["MŚWR"])
+async def get_system_residuals(user: dict = Depends(require_admin)):
+    """
+    Get current system residuals analysis
+    Admin-only endpoint for system diagnostics
+    """
+    try:
+        from core.conscious_residual_inference import create_mswr_system
+        mswr = create_mswr_system()
+        
+        if not mswr:
+            raise HTTPException(status_code=503, detail="MŚWR system unavailable")
+        
+        # Analyze current system state for residuals
+        test_input = "System diagnostic scan"
+        test_context = {
+            "diagnostic": True,
+            "user_id": user.get("user_id"),
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        result = mswr.zero_time_inference(test_input, test_context)
+        
+        residual_summary = {
+            "total_residuals": result.get("residuals_detected", 0),
+            "healed_residuals": result.get("residuals_healed", 0),
+            "current_entropy": result.get("residual_entropy", 0.0),
+            "probability_score": result.get("probability_score", 0.0),
+            "system_state": result.get("state", "unknown"),
+            "cognitive_path_id": result.get("cognitive_path_id", None)
+        }
+        
+        log_telemetry_event("mswr_residuals_check", {
+            "admin": user.get("user_id"),
+            "residual_summary": residual_summary
+        }, user.get("user_id"))
+        
+        return {
+            "residual_analysis": residual_summary,
+            "full_result": result if user.get("role") == "MetaGeniusz" else None,
+            "analyzed_by": user.get("user_id"),
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"MŚWR residuals analysis failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Residuals analysis error: {str(e)}")
+
+@app.post("/v1/mswr/heal", tags=["MŚWR"])
+async def trigger_system_healing(
+    healing_request: Optional[Dict[str, Any]] = None,
+    user: dict = Depends(require_meta_geniusz)
+):
+    """
+    Trigger intensive system healing
+    MetaGeniusz-only endpoint for manual system recovery
+    """
+    try:
+        from core.conscious_residual_inference import create_mswr_system
+        mswr = create_mswr_system()
+        
+        if not mswr:
+            raise HTTPException(status_code=503, detail="MŚWR system unavailable")
+        
+        healing_context = {
+            "manual_trigger": True,
+            "operator": user.get("user_id"),
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        if healing_request:
+            healing_context.update(healing_request)
+        
+        # Trigger intensive healing protocol
+        result = mswr.zero_time_inference(
+            "Manual system healing protocol initiated",
+            healing_context
+        )
+        
+        # Export healing history
+        export_path = mswr.export_healing_history()
+        
+        healing_summary = {
+            "healing_triggered": True,
+            "probability_achieved": result.get("probability_score", 0.0),
+            "state": result.get("state", "unknown"),
+            "zero_time_achieved": result.get("zero_time_achieved", False),
+            "residuals_processed": result.get("residuals_detected", 0),
+            "healing_export": export_path
+        }
+        
+        log_telemetry_event("mswr_manual_healing", {
+            "operator": user.get("user_id"),
+            "healing_summary": healing_summary
+        }, user.get("user_id"))
+        
+        return {
+            "healing_result": healing_summary,
+            "full_mswr_result": result,
+            "operator": user.get("user_id"),
+            "timestamp": datetime.now().isoformat(),
+            "message": "Intensive system healing protocol executed"
+        }
+        
+    except Exception as e:
+        logger.error(f"MŚWR healing failed: {e}")
+        raise HTTPException(status_code=500, detail=f"System healing error: {str(e)}")
+
+@app.get("/v1/mswr/metrics", tags=["MŚWR"])
+async def get_mswr_detailed_metrics(user: dict = Depends(require_admin)):
+    """
+    Get detailed MŚWR metrics and performance data
+    """
+    try:
+        from core.conscious_residual_inference import create_mswr_system
+        mswr = create_mswr_system()
+        
+        if not mswr:
+            raise HTTPException(status_code=503, detail="MŚWR system unavailable")
+        
+        metrics = mswr.get_system_metrics()
+        
+        # Enhanced metrics for admin view
+        enhanced_metrics = {
+            "basic_metrics": metrics,
+            "performance": {
+                "success_rate_percentage": metrics.get("success_rate", 0.0) * 100,
+                "p_equals_one_percentage": metrics.get("p_equals_one_rate", 0.0) * 100,
+                "current_entropy_level": metrics.get("current_entropy", 0.0),
+                "system_state": metrics.get("current_state", "unknown")
+            },
+            "system_info": {
+                "zero_time_inference_enabled": True,
+                "anti_fatal_protocol_enabled": True,
+                "consciousness_integration": True,
+                "logos_integration": True
+            }
+        }
+        
+        return {
+            "mswr_metrics": enhanced_metrics,
+            "requested_by": user.get("user_id"),
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"MŚWR metrics retrieval failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Metrics error: {str(e)}")
+
 # --- Development/Testing ---
 if __name__ == "__main__":
     print(f"🚀 Meta-Genius Unified Gateway v1.1 starting on port {GATEWAY_PORT}")
     print("🔐 Protected endpoints: /admin/*, /god")
     print("🔑 Auth endpoint: /auth/token")
     print("📊 Telemetry: /v1/events")
+    print("🧠 MŚWR endpoints: /v1/mswr/*")
+    print("🎯 Zero-Time Inference: /v1/mswr/inference")
+    print("🔧 System Healing: /v1/mswr/heal")
     uvicorn.run(app, host="0.0.0.0", port=GATEWAY_PORT, reload=True)

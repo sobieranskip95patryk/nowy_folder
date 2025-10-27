@@ -22,7 +22,10 @@ from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, asdict
 
 # Import MŚWR core
-from .mswr_v2_clean import ConsciousResidualInferenceModule, create_mswr_system
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from mswr_v2_clean import ConsciousResidualInferenceModule, create_mswr_system
 
 class PinkPlaySWR:
     """

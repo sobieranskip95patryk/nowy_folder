@@ -1,0 +1,85 @@
+{
+  "version": "3.9",
+  "services": {
+    "gateway": {
+      "build": "./gateway",
+      "ports": [
+        "8800:8800"
+      ],
+      "environment": {
+        "SVC_APEX_INFINITY_MIGI_CORE": "http://apex_infinity_migi_core:8010",
+        "SVC_GOK_AI_MIXTAPE": "http://gok_ai_mixtape:3000",
+        "SVC_HIP_HOP_UNIVERSE": "http://hip_hop_universe:3000",
+        "SVC_M_ZG_BOGA": "http://m_zg_boga:8013",
+        "SVC_MTA_QUEST_WEBSIDE_X": "http://mta_quest_webside_x:3000",
+        "SVC_NOWY_FOLDER": "http://nowy_folder:8015",
+        "SVC_PINKPLAYEVO_JA_": "http://pinkplayevo_ja_:3000",
+        "SVC_ROCKET_FUELL_GIRLS": "http://rocket_fuell_girls:3000",
+        "SVC_SPIRALMIND_NEXUS": "http://spiralmind_nexus:3000"
+      }
+    },
+    "apex_infinity_migi_core": {
+      "build": "./repos/apex_infinity_MIGI_Core",
+      "command": "uvicorn app.main:app --host 0.0.0.0 --port 8010",
+      "ports": [
+        "8010:8010"
+      ]
+    },
+    "gok_ai_mixtape": {
+      "build": "./repos/GOK-AI-MixTape",
+      "command": "npm run start",
+      "ports": [
+        "8011:3000"
+      ]
+    },
+    "hip_hop_universe": {
+      "build": "./repos/hip_hop_universe",
+      "command": "npm run start",
+      "ports": [
+        "8012:3000"
+      ]
+    },
+    "m_zg_boga": {
+      "build": "./repos/m-zg_Boga",
+      "command": "uvicorn app.main:app --host 0.0.0.0 --port 8013",
+      "ports": [
+        "8013:8013"
+      ]
+    },
+    "mta_quest_webside_x": {
+      "build": "./repos/MTA_Quest_Webside_X",
+      "command": "npm run start",
+      "ports": [
+        "8014:3000"
+      ]
+    },
+    "nowy_folder": {
+      "build": "./repos/nowy_folder",
+      "command": "uvicorn app.main:app --host 0.0.0.0 --port 8015",
+      "ports": [
+        "8015:8015"
+      ]
+    },
+    "pinkplayevo_ja_": {
+      "build": "./repos/pinkplayevo-ja-",
+      "command": "npm run start",
+      "ports": [
+        "8016:3000"
+      ]
+    },
+    "rocket_fuell_girls": {
+      "build": "./repos/rocket_fuell_girls",
+      "command": "npm run start",
+      "ports": [
+        "8017:3000"
+      ]
+    },
+    "spiralmind_nexus": {
+      "build": "./repos/SpiralMind-Nexus",
+      "command": "npm run start",
+      "ports": [
+        "8018:3000"
+      ]
+    }
+  }
+}

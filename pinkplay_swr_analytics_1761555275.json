@@ -1,0 +1,161 @@
+{
+  "export_timestamp": "2025-10-27T09:54:35.797238",
+  "swr_version": "PinkPlayEvo Integration v1.0",
+  "summary": {
+    "total_stories_processed": 4,
+    "average_quality_score": 0.6125,
+    "total_residuals_found": 5,
+    "average_residuals_per_story": 1.25,
+    "average_processing_time_ms": 0.22286176681518555,
+    "most_common_residuals": [
+      [
+        "low_emotional_density",
+        3
+      ],
+      [
+        "lack_of_action",
+        2
+      ]
+    ],
+    "high_quality_stories_ratio": 0.25
+  },
+  "detailed_history": [
+    {
+      "timestamp": "2025-10-27T09:54:35.778726",
+      "user_id": "test_user_1",
+      "original_story": "Młoda kobieta tańczy w deszczu, czując wolność i radość życia.",
+      "mutated_story": "Młoda kobieta tańczy w deszczu, czując wolność i radość życia.",
+      "sentiment_analysis": {
+        "dominant_sentiment": "positive",
+        "sentiment_scores": {
+          "positive": 1,
+          "negative": 0,
+          "intense": 0,
+          "neutral": 0
+        },
+        "emotional_density": 0.1,
+        "story_length": 10
+      },
+      "residuals_found": 0,
+      "residuals": [],
+      "mswr_analysis": {
+        "probability_score": 0.972,
+        "residual_entropy": 0.0,
+        "zero_time_achieved": false
+      },
+      "quality_score": 0.8500000000000001,
+      "processing_time_ms": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T09:54:35.797238",
+      "user_id": "test_user_2",
+      "original_story": "Bohater walczy z demonami wewnętrznymi w ciemnym labiryncie swojego umysłu, szukając światła nadziei.",
+      "mutated_story": "Bohater walczy z demonami wewnętrznymi w ciemnym labiryncie swojego umysłu, szukając światła nadziei. z wzmocnionym dramatyzmem i kontrastem emocjonalnym",
+      "sentiment_analysis": {
+        "dominant_sentiment": "positive",
+        "sentiment_scores": {
+          "positive": 0,
+          "negative": 0,
+          "intense": 0,
+          "neutral": 0
+        },
+        "emotional_density": 0.0,
+        "story_length": 13
+      },
+      "residuals_found": 1,
+      "residuals": [
+        {
+          "type": "low_emotional_density",
+          "severity": 0.7,
+          "description": "Niska gęstość emocjonalna: 0.000",
+          "suggestion": "Dodaj więcej ekspresyjnych słów lub kontrastów emocjonalnych"
+        }
+      ],
+      "mswr_analysis": {
+        "probability_score": 0.9713333333333333,
+        "residual_entropy": 0.0,
+        "zero_time_achieved": false
+      },
+      "quality_score": 0.7000000000000001,
+      "processing_time_ms": 0.8914470672607422
+    },
+    {
+      "timestamp": "2025-10-27T09:54:35.797238",
+      "user_id": "test_user_3",
+      "original_story": "Kot śpi na parapecie. Jest ładna pogoda. Słońce świeci.",
+      "mutated_story": "Kot śpi na parapecie, poruszając się dynamicznie. Jest ładna pogoda, poruszając się dynamicznie. Słońce świeci, poruszając się dynamicznie. z wzmocnionym dramatyzmem i kontrastem emocjonalnym",
+      "sentiment_analysis": {
+        "dominant_sentiment": "positive",
+        "sentiment_scores": {
+          "positive": 0,
+          "negative": 0,
+          "intense": 0,
+          "neutral": 0
+        },
+        "emotional_density": 0.0,
+        "story_length": 9
+      },
+      "residuals_found": 2,
+      "residuals": [
+        {
+          "type": "low_emotional_density",
+          "severity": 0.7,
+          "description": "Niska gęstość emocjonalna: 0.000",
+          "suggestion": "Dodaj więcej ekspresyjnych słów lub kontrastów emocjonalnych"
+        },
+        {
+          "type": "lack_of_action",
+          "severity": 0.5,
+          "description": "Brak słów akcji - może wpłynąć na dynamikę wizualną",
+          "suggestion": "Dodaj czasowniki ruchu lub akcji"
+        }
+      ],
+      "mswr_analysis": {
+        "probability_score": 0.972,
+        "residual_entropy": 0.0,
+        "zero_time_achieved": false
+      },
+      "quality_score": 0.3000000000000001,
+      "processing_time_ms": 0.0
+    },
+    {
+      "timestamp": "2025-10-27T09:54:35.797238",
+      "user_id": "test_user_4",
+      "original_story": "Bardzo długa historia o bohaterze który podróżuje przez wiele krajów i spotyka różnych ludzi i przeżywa różne przygody i uczucia i emocje i ma różne doświadczenia życiowe które go kształtują jako człowieka i pomagają mu zrozumieć sens życia i odnaleźć swoje miejsce w świecie który jest pełen wyzwań i możliwości rozwoju osobistego.",
+      "mutated_story": "Bardzo długa historia o bohaterze który podróżuje przez wiele krajów i spotyka różnych ludzi i przeżywa różne przygody i uczucia i emocje i ma różne doświadczenia życiowe które go kształtują jako człowieka i pomagają mu zrozumieć sens życia i odnaleźć swoje miejsce w świecie który jest pełen wyzwań i możliwości rozwoju osobistego, poruszając się dynamicznie. z wzmocnionym dramatyzmem i kontrastem emocjonalnym",
+      "sentiment_analysis": {
+        "dominant_sentiment": "positive",
+        "sentiment_scores": {
+          "positive": 0,
+          "negative": 0,
+          "intense": 0,
+          "neutral": 0
+        },
+        "emotional_density": 0.0,
+        "story_length": 52
+      },
+      "residuals_found": 2,
+      "residuals": [
+        {
+          "type": "low_emotional_density",
+          "severity": 0.7,
+          "description": "Niska gęstość emocjonalna: 0.000",
+          "suggestion": "Dodaj więcej ekspresyjnych słów lub kontrastów emocjonalnych"
+        },
+        {
+          "type": "lack_of_action",
+          "severity": 0.5,
+          "description": "Brak słów akcji - może wpłynąć na dynamikę wizualną",
+          "suggestion": "Dodaj czasowniki ruchu lub akcji"
+        }
+      ],
+      "mswr_analysis": {
+        "probability_score": 0.9713333333333333,
+        "residual_entropy": 0.0,
+        "zero_time_achieved": false
+      },
+      "quality_score": 0.6000000000000001,
+      "processing_time_ms": 0.0
+    }
+  ]
+}
