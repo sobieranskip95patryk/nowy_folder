@@ -1,0 +1,162 @@
+# ============================================================================
+# J.S.K. (Jednolity Silnik Kalibracji) - MIGI Core Configuration
+# Kanon progów dla Zero-Defect Inference (P→1.0)
+# Status: P=0.886 → P=1.0 (Protokół Wzrostu W)
+# ============================================================================
+
+# PARAMETRY KOHERENCJI (M-Operacyjne)
+governance:
+  seed: 42
+  max_destroy_cycles: 2
+  schema_version: "1.0.0"
+
+# Progi kalibracyjne (SLO dla P=1.0)
+thresholds:
+  diff_threshold: 1e-3          # Koherencja SUPRA-Gen vs CONV-Ver  
+  seek_threshold: 5e-4          # Czułość DEF-Seek (detektor defektu)
+  abstain_p_value: 0.05         # Próg konformalny dla ABSTAIN
+
+# Tryb STRICT (aktywacja przy naruszeniu SLO)
+strict_mode:
+  enable: true
+  trigger_abstain_ratio: 0.10   # 10% ABSTAIN → STRICT
+  trigger_entropy_p95: 3e-3     # Entropia > 3e-3 → STRICT  
+  trigger_duration_min: 15      # Czas naruszenia dla aktywacji
+  multiplier_thresholds: 0.5    # Zaostrzenie progów x0.5
+  disable_tool_calls: true      # Wyłączenie narzędzi w STRICT
+
+# SLO (Service Level Objectives) - Kryteria P=1.0
+slo:
+  cohere_ratio_target: 0.999    # 99.9% COHERE w 24h
+  max_cycles: 2
+  residual_entropy_p95: 1e-3    # Entropia Resztkowa p95 ≤ 1e-3
+  ece_p95: 0.05                 # Expected Calibration Error p95 ≤ 0.05
+  abstain_ratio_max: 0.05       # ABSTAIN ≤ 5% w 24h
+
+# TELEMETRIA & MONITORING (Prometheus/Grafana)
+telemetry:
+  enabled: true
+  metrics_port: 9090
+  export_interval_sec: 30
+  
+  # Metryki krytyczne dla P=1.0
+  metrics:
+    - name: "jsk_residual_entropy"
+      type: "gauge"
+      description: "Entropia Resztkowa (różnica SUPRA vs CONV)"
+    
+    - name: "jsk_ece"  
+      type: "gauge"
+      description: "Expected Calibration Error"
+    
+    - name: "jsk_destroy_used_total"
+      type: "counter" 
+      description: "Liczba wykorzystanych cykli D"
+    
+    - name: "jsk_abstain_total"
+      type: "counter"
+      description: "Liczba przypadków ABSTAIN"
+    
+    - name: "jsk_cycles_histogram"
+      type: "histogram"
+      description: "Rozkład liczby cykli do koherencji"
+    
+    - name: "jsk_cohere_ratio"
+      type: "gauge"
+      description: "Wskaźnik COHERE vs ABSTAIN"
+
+# Alerty krytyczne dla Zero-Defect Inference
+alerts:
+  - name: "ABSTAIN_RATIO_HIGH"
+    condition: "jsk_abstain_ratio > 0.05"
+    duration: "15m"
+    severity: "CRITICAL"
+    action: "TRIGGER_STRICT_MODE"
+    
+  - name: "RESIDUAL_ENTROPY_HIGH"
+    condition: "jsk_residual_entropy_p95 > 1e-3" 
+    duration: "15m"
+    severity: "MAJOR"
+    action: "TRIGGER_STRICT_MODE"
+    
+  - name: "ECE_HIGH"
+    condition: "jsk_ece_p95 > 0.05"
+    duration: "30m" 
+    severity: "MINOR"
+    action: "LOG_ALERT"
+
+# TESTING & VALIDATION (Metamorficzne + Chaos)
+testing:
+  shadow_traffic_ratio: 0.10    # 10% ruchu na testy
+  metamorphic_tests: 12         # Liczba testów metamorficznych
+  chaos_tests: 6               # Liczba testów chaosowych
+  
+  # Kanał shadow dla A/B testing progów
+  shadow:
+    enabled: true
+    percentage: 10
+    duration_min: 15
+    success_criteria:
+      cohere_ratio: 0.999
+      abstain_ratio: 0.05
+# EVIDENCE PACK (Dokumentacja ABSTAIN)
+evidence:
+  enabled: true
+  storage_path: "./evidence_packs/"
+  retention_days: 30
+  
+  # Schemat JSON dla ABSTAIN evidence
+  schema:
+    trace_id: "required"        # UUID śledzenia
+    state: "ABSTAIN"           # Status końcowy
+    thresholds: "object"       # Snapshot progów
+    metrics: "object"          # Metryki g/v/diff/defect/p_value
+    fingerprint_M: "string"    # SHA256 M (Macierz Tożsamości)
+    config_commit: "string"    # Git commit konfiguracji
+    D_path: "array"           # Ścieżka cykli Destrukcji
+    conv_justifications: "array" # Top 3 uzasadnienia CONV-Ver
+
+# ROLLBACK & SAFETY (Protokół bezpieczeństwa)
+safety:
+  auto_rollback: true
+  rollback_conditions:
+    - "STRICT mode active > 60 min AND no improvement"
+    - "ABSTAIN ratio > 20% for 30 min"  
+    - "Zero COHERE responses for 10 min"
+  
+  rollback_targets:
+    - "Previous stable config commit"
+    - "Emergency fallback: conservative thresholds x2"
+    - "Disable all tool calls, text-only mode"
+
+# DEPLOYMENT & CI/CD
+deployment:
+  environment: "production"
+  model_manifest_required: true
+  
+  # Gates dla deployment (Zero-Defect requirement)
+  gates:
+    metamorphic_tests: "PASS ALL"
+    chaos_tests: "PASS ALL" 
+    shadow_validation: "15 min @ 99.9% COHERE"
+    
+  # Wersjonowanie dla reprodukowalności
+  versioning:
+    config_commit: "auto"      # Git commit SHA
+    model_weights: "required"  # Wersja wag modelu
+    schema_version: "1.0.0"    # Wersja schematu M
+
+# Security policies
+security:
+  tool_calls_allowlist: ["file_ops", "compute", "verify"]
+  fingerprint_M_required: true
+  config_commit_tracking: true
+  hard_stop_on_schema_drift: true
+
+# Testing configuration
+testing:
+  metamorphic_tests_enabled: true
+  chaos_tests_enabled: true
+  metamorphic_count: 12
+  chaos_count: 6
+  test_traffic_ratio: 0.05
