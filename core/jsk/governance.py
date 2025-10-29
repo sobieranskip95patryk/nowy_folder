@@ -8,8 +8,18 @@ MŚWR v2.0 + GOK:AI U.G.P.O. Pipeline
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, Any, Literal, Tuple, List, Protocol
-import time, uuid, json, hashlib, math, random
+import time
+import uuid
+import json
+import hashlib
+import math
+import random
 from enum import Enum
+
+# Import J.S.K. dependencies  
+from .engines import GenerativeEngine, VerificationEngine, DefectEngine, EngineFactory
+from .config import JSKConfig
+from ..feature_store.canonicalize import MCanonicalizer, CanonicalM
 
 # Stany automatu J.S.K. (Zero-Defect State Machine)
 State = Literal["INIT", "CALIBRATE", "COHERE", "DESTROY", "ABSTAIN", "DONE"]

@@ -152,11 +152,3 @@ security:
   fingerprint_M_required: true
   config_commit_tracking: true
   hard_stop_on_schema_drift: true
-
-# Testing configuration
-testing:
-  metamorphic_tests_enabled: true
-  chaos_tests_enabled: true
-  metamorphic_count: 12
-  chaos_count: 6
-  test_traffic_ratio: 0.05

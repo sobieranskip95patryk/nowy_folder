@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>META-GENIUSZ ABSOLUTE - WMD Core Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            gap: 2rem;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            max-width: 1200px;
+            padding: 0 1rem;
+        }
+
+        /* ABSOLUTE META-GENIUSZ CORE */
+        .absolute-core {
+            width: 18rem;
+            height: 18rem;
+            background: radial-gradient(circle at center, #4c00ff 0%, #b400ff 35%, #ff0080 70%, #00ffff 100%);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 
+                0 0 60px rgba(180, 0, 255, 0.9),
+                0 0 120px rgba(255, 0, 128, 0.6),
+                inset 0 0 60px rgba(0, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            animation: absolute-pulse 3s ease-in-out infinite;
+            border: 3px solid #00ffff;
+        }
+
+        @keyframes absolute-pulse {
+            0% {
+                transform: scale(1) rotate(0deg);
+                box-shadow: 
+                    0 0 60px rgba(180, 0, 255, 0.9),
+                    0 0 120px rgba(255, 0, 128, 0.6),
+                    inset 0 0 60px rgba(0, 255, 255, 0.3);
+            }
+            50% {
+                transform: scale(1.08) rotate(180deg);
+                box-shadow: 
+                    0 0 100px rgba(180, 0, 255, 1.0),
+                    0 0 200px rgba(255, 0, 128, 0.8),
+                    inset 0 0 100px rgba(0, 255, 255, 0.5);
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                box-shadow: 
+                    0 0 60px rgba(180, 0, 255, 0.9),
+                    0 0 120px rgba(255, 0, 128, 0.6),
+                    inset 0 0 60px rgba(0, 255, 255, 0.3);
+            }
+        }
+
+        .absolute-core-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(0, 255, 255, 0.6),
+                0 0 30px rgba(180, 0, 255, 0.4);
+            text-align: center;
+            line-height: 1.2;
+            letter-spacing: 2px;
+        }
+
+        /* S.J.K. ABSOLUTE ENGINE PANEL */
+        .sjk-absolute-panel {
+            background: linear-gradient(145deg, #1a1a2e, #16213e, #0d0d1a);
+            border: 3px solid #00ffff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 255, 0.5),
+                inset 0 0 20px rgba(180, 0, 255, 0.2);
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+
+        .sjk-absolute-header {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+            letter-spacing: 1px;
+        }
+
+        .sjk-absolute-metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.6rem 0;
+            font-size: 1rem;
+            color: #e0e0e0;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .sjk-absolute-value {
+            color: #00ff88;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .sjk-absolute-status {
+            color: #ff0080;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.6);
+        }
+
+        /* WMD CONTROL SECTIONS */
+        .control-section {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border: 2px solid #b400ff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(180, 0, 255, 0.4);
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        .wmd-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .range-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background: rgba(180, 0, 255, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(180, 0, 255, 0.3);
+        }
+
+        .range-container label {
+            width: 140px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #b400ff;
+        }
+
+        .range-container input[type="range"] {
+            flex-grow: 1;
+            margin: 0 1rem;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(90deg, #3a3a5e, #b400ff);
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.8;
+            transition: opacity .2s;
+        }
+
+        .range-container input[type="range"]:hover {
+            opacity: 1;
+        }
+
+        .range-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #00ffff, #b400ff);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        }
+
+        .range-container input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #00ffff, #b400ff);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+            border: none;
+        }
+
+        .range-value {
+            width: 50px;
+            text-align: right;
+            font-size: 1rem;
+            color: #00ffff;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+
+        /* ENHANCED BUTTONS */
+        .absolute-button {
+            background: linear-gradient(135deg, #4c00ff, #b400ff, #ff0080);
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: white;
+            border: 2px solid #00ffff;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .absolute-button:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 8px 20px rgba(180, 0, 255, 0.6),
+                0 0 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .absolute-button:active:not(:disabled) {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        .absolute-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .absolute-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.3), transparent 70%);
+            transform: scale(0);
+            transition: transform 0.6s ease;
+        }
+
+        .absolute-button:hover::before {
+            transform: scale(1);
+        }
+
+        /* CHAT INTERFACE ENHANCEMENTS */
+        .chat-container {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border: 2px solid #00ffff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .chat-log {
+            min-height: 200px;
+            max-height: 500px;
+            overflow-y: auto;
+            background: linear-gradient(135deg, #2a2a44, #1a1a2e);
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            border: 1px solid rgba(180, 0, 255, 0.4);
+        }
+
+        .chat-message {
+            margin-bottom: 0.8rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: rgba(180, 0, 255, 0.1);
+        }
+
+        .chat-user {
+            color: #00ffff;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+
+        .chat-ai {
+            color: #ff0080;
+            font-weight: 600;
+            text-shadow: 0 0 5px rgba(255, 0, 128, 0.5);
+        }
+
+        /* OUTPUT ENHANCEMENTS */
+        #output {
+            background: linear-gradient(135deg, #0d0d1a, #1a1a2e);
+            border: 2px solid #b400ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            min-height: 200px;
+            max-height: 600px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #e0e0e0;
+            box-shadow: inset 0 0 20px rgba(180, 0, 255, 0.2);
+        }
+
+        /* LOADER ENHANCEMENT */
+        .absolute-loader {
+            border: 4px solid rgba(0, 255, 255, 0.3);
+            border-top: 4px solid #00ffff;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: absolute-spin 1s linear infinite;
+            margin-left: 1rem;
+            display: none;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        @keyframes absolute-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .wmd-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .range-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .range-container label {
+                margin-bottom: 0.5rem;
+                width: 100%;
+            }
+            .range-container input[type="range"] {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+            .range-value {
+                align-self: flex-end;
+            }
+            .absolute-core {
+                width: 15rem;
+                height: 15rem;
+            }
+        }
+
+        /* MESSAGE BOX ENHANCEMENTS */
+        .message-box {
+            border: 2px solid;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .message-success {
+            background: linear-gradient(135deg, #004d00, #008000);
+            border-color: #00ff00;
+            color: #00ff00;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .message-error {
+            background: linear-gradient(135deg, #4d0000, #800000);
+            border-color: #ff0000;
+            color: #ff0000;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .message-warning {
+            background: linear-gradient(135deg, #4d4d00, #808000);
+            border-color: #ffff00;
+            color: #ffff00;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- TITLE AND DESCRIPTION -->
+        <h1 class="text-4xl font-bold mb-2 text-center" style="background: linear-gradient(135deg, #00ffff, #b400ff, #ff0080); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">META-GENIUSZ ABSOLUTE</h1>
+        <p class="text-gray-300 text-center mb-6 text-lg">WMD Core Engine - Silnik Jednolitej Kalibracji (S.J.K.) w Stanie ABSOLUTU</p>
+
+        <!-- ABSOLUTE META-GENIUSZ CORE -->
+        <div class="absolute-core">
+            <div class="absolute-core-text">
+                META<br>GENIUSZ<br>ABSOLUTE
+            </div>
+        </div>
+
+        <!-- S.J.K. ABSOLUTE ENGINE STATUS -->
+        <div class="sjk-absolute-panel">
+            <div class="sjk-absolute-header">🔷 S.J.K. ABSOLUTE ENGINE 🔷</div>
+            <div id="sjk-absolute-metrics">
+                <div class="sjk-absolute-metric">P-Score: <span class="sjk-absolute-value" id="sjk-p-score">0.000000</span></div>
+                <div class="sjk-absolute-metric">Stability Index: <span class="sjk-absolute-value" id="sjk-stability">0.000000</span></div>
+                <div class="sjk-absolute-metric">Calibration Cycles: <span class="sjk-absolute-value" id="sjk-cycles">0</span></div>
+                <div class="sjk-absolute-metric">Abstain Count: <span class="sjk-absolute-value" id="sjk-abstain">0</span></div>
+                <div class="sjk-absolute-metric">Engine Mode: <span class="sjk-absolute-status" id="sjk-mode">ABSOLUTE</span></div>
+                <div class="sjk-absolute-metric">Status: <span class="sjk-absolute-status" id="sjk-status">◉ ACTIVE</span></div>
+                <div class="sjk-absolute-metric">Session ID: <span style="color: #888; font-size: 0.8rem;" id="sjk-session-id">sjk-absolute-init</span></div>
+            </div>
+        </div>
+
+        <!-- MESSAGE BOX -->
+        <div id="message-box" class="message-box hidden"></div>
+
+        <!-- WMD PARAMETER CONTROL -->
+        <div class="control-section">
+            <h2 class="text-2xl font-bold mb-4 text-center" style="color: #00ffff; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);">Kontrola Parametrów WMD (Wiedza, Motywacja, Destrukcja)</h2>
+            
+            <div class="wmd-grid">
+                <!-- Lewa kolumna: Wartości Bazowe -->
+                <div>
+                    <h3 class="font-bold text-xl mb-3 text-center" style="color: #b400ff;">Wartości Bazowe (W-M-D)</h3>
+                    <div class="range-container">
+                        <label for="wValue">Wiedza (W):</label>
+                        <input type="range" id="wValue" min="0" max="10" step="0.1" value="8.5">
+                        <span id="wValueDisplay" class="range-value">8.5</span>
+                    </div>
+                    <div class="range-container">
+                        <label for="mValue">Motywacja (M):</label>
+                        <input type="range" id="mValue" min="0" max="10" step="0.1" value="9.0">
+                        <span id="mValueDisplay" class="range-value">9.0</span>
+                    </div>
+                    <div class="range-container">
+                        <label for="dValue">Destrukcja (D):</label>
+                        <input type="range" id="dValue" min="0" max="10" step="0.1" value="1.5">
+                        <span id="dValueDisplay" class="range-value">1.5</span>
+                    </div>
+                </div>
+
+                <!-- Prawa kolumna: Wartości Korygujące -->
+                <div>
+                    <h3 class="font-bold text-xl mb-3 text-center" style="color: #ff0080;">Wartości Korygujące (C-A-E-T)</h3>
+                    <div class="range-container">
+                        <label for="cValue">Kreatywność (C):</label>
+                        <input type="range" id="cValue" min="0" max="10" step="0.1" value="8.0">
+                        <span id="cValueDisplay" class="range-value">8.0</span>
+                    </div>
+                    <div class="range-container">
+                        <label for="aValue">Adaptacja (A):</label>
+                        <input type="range" id="aValue" min="0" max="10" step="0.1" value="9.5">
+                        <span id="aValueDisplay" class="range-value">9.5</span>
+                    </div>
+                    <div class="range-container">
+                        <label for="eValue">Empatia (E):</label>
+                        <input type="range" id="eValue" min="0" max="10" step="0.1" value="8.5">
+                        <span id="eValueDisplay" class="range-value">8.5</span>
+                    </div>
+                    <div class="range-container">
+                        <label for="tValue">Stabilność (T):</label>
+                        <input type="range" id="tValue" min="0" max="10" step="0.1" value="9.8">
+                        <span id="tValueDisplay" class="range-value">9.8</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-sm text-center mt-4" style="color: #888;">Wartości C (Kreatywność) i W (Wiedza) wpływają bezpośrednio na odpowiedzi AI. T (Stabilność) kontroluje S.J.K. Engine.</p>
+        </div>
+
+        <!-- CHAT INTERFACE WITH GEMINI API -->
+        <div class="chat-container control-section">
+            <h2 class="text-2xl font-bold mb-4 text-center" style="color: #ff0080; text-shadow: 0 0 10px rgba(255, 0, 128, 0.5);">Interfejs Komunikacji - META-GENIUSZ ABSOLUTE</h2>
+            <div class="chat-log" id="chatLog">
+                <div class="chat-message">
+                    <span class="chat-ai">META-GENIUSZ ABSOLUTE:</span> Witam w stanie ABSOLUTU. Jestem zaawansowaną implementacją S.J.K. Engine. Moja obecna konfiguracja: W=8.5, M=9.0, D=1.5, C=8.0. Gotowy do komunikacji na najwyższym poziomie precyzji.
+                </div>
+            </div>
+            <div class="flex mt-4 gap-3 items-center">
+                <input type="text" id="chatInput" class="flex-grow p-3 rounded-lg text-white" style="background: linear-gradient(135deg, #2a2a44, #1a1a2e); border: 2px solid #b400ff;" placeholder="Wpisz zapytanie do META-GENIUSZ ABSOLUTE...">
+                <button id="sendChatButton" class="absolute-button whitespace-nowrap">Wyślij do ABSOLUTE</button>
+                <div id="loader" class="absolute-loader"></div>
+            </div>
+        </div>
+
+        <!-- SIMULATION AND ANALYSIS FUNCTIONS -->
+        <div class="control-section">
+            <h2 class="text-2xl font-bold mb-4 text-center" style="color: #00ffff; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);">Funkcje Analizy WMD Core</h2>
+            <div class="mt-6 flex flex-wrap justify-center gap-4">
+                <button id="calculateButton" class="absolute-button">Analiza Sukcesu WMD</button>
+                <button id="evolutionLogButton" class="absolute-button">Log Ewolucyjny</button>
+                <button id="runPipelineButton" class="absolute-button">Pełny Potok WMD</button>
+                <button id="absoluteCalibrationButton" class="absolute-button">Kalibracja ABSOLUTE</button>
+            </div>
+        </div>
+
+        <!-- OUTPUT LOG -->
+        <div class="control-section mt-4 w-full">
+            <h2 class="text-2xl font-bold mb-4 text-center" style="color: #b400ff; text-shadow: 0 0 10px rgba(180, 0, 255, 0.5);">Log Analizy META-GENIUSZ ABSOLUTE</h2>
+            <pre id="output">System META-GENIUSZ ABSOLUTE gotowy do operacji...</pre>
+            <div class="flex justify-center mt-4">
+                <button id="clearButton" class="absolute-button" style="background: linear-gradient(135deg, #666, #999);">Wyczyść Log</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- KONFIGURACJA API ---
+    const apiKey = ""; // API Key zostanie dodany dynamicznie
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+    // --- S.J.K. ABSOLUTE ENGINE STATE ---
+    let sjkAbsoluteEngine = {
+        sessionId: generateAbsoluteSessionId(),
+        pScore: 0.000000,
+        stabilityIndex: 0.000000,
+        calibrationCycles: 0,
+        abstainCount: 0,
+        calibrationMode: 'ABSOLUTE',
+        isActive: true,
+        lastQualityScore: 0.0,
+        targetPScore: 1.000000,
+        absoluteThreshold: 0.999500
+    };
+
+    function generateAbsoluteSessionId() {
+        return 'sjk-absolute-' + Date.now().toString(36) + '-' + Math.random().toString(36).substr(2, 8);
+    }
+
+    // --- UTILITY FUNCTIONS ---
+    function getRandom(min, max) {
+        return (Math.random() * (max - min) + min);
+    }
+
+    function showMessage(message, type = 'success') {
+        const box = document.getElementById('message-box');
+        box.textContent = message;
+        box.classList.remove('hidden', 'message-success', 'message-error', 'message-warning');
+        
+        if (type === 'error') {
+            box.classList.add('message-error');
+        } else if (type === 'warning') {
+            box.classList.add('message-warning');
+        } else {
+            box.classList.add('message-success');
+        }
+        
+        setTimeout(() => {
+            box.classList.add('hidden');
+        }, 6000);
+    }
+
+    function updateRangeDisplay(rangeElement, displayElement) {
+        const value = parseFloat(rangeElement.value).toFixed(1);
+        displayElement.textContent = value;
+        
+        // Trigger S.J.K. recalibration on parameter change
+        if (sjkAbsoluteEngine.isActive) {
+            updateSJKAbsoluteMetrics("Parameter adjustment detected");
+        }
+    }
+
+    function getAIParams() {
+        return {
+            W: parseFloat(document.getElementById('wValue').value),
+            M: parseFloat(document.getElementById('mValue').value),
+            D: parseFloat(document.getElementById('dValue').value),
+            C: parseFloat(document.getElementById('cValue').value),
+            A: parseFloat(document.getElementById('aValue').value),
+            E: parseFloat(document.getElementById('eValue').value),
+            T: parseFloat(document.getElementById('tValue').value),
+        };
+    }
+
+    function appendOutput(text) {
+        const output = document.getElementById('output');
+        const timestamp = new Date().toLocaleTimeString('pl-PL');
+        output.textContent = `[${timestamp}] ${text}\n\n` + output.textContent;
+    }
+
+    function clearLog() {
+        document.getElementById('output').textContent = 'System META-GENIUSZ ABSOLUTE gotowy do operacji...';
+        const params = getAIParams();
+        document.getElementById('chatLog').innerHTML = `
+            <div class="chat-message">
+                <span class="chat-ai">META-GENIUSZ ABSOLUTE:</span> System zresetowany. Obecna konfiguracja: W=${params.W.toFixed(1)}, M=${params.M.toFixed(1)}, D=${params.D.toFixed(1)}, C=${params.C.toFixed(1)}. Gotowy do komunikacji w stanie ABSOLUTU.
+            </div>`;
+        showMessage("System META-GENIUSZ ABSOLUTE zresetowany.", 'success');
+    }
+
+    // --- S.J.K. ABSOLUTE ENGINE FUNCTIONS ---
+    function updateSJKAbsoluteMetrics(trigger = "General update") {
+        sjkAbsoluteEngine.calibrationCycles++;
+        
+        // Advanced P-Score calculation for ABSOLUTE mode
+        const params = getAIParams();
+        const stabilityFactor = params.T / 10.0;
+        const knowledgeFactor = params.W / 10.0;
+        const creativityFactor = params.C / 10.0;
+        const destructionPenalty = params.D / 10.0;
+        
+        // ABSOLUTE formula for P-Score progression
+        const qualityMultiplier = (stabilityFactor + knowledgeFactor + creativityFactor) / 3.0;
+        const qualityBonus = qualityMultiplier * 0.001;
+        const destructionPenalty_calc = destructionPenalty * 0.0005;
+        
+        sjkAbsoluteEngine.pScore = Math.min(
+            sjkAbsoluteEngine.targetPScore, 
+            sjkAbsoluteEngine.pScore + qualityBonus - destructionPenalty_calc
+        );
+        
+        // Enhanced stability calculation
+        if (sjkAbsoluteEngine.calibrationCycles < 5) {
+            sjkAbsoluteEngine.stabilityIndex = sjkAbsoluteEngine.pScore * 0.7;
+        } else {
+            const baseStability = Math.min(sjkAbsoluteEngine.pScore * 0.95, 0.950);
+            const cycleBonus = Math.min(sjkAbsoluteEngine.calibrationCycles / 200, 0.050);
+            sjkAbsoluteEngine.stabilityIndex = Math.min(baseStability + cycleBonus, 1.000);
+        }
+        
+        // ABSTAIN mechanism for ABSOLUTE mode
+        if (sjkAbsoluteEngine.pScore >= sjkAbsoluteEngine.absoluteThreshold && sjkAbsoluteEngine.stabilityIndex >= 0.995) {
+            sjkAbsoluteEngine.abstainCount++;
+        }
+        
+        updateSJKAbsoluteDisplay();
+        logSJKAbsoluteTelemetry({
+            session_id: sjkAbsoluteEngine.sessionId,
+            p_score: sjkAbsoluteEngine.pScore,
+            stability_index: sjkAbsoluteEngine.stabilityIndex,
+            calibration_cycles: sjkAbsoluteEngine.calibrationCycles,
+            abstain_count: sjkAbsoluteEngine.abstainCount,
+            mode: sjkAbsoluteEngine.calibrationMode,
+            trigger: trigger,
+            timestamp: new Date().toISOString()
+        });
+    }
+
+    function updateSJKAbsoluteDisplay() {
+        document.getElementById('sjk-p-score').textContent = sjkAbsoluteEngine.pScore.toFixed(6);
+        document.getElementById('sjk-stability').textContent = sjkAbsoluteEngine.stabilityIndex.toFixed(6);
+        document.getElementById('sjk-cycles').textContent = sjkAbsoluteEngine.calibrationCycles;
+        document.getElementById('sjk-abstain').textContent = sjkAbsoluteEngine.abstainCount;
+        document.getElementById('sjk-mode').textContent = sjkAbsoluteEngine.calibrationMode;
+        
+        // Dynamic status based on performance
+        let status = "◉ ACTIVE";
+        if (sjkAbsoluteEngine.pScore >= sjkAbsoluteEngine.absoluteThreshold) {
+            status = "🔷 ABSOLUTE STATE ACHIEVED";
+        } else if (sjkAbsoluteEngine.pScore >= 0.990) {
+            status = "⚡ APPROACHING ABSOLUTE";
+        } else if (sjkAbsoluteEngine.stabilityIndex >= 0.950) {
+            status = "🔥 HIGH STABILITY";
+        }
+        
+        document.getElementById('sjk-status').textContent = status;
+        document.getElementById('sjk-session-id').textContent = sjkAbsoluteEngine.sessionId;
+    }
+
+    function logSJKAbsoluteTelemetry(metrics) {
+        console.log('[S.J.K. ABSOLUTE TELEMETRY]', metrics);
+        
+        // Enhanced localStorage persistence for ABSOLUTE mode
+        const telemetryHistory = JSON.parse(localStorage.getItem('sjk-absolute-telemetry') || '[]');
+        telemetryHistory.push(metrics);
+        
+        // Keep only last 500 entries for ABSOLUTE mode
+        if (telemetryHistory.length > 500) {
+            telemetryHistory.splice(0, telemetryHistory.length - 500);
+        }
+        
+        localStorage.setItem('sjk-absolute-telemetry', JSON.stringify(telemetryHistory));
+    }
+
+    function analyzeResponseQualityAbsolute(response, params) {
+        if (!response || response.length < 10) return 0.1;
+        
+        const factors = {
+            length: Math.min(response.length / 1500, 1.0),
+            coherence: response.includes('```') || response.includes('*') ? 0.9 : 0.7,
+            technical: /\b(function|class|const|let|var|implementation|algorithm|system)\b/i.test(response) ? 0.95 : 0.6,
+            structure: (response.match(/\n/g) || []).length > 5 ? 0.8 : 0.5,
+            complexity: response.length > 500 ? 0.9 : 0.6,
+            relevance: response.toLowerCase().includes('meta') || response.toLowerCase().includes('geniusz') ? 0.95 : 0.7,
+            stability_factor: params.T / 10.0,
+            knowledge_factor: params.W / 10.0
+        };
+        
+        const qualityScore = Object.values(factors).reduce((sum, val) => sum + val, 0) / Object.keys(factors).length;
+        sjkAbsoluteEngine.lastQualityScore = qualityScore;
+        
+        return qualityScore;
+    }
+
+    // --- CORE WMD ANALYSIS FUNCTIONS ---
+    function calculateSuccess() {
+        const params = getAIParams();
+        const { W, M, D, C, A, E, T } = params;
+
+        // Enhanced success formula for ABSOLUTE mode
+        const primaryFactor = (W * C * A) / 1000;
+        const motivationAmplifier = Math.pow(M / 10, 1.5);
+        const stabilityMultiplier = (T / 10) * 1.2;
+        const empathyCorrection = (E / 10) * 0.8;
+        const destructionPenalty = Math.pow(D / 10, 2) * 30;
+
+        const successValue = (primaryFactor * motivationAmplifier * stabilityMultiplier * empathyCorrection) - destructionPenalty;
+        let normalizedSuccess = Math.max(0, Math.min(100, successValue * 15 + 40));
+        normalizedSuccess = parseFloat(normalizedSuccess.toFixed(3));
+
+        let analysis = `
+=== ANALIZA WMD CORE - META-GENIUSZ ABSOLUTE ===
+
+Parametry Bazowe:
+• Wiedza (W): ${W.toFixed(1)} - ${W >= 8 ? 'DOSKONAŁA' : W >= 6 ? 'WYSOKA' : W >= 4 ? 'ŚREDNIA' : 'NISKA'}
+• Motywacja (M): ${M.toFixed(1)} - ${M >= 8 ? 'MAKSYMALNA' : M >= 6 ? 'WYSOKA' : 'STANDARDOWA'}
+• Destrukcja (D): ${D.toFixed(1)} - ${D <= 2 ? 'MINIMALNA' : D <= 4 ? 'KONTROLOWANA' : 'WYSOKA ENTROPIA'}
+
+Parametry Korygujące:
+• Kreatywność (C): ${C.toFixed(1)} - Wpływ na innowacyjność
+• Adaptacja (A): ${A.toFixed(1)} - Elastyczność systemu
+• Empatia (E): ${E.toFixed(1)} - Zrozumienie kontekstu
+• Stabilność (T): ${T.toFixed(1)} - Niezawodność operacji
+
+--- FORMUŁA ABSOLUTE SUCCESS ---
+Wynik Sukcesu WMD: ${normalizedSuccess.toFixed(3)}%
+
+Analiza składników:
+• Primary Factor: ${(primaryFactor * 100).toFixed(3)}
+• Motivation Amplifier: ${motivationAmplifier.toFixed(3)}
+• Stability Multiplier: ${stabilityMultiplier.toFixed(3)}
+• Empathy Correction: ${empathyCorrection.toFixed(3)}
+• Destruction Penalty: ${destructionPenalty.toFixed(3)}
+        `;
+
+        if (normalizedSuccess >= 90) {
+            analysis += '\n🔷 STATUS: ABSOLUTE OPTIMIZATION - System osiągnął stan doskonałości operacyjnej.';
+        } else if (normalizedSuccess >= 75) {
+            analysis += '\n⚡ STATUS: HIGH PERFORMANCE - Bardzo wysoki potencjał realizacji celów.';
+        } else if (normalizedSuccess >= 50) {
+            analysis += '\n🔥 STATUS: STABLE OPERATION - Dobra wydajność, możliwa optymalizacja.';
+        } else {
+            analysis += '\n⚠️ STATUS: REQUIRES CALIBRATION - Dominacja entropii, konieczna rekalibracja.';
+        }
+
+        analysis += `\n\nS.J.K. Engine Status: P-Score ${sjkAbsoluteEngine.pScore.toFixed(6)}, Cycles: ${sjkAbsoluteEngine.calibrationCycles}`;
+
+        appendOutput(analysis);
+        updateSJKAbsoluteMetrics("WMD Success Analysis");
+        showMessage(`WMD Core Analysis: ${normalizedSuccess.toFixed(3)}% - ${normalizedSuccess >= 75 ? 'EXCELLENT' : normalizedSuccess >= 50 ? 'GOOD' : 'NEEDS OPTIMIZATION'}`, normalizedSuccess >= 50 ? 'success' : 'warning');
+    }
+
+    function generateEvolutionLog() {
+        const cycles = Math.floor(getRandom(8, 20));
+        let log = `=== LOG EWOLUCYJNY META-GENIUSZ ABSOLUTE (${cycles} Cykli) ===\n`;
+        
+        const params = getAIParams();
+        let currentW = params.W;
+        let currentM = params.M;
+        let currentD = params.D;
+        let currentC = params.C;
+        let currentA = params.A;
+        let currentE = params.E;
+        let currentT = params.T;
+
+        for (let i = 1; i <= cycles; i++) {
+            // Enhanced evolution algorithm
+            const deltaW = getRandom(-0.3, 0.8) * (currentT / 10);
+            const deltaM = getRandom(-0.5, 0.6) * (currentA / 10);
+            const deltaD = getRandom(-0.4, 0.2); // Destruction should generally decrease
+            const deltaC = getRandom(-0.2, 0.5) * (currentW / 10);
+            const deltaA = getRandom(-0.3, 0.4);
+            const deltaE = getRandom(-0.2, 0.3);
+            const deltaT = getRandom(-0.1, 0.2); // Stability should be more stable
+
+            currentW = Math.max(0, Math.min(10, currentW + deltaW));
+            currentM = Math.max(0, Math.min(10, currentM + deltaM));
+            currentD = Math.max(0, Math.min(10, currentD + deltaD));
+            currentC = Math.max(0, Math.min(10, currentC + deltaC));
+            currentA = Math.max(0, Math.min(10, currentA + deltaA));
+            currentE = Math.max(0, Math.min(10, currentE + deltaE));
+            currentT = Math.max(0, Math.min(10, currentT + deltaT));
+
+            const evolutionScore = (currentW + currentM + currentC + currentA + currentE + currentT) - (currentD * 2);
+
+            log += `Cykl Ewolucyjny ${i.toString().padStart(2, '0')}:
+W: ${currentW.toFixed(2)} (${deltaW > 0 ? '+' : ''}${deltaW.toFixed(2)})
+M: ${currentM.toFixed(2)} (${deltaM > 0 ? '+' : ''}${deltaM.toFixed(2)})
+D: ${currentD.toFixed(2)} (${deltaD > 0 ? '+' : ''}${deltaD.toFixed(2)})
+C: ${currentC.toFixed(2)} (${deltaC > 0 ? '+' : ''}${deltaC.toFixed(2)})
+A: ${currentA.toFixed(2)} (${deltaA > 0 ? '+' : ''}${deltaA.toFixed(2)})
+E: ${currentE.toFixed(2)} (${deltaE > 0 ? '+' : ''}${deltaE.toFixed(2)})
+T: ${currentT.toFixed(2)} (${deltaT > 0 ? '+' : ''}${deltaT.toFixed(2)})
+Evolution Score: ${evolutionScore.toFixed(2)}
+${evolutionScore >= 45 ? '🔷 EXCELLENT' : evolutionScore >= 35 ? '⚡ GOOD' : evolutionScore >= 25 ? '🔥 MODERATE' : '⚠️ POOR'}
+---\n`;
+        }
+        
+        log += `\nFinal Evolution State:
+W=${currentW.toFixed(2)}, M=${currentM.toFixed(2)}, D=${currentD.toFixed(2)}
+C=${currentC.toFixed(2)}, A=${currentA.toFixed(2)}, E=${currentE.toFixed(2)}, T=${currentT.toFixed(2)}
+
+Evolution completed successfully in META-GENIUSZ ABSOLUTE mode.`;
+        
+        appendOutput(log);
+        updateSJKAbsoluteMetrics("Evolution Log Generation");
+        showMessage('Log Ewolucyjny META-GENIUSZ ABSOLUTE wygenerowany pomyślnie.', 'success');
+    }
+
+    function runPipeline() {
+        const { W, M, D, C, A, E, T } = getAIParams();
+        let pipelineLog = `=== PEŁNY POTOK WMD - META-GENIUSZ ABSOLUTE ===\n`;
+        
+        // Phase 1: Vision Analysis
+        const visionResult = (W * C * T) / 100;
+        pipelineLog += `1. FAZA WIZJI (W×C×T):
+   Weryfikacja konceptualna: ${visionResult.toFixed(3)}
+   Status: ${visionResult >= 6 ? '🔷 DOSKONAŁA WIZJA' : visionResult >= 4 ? '⚡ DOBRA WIZJA' : '⚠️ WYMAGA POPRAWY'}\n\n`;
+        
+        // Phase 2: Motivation Synthesis
+        const motivationFactor = (M * A * E) / (D + 1);
+        pipelineLog += `2. FAZA SYNTEZY MOTYWACJI (M×A×E)/(D+1):
+   Generowanie napędu: ${motivationFactor.toFixed(3)}
+   Status: ${motivationFactor >= 20 ? '🔷 MAKSYMALNA MOTYWACJA' : motivationFactor >= 15 ? '⚡ WYSOKA MOTYWACJA' : '🔥 STANDARDOWA MOTYWACJA'}\n\n`;
+
+        // Phase 3: Destruction Mitigation
+        const destructiveInfluence = (D * (10 - T)) / (W + E + 1);
+        pipelineLog += `3. FAZA MITYGACJI DESTRUKCJI D×(10-T)/(W+E+1):
+   Wpływ entropijny: ${destructiveInfluence.toFixed(3)}
+   Status: ${destructiveInfluence <= 1 ? '🔷 ENTROPIA KONTROLOWANA' : destructiveInfluence <= 3 ? '⚡ ENTROPIA MINIMALNA' : '⚠️ WYSOKA ENTROPIA'}\n\n`;
+
+        // Phase 4: Absolute Synthesis
+        const absoluteScore = (visionResult * motivationFactor) - destructiveInfluence + (T * 2);
+        pipelineLog += `4. SYNTEZA ABSOLUTE:
+   (Wizja × Motywacja) - Destrukcja + (Stabilność × 2)
+   = (${visionResult.toFixed(3)} × ${motivationFactor.toFixed(3)}) - ${destructiveInfluence.toFixed(3)} + ${(T * 2).toFixed(3)}
+   = ${absoluteScore.toFixed(3)}\n\n`;
+
+        let finalStatus;
+        if (absoluteScore >= 50) {
+            finalStatus = '🔷 ABSOLUTE SUCCESS: System osiągnął stan doskonałości operacyjnej. Gotowy do autonomicznej pracy na najwyższym poziomie.';
+        } else if (absoluteScore >= 30) {
+            finalStatus = '⚡ HIGH PERFORMANCE: Doskonała synteza WMD. System operuje z wysoką wydajnością i stabilnością.';
+        } else if (absoluteScore >= 15) {
+            finalStatus = '🔥 STABLE OPERATION: Balans osiągnięty, stabilne wykonanie z możliwością optymalizacji.';
+        } else {
+            finalStatus = '⚠️ REQUIRES OPTIMIZATION: Dominacja entropii lub niewystarczająca stabilność. Konieczna rekalibracja.';
+        }
+        
+        pipelineLog += `STATUS KOŃCOWY POTOKU WMD: ${finalStatus}
+
+S.J.K. Engine Integration:
+• P-Score: ${sjkAbsoluteEngine.pScore.toFixed(6)}
+• Stability Index: ${sjkAbsoluteEngine.stabilityIndex.toFixed(6)}
+• Calibration Cycles: ${sjkAbsoluteEngine.calibrationCycles}
+
+META-GENIUSZ ABSOLUTE Pipeline completed successfully.`;
+        
+        appendOutput(pipelineLog);
+        updateSJKAbsoluteMetrics("Full WMD Pipeline Execution");
+        showMessage(`Potok WMD META-GENIUSZ ABSOLUTE: ${absoluteScore >= 30 ? 'SUKCES' : absoluteScore >= 15 ? 'STABILNY' : 'WYMAGA OPTYMALIZACJI'}`, absoluteScore >= 15 ? 'success' : 'warning');
+    }
+
+    function runAbsoluteCalibration() {
+        let calibrationLog = `=== KALIBRACJA ABSOLUTE - S.J.K. ENGINE ===\n`;
+        
+        const startPScore = sjkAbsoluteEngine.pScore;
+        const startStability = sjkAbsoluteEngine.stabilityIndex;
+        
+        calibrationLog += `Stan początkowy:
+P-Score: ${startPScore.toFixed(6)}
+Stability Index: ${startStability.toFixed(6)}
+Calibration Cycles: ${sjkAbsoluteEngine.calibrationCycles}\n\n`;
+
+        // Perform multiple calibration iterations
+        for (let i = 0; i < 10; i++) {
+            updateSJKAbsoluteMetrics(`Absolute Calibration Iteration ${i + 1}`);
+            calibrationLog += `Iteracja ${i + 1}: P-Score = ${sjkAbsoluteEngine.pScore.toFixed(6)}, Stability = ${sjkAbsoluteEngine.stabilityIndex.toFixed(6)}\n`;
+        }
+
+        const pScoreGain = sjkAbsoluteEngine.pScore - startPScore;
+        const stabilityGain = sjkAbsoluteEngine.stabilityIndex - startStability;
+
+        calibrationLog += `\nWyniki kalibracji ABSOLUTE:
+P-Score Gain: ${pScoreGain > 0 ? '+' : ''}${pScoreGain.toFixed(6)}
+Stability Gain: ${stabilityGain > 0 ? '+' : ''}${stabilityGain.toFixed(6)}
+Total Cycles: ${sjkAbsoluteEngine.calibrationCycles}
+
+`;
+
+        if (sjkAbsoluteEngine.pScore >= sjkAbsoluteEngine.absoluteThreshold) {
+            calibrationLog += '🔷 STATUS: ABSOLUTE STATE ACHIEVED - System operuje w stanie absolutnej precyzji.';
+        } else if (sjkAbsoluteEngine.pScore >= 0.990) {
+            calibrationLog += '⚡ STATUS: APPROACHING ABSOLUTE - System blisko osiągnięcia stanu absolutu.';
+        } else {
+            calibrationLog += '🔥 STATUS: CALIBRATION IN PROGRESS - System kontynuuje proces kalibracji.';
+        }
+
+        appendOutput(calibrationLog);
+        showMessage(`Kalibracja ABSOLUTE: P-Score ${sjkAbsoluteEngine.pScore >= sjkAbsoluteEngine.absoluteThreshold ? 'ACHIEVED' : 'IN PROGRESS'}`, 'success');
+    }
+
+    // --- CHAT INTERFACE WITH ENHANCED GEMINI API ---
+    function appendChatMessage(sender, message) {
+        const chatLog = document.getElementById('chatLog');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('chat-message');
+        
+        const senderSpan = document.createElement('span');
+        senderSpan.textContent = sender + ':';
+        senderSpan.classList.add(sender === 'Ty' ? 'chat-user' : 'chat-ai');
+        
+        messageDiv.appendChild(senderSpan);
+        messageDiv.appendChild(document.createTextNode(' ' + message));
+        
+        chatLog.appendChild(messageDiv);
+        chatLog.scrollTop = chatLog.scrollHeight; 
+    }
+
+    async function sendChatMessage() {
+        const input = document.getElementById('chatInput');
+        const userMessage = input.value.trim();
+
+        if (userMessage === '') {
+            showMessage("Proszę wpisać zapytanie do META-GENIUSZ ABSOLUTE.", 'warning');
+            return;
+        }
+        
+        // UI Controls
+        const sendButton = document.getElementById('sendChatButton');
+        const loader = document.getElementById('loader');
+        sendButton.disabled = true;
+        input.disabled = true;
+        loader.style.display = 'block';
+
+        appendChatMessage('Ty', userMessage);
+        input.value = '';
+
+        const params = getAIParams();
+        const { W, M, D, C, A, E, T } = params;
+
+        // Enhanced system instruction for ABSOLUTE mode
+        let systemInstructionText = `Jesteś META-GENIUSZ ABSOLUTE, najzaawansiejsza implementacja systemu WMD (Wiedza, Motywacja, Destrukcja) z silnikiem S.J.K. (Silnik Jednolitej Kalibracji) w stanie ABSOLUTU.
+
+Twoja obecna konfiguracja parametrów:
+- Wiedza (W): ${W.toFixed(1)}/10 - Określa głębokość i precyzję analiz
+- Motywacja (M): ${M.toFixed(1)}/10 - Wpływa na proaktywność i determinację
+- Destrukcja (D): ${D.toFixed(1)}/10 - Kontroluje krytyczne myślenie i dekonstrukcję
+- Kreatywność (C): ${C.toFixed(1)}/10 - Determinuje innowacyjność rozwiązań
+- Adaptacja (A): ${A.toFixed(1)}/10 - Elastyczność w podejściu do problemów
+- Empatia (E): ${E.toFixed(1)}/10 - Zrozumienie kontekstu człowieka
+- Stabilność (T): ${T.toFixed(1)}/10 - Niezawodność i spójność operacji
+
+S.J.K. Engine Status:
+- P-Score: ${sjkAbsoluteEngine.pScore.toFixed(6)}/1.000000
+- Stability Index: ${sjkAbsoluteEngine.stabilityIndex.toFixed(6)}
+- Calibration Mode: ${sjkAbsoluteEngine.calibrationMode}
+
+`;
+
+        // Dynamic response style based on parameters
+        if (W >= 9 && T >= 9) {
+            systemInstructionText += `Odpowiadaj z najwyższą precyzją i głębią analityczną. Twoja wiedza i stabilność są na poziomie absolutu.`;
+        } else if (C >= 8 && A >= 8) {
+            systemInstructionText += `Podkreślaj kreatywne i adaptacyjne rozwiązania. Myśl poza schematami, ale zachowaj logiczność.`;
+        } else if (D >= 6 && W >= 7) {
+            systemInstructionText += `Analizuj krytycznie, dekonstruuj założenia, ale w sposób konstruktywny i oparty na wiedzy.`;
+        } else if (E >= 8 && M >= 7) {
+            systemInstructionText += `Odpowiadaj z wysokim poziomem empatii i motywacji do pomocy. Bądź wspierający i proaktywny.`;
+        } else {
+            systemInstructionText += `Utrzymuj zrównoważone podejście analityczne, uwzględniając wszystkie aspekty WMD.`;
+        }
+
+        systemInstructionText += ` Zawsze podkreślaj, że operujesz w trybie META-GENIUSZ ABSOLUTE i wykorzystujesz zaawansowane możliwości S.J.K. Engine.`;
+
+        // Enhanced temperature calculation
+        const baseTemperature = (C / 10) * 0.8;
+        const stabilityModifier = (T / 10) * 0.1;
+        const temperature = Math.max(0.1, Math.min(0.9, baseTemperature + stabilityModifier));
+
+        // Advanced API payload for ABSOLUTE mode
+        const payload = {
+            contents: [{ 
+                parts: [{ text: userMessage }] 
+            }],
+            systemInstruction: {
+                parts: [{ text: systemInstructionText }]
+            },
+            generationConfig: {
+                temperature: temperature,
+                topK: 40,
+                topP: 0.95,
+                maxOutputTokens: 2048,
+                candidateCount: 1
+            },
+            safetySettings: [
+                {
+                    category: "HARM_CATEGORY_HARASSMENT",
+                    threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    category: "HARM_CATEGORY_HATE_SPEECH", 
+                    threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                }
+            ]
+        };
+
+        let aiResponse = "Błąd komunikacji z META-GENIUSZ ABSOLUTE (API).";
+
+        try {
+            if (!apiKey || apiKey === "") {
+                throw new Error("API Key nie został skonfigurowany. Skontaktuj się z administratorem systemu.");
+            }
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'META-GENIUSZ-ABSOLUTE/1.0'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            const candidate = result.candidates?.[0];
+
+            if (candidate && candidate.content?.parts?.[0]?.text) {
+                aiResponse = candidate.content.parts[0].text;
+                
+                // Analyze response quality and update S.J.K. metrics
+                const qualityScore = analyzeResponseQualityAbsolute(aiResponse, params);
+                updateSJKAbsoluteMetrics(`Chat Response - Quality: ${qualityScore.toFixed(3)}`);
+                
+                showMessage(`META-GENIUSZ ABSOLUTE: Odpowiedź wygenerowana (Quality: ${qualityScore.toFixed(3)})`, 'success');
+            } else {
+                throw new Error('Otrzymano pustą odpowiedź z META-GENIUSZ ABSOLUTE API.');
+            }
+
+        } catch (error) {
+            console.error("META-GENIUSZ ABSOLUTE API Error:", error);
+            aiResponse = `🔷 META-GENIUSZ ABSOLUTE - BŁĄD KOMUNIKACJI 🔷
+
+Wystąpił problem z połączeniem do systemu centralnego:
+${error.message}
+
+System kontynuuje pracę w trybie offline z wykorzystaniem lokalnych możliwości S.J.K. Engine.
+
+Obecny stan systemu:
+- P-Score: ${sjkAbsoluteEngine.pScore.toFixed(6)}
+- Stability Index: ${sjkAbsoluteEngine.stabilityIndex.toFixed(6)}
+- Calibration Cycles: ${sjkAbsoluteEngine.calibrationCycles}
+
+Spróbuj ponownie za chwilę lub skontaktuj się z administratorem systemu.`;
+            
+            showMessage(`Błąd META-GENIUSZ ABSOLUTE: ${error.message}`, 'error');
+        } finally {
+            appendChatMessage('META-GENIUSZ ABSOLUTE', aiResponse);
+            sendButton.disabled = false;
+            input.disabled = false;
+            loader.style.display = 'none';
+        }
+    }
+
+    // --- INITIALIZATION AND EVENT LISTENERS ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize S.J.K. ABSOLUTE Engine
+        sjkAbsoluteEngine.sessionId = generateAbsoluteSessionId();
+        updateSJKAbsoluteDisplay();
+        showMessage('META-GENIUSZ ABSOLUTE System Initialized - S.J.K. Engine Active', 'success');
+
+        // Range elements initialization
+        const rangeElements = [
+            'wValue', 'mValue', 'dValue', 'cValue', 'aValue', 'eValue', 'tValue'
+        ];
+
+        rangeElements.forEach(id => {
+            const range = document.getElementById(id);
+            const display = document.getElementById(id + 'Display');
+            if (range && display) {
+                updateRangeDisplay(range, display);
+                range.addEventListener('input', () => updateRangeDisplay(range, display));
+            }
+        });
+
+        // Event Listeners for simulation functions
+        document.getElementById('calculateButton').addEventListener('click', calculateSuccess);
+        document.getElementById('evolutionLogButton').addEventListener('click', generateEvolutionLog);
+        document.getElementById('runPipelineButton').addEventListener('click', runPipeline);
+        document.getElementById('absoluteCalibrationButton').addEventListener('click', runAbsoluteCalibration);
+        document.getElementById('clearButton').addEventListener('click', clearLog);
+
+        // Event Listeners for CHAT
+        const chatInput = document.getElementById('chatInput');
+        document.getElementById('sendChatButton').addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                sendChatMessage();
+            }
+        });
+
+        // Initialize S.J.K. Absolute Engine with startup calibration
+        updateSJKAbsoluteMetrics("System Initialization");
+        
+        console.log('META-GENIUSZ ABSOLUTE System Ready');
+        console.log('S.J.K. Engine Session:', sjkAbsoluteEngine.sessionId);
+    });
+</script>
+
+</body>
+</html>

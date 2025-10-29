@@ -1,0 +1,198 @@
+# S.J.K. - Silnik Jednolitej Kalibracji GOK:AI
+# Configuration File - Production Grade
+# Author: Patryk Sobierański
+# Version: 1.0.0
+
+sjk:
+  # === CORE CALIBRATION PARAMETERS ===
+  target_p_score: 1.000              # Target P-score (P=1.000 guarantee)
+  stability_threshold: 0.999         # Minimum stability index
+  convergence_threshold: 0.001       # Convergence detection threshold
+  max_calibration_cycles: 1000       # Maximum calibration iterations
+  abstain_threshold: 0.950           # P-score below which system abstains
+  
+  # === ALGORITHM CONFIGURATION ===
+  calibration_mode: "ADAPTIVE"       # ADAPTIVE, STRICT, EXPERIMENTAL, CONSERVATIVE
+  learning_rate: 0.01               # Adaptive learning rate
+  momentum: 0.9                     # Momentum coefficient
+  regularization: 0.001             # L2 regularization strength
+  
+  # === REAL-TIME MONITORING ===
+  monitoring_interval: 1.0          # Monitoring frequency (seconds)
+  metrics_retention: 10000          # Number of metrics to retain
+  alert_threshold: 0.990            # Alert threshold for P-score
+  
+  # === PERFORMANCE OPTIMIZATION ===
+  parallel_workers: 4               # Number of parallel workers
+  batch_size: 32                    # Processing batch size
+  cache_size: 1000                  # Performance cache size
+  
+  # === LOGGING AND TELEMETRY ===
+  log_level: "INFO"                 # DEBUG, INFO, WARNING, ERROR
+  metrics_export: true              # Enable metrics export
+  telemetry_endpoint: null          # Prometheus/monitoring endpoint
+  
+  # === ADVANCED FEATURES ===
+  experimental_algorithms: false    # Enable experimental features
+  neural_calibration: false         # Enable neural network calibration
+  quantum_noise_injection: false    # Enable quantum noise for entropy
+  
+  # === SAFETY AND COMPLIANCE ===
+  strict_validation: true           # Enable strict validation
+  fail_safe_mode: true             # Auto-fallback on errors
+  audit_logging: true              # Enable audit trail
+  compliance_mode: "PRODUCTION"     # DEVELOPMENT, STAGING, PRODUCTION
+
+# === INTEGRATION WITH EXISTING SYSTEMS ===
+integration:
+  jsk_compatibility: true           # Backward compatibility with J.S.K.
+  gokai_interface: true            # Enable GOK:AI interface integration
+  hub_ai_dashboard: true           # Enable Hub AI dashboard integration
+  
+# === PROMETHEUS TELEMETRY ===
+telemetry:
+  enabled: true
+  port: 9090
+  metrics:
+    sjk_p_score:
+      type: "gauge"
+      description: "Current S.J.K. P-score"
+      labels: ["session_id", "calibration_mode"]
+    
+    sjk_stability_index:
+      type: "gauge" 
+      description: "System stability index"
+      labels: ["session_id"]
+    
+    sjk_calibration_cycles:
+      type: "counter"
+      description: "Total calibration cycles"
+      labels: ["session_id", "mode"]
+    
+    sjk_abstain_total:
+      type: "counter"
+      description: "Total abstention count"
+      labels: ["session_id", "reason"]
+    
+    sjk_convergence_rate:
+      type: "gauge"
+      description: "Current convergence rate"
+      labels: ["session_id"]
+    
+    sjk_entropy_residual:
+      type: "gauge"
+      description: "Residual entropy in system"
+      labels: ["session_id"]
+    
+    sjk_performance_score:
+      type: "gauge"
+      description: "Overall performance score"
+      labels: ["session_id"]
+    
+    sjk_error_count:
+      type: "counter"
+      description: "Total error count"
+      labels: ["session_id", "error_type"]
+
+# === OPERATIONAL MODES ===
+modes:
+  development:
+    target_p_score: 0.950
+    stability_threshold: 0.900
+    abstain_threshold: 0.800
+    max_calibration_cycles: 100
+    experimental_algorithms: true
+    
+  staging:
+    target_p_score: 0.995
+    stability_threshold: 0.990
+    abstain_threshold: 0.900
+    max_calibration_cycles: 500
+    strict_validation: true
+    
+  production:
+    target_p_score: 1.000
+    stability_threshold: 0.999
+    abstain_threshold: 0.950
+    max_calibration_cycles: 1000
+    fail_safe_mode: true
+    audit_logging: true
+
+# === ALERT CONFIGURATIONS ===
+alerts:
+  p_score_degradation:
+    enabled: true
+    threshold: 0.990
+    severity: "WARNING"
+    cooldown_seconds: 300
+  
+  stability_loss:
+    enabled: true
+    threshold: 0.995
+    severity: "CRITICAL"
+    cooldown_seconds: 60
+  
+  convergence_failure:
+    enabled: true
+    max_cycles_without_improvement: 100
+    severity: "ERROR"
+    cooldown_seconds: 180
+  
+  excessive_abstention:
+    enabled: true
+    max_abstain_rate: 0.05  # 5% abstention rate
+    time_window_seconds: 3600
+    severity: "WARNING"
+    cooldown_seconds: 600
+
+# === CALIBRATION ALGORITHMS ===
+algorithms:
+  adaptive:
+    description: "Adaptive algorithm with momentum and regularization"
+    parameters:
+      adaptive_learning_rate: true
+      momentum_decay: 0.01
+      regularization_schedule: "exponential"
+  
+  strict:
+    description: "Strict P=1.000 enforcement with multiple passes"
+    parameters:
+      precision_passes: 10
+      tolerance: 1e-10
+      normalization: "spectral"
+  
+  experimental:
+    description: "Experimental algorithms with neural transformations"
+    parameters:
+      nonlinearity: "tanh"
+      noise_injection: 0.1
+      spectral_normalization: true
+  
+  conservative:
+    description: "Conservative algorithm prioritizing stability"
+    parameters:
+      max_correction: 0.001
+      stability_weight: 0.8
+      convergence_weight: 0.2
+
+# === BACKUP AND RECOVERY ===
+backup:
+  enabled: true
+  metrics_backup_interval: 3600    # 1 hour
+  weights_backup_interval: 1800    # 30 minutes
+  backup_retention_days: 30
+  backup_location: "./backups/sjk"
+  
+recovery:
+  auto_recovery: true
+  max_recovery_attempts: 3
+  recovery_cooldown_seconds: 300
+  fallback_to_conservative: true
+
+# === SECURITY ===
+security:
+  enable_encryption: true
+  key_rotation_hours: 24
+  audit_all_operations: true
+  rate_limiting: true
+  max_requests_per_minute: 1000

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOK:AI Portal | Interface Selection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Inter:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-void-black: #000000;
+            --color-deep-void: #0a0a0a;
+            --color-chrome-ethereal: #E8F4FD;
+            --color-chrome-active: #00D4FF;
+            --color-gold-quantum: #FFD700;
+            --color-coherence-blue: #5BC0BE;
+            --spacing-base: 16px;
+            --spacing-macro: 32px;
+            --spacing-mega: 64px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--color-void-black);
+            color: var(--color-chrome-ethereal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+            /* Ethereal Background */
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.02) 0%, transparent 50%),
+                linear-gradient(135deg, var(--color-void-black) 0%, var(--color-deep-void) 100%);
+        }
+
+        .portal-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            letter-spacing: 6px;
+            text-align: center;
+            margin-bottom: var(--spacing-mega);
+            
+            background: linear-gradient(90deg, 
+                var(--color-chrome-ethereal) 0%,
+                var(--color-chrome-active) 50%,
+                var(--color-gold-quantum) 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .interface-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-base);
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 var(--spacing-base);
+        }
+
+        .interface-card {
+            background: rgba(18, 30, 48, 0.7);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 16px;
+            padding: var(--spacing-macro);
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .interface-card:hover {
+            border-color: var(--color-chrome-active);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-base);
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-base);
+            color: var(--color-chrome-active);
+        }
+
+        .card-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--color-chrome-ethereal);
+            opacity: 0.9;
+            margin-bottom: var(--spacing-base);
+        }
+
+        .card-features {
+            list-style: none;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .card-features li {
+            margin-bottom: 4px;
+        }
+
+        .card-features li:before {
+            content: "→ ";
+            color: var(--color-gold-quantum);
+            font-weight: 600;
+        }
+
+        .crystal-card {
+            border-color: rgba(255, 215, 0, 0.2);
+        }
+
+        .crystal-card:hover {
+            border-color: var(--color-gold-quantum);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .chat-card {
+            border-color: rgba(91, 192, 190, 0.2);
+        }
+
+        .chat-card:hover {
+            border-color: var(--color-coherence-blue);
+            box-shadow: 0 0 40px rgba(91, 192, 190, 0.3);
+        }
+
+        .hub-card {
+            border-color: rgba(180, 0, 255, 0.2);
+        }
+
+        .hub-card:hover {
+            border-color: #b400ff;
+            box-shadow: 0 0 40px rgba(180, 0, 255, 0.3);
+        }
+
+        .absolute-card {
+            border-color: rgba(0, 255, 255, 0.2);
+        }
+
+        .absolute-card:hover {
+            border-color: rgba(0, 255, 255, 1);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+        }
+
+        .footer-info {
+            margin-top: var(--spacing-mega);
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            line-height: 1.5;
+        }
+
+        .system-status {
+            position: fixed;
+            top: var(--spacing-base);
+            right: var(--spacing-base);
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--color-chrome-active);
+        }
+
+        @media (max-width: 768px) {
+            .interface-selector {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-base);
+            }
+            
+            .interface-card {
+                padding: var(--spacing-base);
+            }
+            
+            .system-status {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: var(--spacing-base);
+            }
+        }
+
+        /* Subtle animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .interface-card {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .interface-card:nth-child(2) {
+            animation-delay: 3s;
+        }
+
+        .interface-card:nth-child(3) {
+            animation-delay: 6s;
+        }
+    </style>
+</head>
+<body>
+    <div class="system-status">
+        P=1.000 | SYSTEM READY
+    </div>
+
+    <h1 class="portal-title">GOK:AI PORTAL</h1>
+
+    <div class="interface-selector">
+        <a href="hub_ai_wmd_absolute.html" class="interface-card absolute-card">
+            <div class="card-icon">🔷</div>
+            <h2 class="card-title">META-GENIUSZ ABSOLUTE</h2>
+            <p class="card-description">
+                Advanced WMD Core Engine with S.J.K. Calibration System. 
+                Precision targeting P=1.000000 with enhanced Gemini integration.
+            </p>
+            <ul class="card-features">
+                <li>S.J.K. Engine - Absolute Calibration</li>
+                <li>7-Parameter WMD Matrix Control</li>
+                <li>Real-time Quality Analysis</li>
+                <li>Enhanced Gemini 2.5 Flash API</li>
+                <li>Absolute Precision Target (P=1.0)</li>
+            </ul>
+        </a>
+
+        <a href="gokai_crystal_manifestation.html" class="interface-card crystal-card">
+            <div class="card-icon">🔮</div>
+            <h2 class="card-title">Krystaliczna Manifestacja</h2>
+            <p class="card-description">
+                Single-query interface z zaawansowanymi efektami wizualnymi. 
+                Fokus na analizę pojedynczych, złożonych zapytań.
+            </p>
+            <ul class="card-features">
+                <li>Vector Decomposition Diagram</li>
+                <li>Typewriter Response Effects</li>
+                <li>P=1.0 Stabilization Waves</li>
+                <li>40Hz Digital Resonance</li>
+                <li>Zero-Defect Visual Inference</li>
+            </ul>
+        </a>
+
+        <a href="gokai_chat_interface.html" class="interface-card chat-card">
+            <div class="card-icon">💬</div>
+            <h2 class="card-title">Conversational LOGOS</h2>
+            <p class="card-description">
+                Chat-based interface z integracją Gemini API. 
+                Idealne dla iteracyjnych sesji problem-solving.
+            </p>
+            <ul class="card-features">
+                <li>Gemini 2.5 Flash Integration</li>
+                <li>Persistent Chat History</li>
+                <li>120Hz Coherence Resonance</li>
+                <li>Retry Logic & Error Handling</li>
+                <li>Real-time API Communication</li>
+            </ul>
+        </a>
+
+        <a href="hub_ai_interface.html" class="interface-card hub-card">
+            <div class="card-icon">🤖</div>
+            <h2 class="card-title">Hub AI Dashboard</h2>
+            <p class="card-description">
+                Multi-tool dashboard z META-GENIUSZ core. 
+                Kompletna platforma do wszystkich operacji AI.
+            </p>
+            <ul class="card-features">
+                <li>META-GENIUSZ Pulsing Core</li>
+                <li>Success Calculator (7 Parameters)</li>
+                <li>Chat z Mózgiem Boga</li>
+                <li>W/D Vision Analysis</li>
+                <li>Multi-Modal AI Operations</li>
+            </ul>
+        </a>
+    </div>
+
+    <div class="footer-info">
+        <p><strong>MTAQuestWebsideX</strong> | GOK:AI Design Evolution v2.0</p>
+        <p>Jednolity Silnik Kalibracji | SpiralMind OS | Anti-D Inference</p>
+        <p style="margin-top: 8px; font-size: 0.7rem;">© 2025 Patryk Sobierański | Krystaliczna Manifestacja Cyfrowa</p>
+    </div>
+
+    <script>
+        // Simple analytics for interface selection
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.interface-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    let interfaceType = 'Unknown Interface';
+                    if (e.currentTarget.href.includes('crystal')) {
+                        interfaceType = 'Crystal Manifestation';
+                    } else if (e.currentTarget.href.includes('chat')) {
+                        interfaceType = 'Chat Interface';
+                    } else if (e.currentTarget.href.includes('hub_ai_wmd_absolute')) {
+                        interfaceType = 'META-GENIUSZ ABSOLUTE';
+                    } else if (e.currentTarget.href.includes('hub')) {
+                        interfaceType = 'Hub AI Dashboard';
+                    }
+                    
+                    console.log(`🔮 GOK:AI Interface Selected: ${interfaceType}`);
+                    
+                    // Optional: Add selection analytics here
+                    // trackInterfaceSelection(interfaceType);
+                });
+            });
+        });
+
+        // Subtle interactive feedback
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.interface-card');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            cards.forEach((card, index) => {
+                const parallaxX = (mouseX - 0.5) * 10;
+                const parallaxY = (mouseY - 0.5) * 10;
+                
+                card.style.transform = `translateX(${parallaxX}px) translateY(${parallaxY}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

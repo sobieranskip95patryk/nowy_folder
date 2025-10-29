@@ -6,6 +6,7 @@ Test 1/12: Negation Inversion (Semantyczna stabilność przy negacji)
 
 import pytest
 import copy
+import json
 from typing import Dict, Any
 
 # Relative imports do MIGI Core
